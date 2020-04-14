@@ -1,0 +1,7 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^R/mockup.R$
+^dp_.*\.so$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

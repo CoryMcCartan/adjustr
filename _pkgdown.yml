@@ -1,0 +1,67 @@
+url: https://corymccartan.github.io/adjustr/
+
+destination: docs
+
+development:
+  mode: auto
+
+template:
+  params:
+    bootswatch: cosmo
+    ganalytics: UA-79274202-5
+
+navbar:
+  title: "adjustr"
+  left:
+    #- text: "Vignettes"
+    #  href: articles/index.html
+    - text: "Functions"
+      href: reference/index.html
+    - text: "Other Packages"
+      menu:
+        - text: "rstan"
+          href: https://mc-stan.org/rstan
+        - text: "cmdstanr"
+          href: https://mc-stan.org/cmdstanr
+        - text: "rstanarm"
+          href: https://mc-stan.org/rstanarm
+        - text: "bayesplot"
+          href: https://mc-stan.org/bayesplot
+        - text: "shinystan"
+          href: https://mc-stan.org/shinystan
+        - text: "loo"
+          href: https://mc-stan.org/loo
+        - text: "projpred"
+          href: https://mc-stan.org/projpred
+        - text: "rstantools"
+          href: https://mc-stan.org/rstantools
+    - text: "Stan"
+      href: https://mc-stan.org
+  right:
+   - icon: fa-twitter
+     href: https://twitter.com/mcmc_stan
+   - icon: fa-github
+     href: https://github.com/stan-dev/bayesplot
+   - icon: fa-users
+     href: https://discourse.mc-stan.org/
+
+home:
+  title: "adjustr: Stan Model Adjustments and Sensitivity Analyses using Importance Sampling"
+  description: >
+    An R package which provides functions to help assess the sensitivity of a
+    Bayesian model to the specification of its likelihood and priors. Users
+    provide a series of alternate sampling specifications, and the package uses
+    Pareto-smoothed importance sampling to estimate posterior quantities of
+    interest under each specification. The package also provides functions to
+    summarize and plot how these quantities change across specifications.
+  links:
+  - text: Report a bug
+    href: https://github.com/corymccartan/adjustr/issues/
+  - text: Ask a question
+    href: https://discourse.mc-stan.org/
+  - text: Browse source code
+    href: https://github.com/corymccartan/adjustr/
+
+authors:
+  name:
+    href: "https://corymccartan.github.io/"

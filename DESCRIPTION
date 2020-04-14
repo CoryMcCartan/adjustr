@@ -1,0 +1,28 @@
+Package: adjustr
+Title: Stan Model Adjustments and Sensitivity Analyses using Importance Sampling
+Version: 0.0.0.9000
+Authors@R: person("Cory", "McCartan", email = "cmccartan@g.harvard.edu",
+  role = c("aut", "cre"))
+Description: Functions to help assess the sensitivity of a Bayesian model 
+    (fitted using the rstan pakcage) to the specification of its likelihood and
+    priors.Users provide a series of alternate sampling specifications, and the 
+    package uses Pareto-smoothed importance sampling to estimate posterior 
+    quantities of interest under each specification.
+License: BSD_3_clause + file LICENSE
+Depends: R (>= 3.6.0)
+Imports:
+    rlang,
+    rstan,
+    purrr,
+    dplyr,
+    ggplot2,
+    stringr,
+    magrittr,
+    dparser,
+    loo
+Suggests:
+    extraDistr,
+    testthat
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.0
