@@ -63,5 +63,23 @@ home:
     href: https://github.com/corymccartan/adjustr/
 
 authors:
-  name:
+  Cory McCartan:
     href: "https://corymccartan.github.io/"
+
+reference:
+  - title: "Model Adjustments"
+    desc: Core functions for sensitivity anlysis workflow.
+    contents:
+      - adjustr
+      - adjustment_weights
+  - title: "Helper Functions"
+    desc: >
+      Various helper functions for examining a model or building sampling
+      specifications.
+    contents:
+      - extract_model
+  - title: "Plotting Functions"
+    desc: >
+      Functions to visualize changes to a model's posterior across
+      specifications.
+    contents:

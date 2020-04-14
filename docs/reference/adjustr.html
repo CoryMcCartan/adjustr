@@ -6,8 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compute Pareto-smoothed importance weights for alternative model
-specifications — adjustment_weights • adjustr</title>
+<title>adjustr: Stan Model Adjustments and Sensitivity Analyses using Importance
+Sampling — adjustr • adjustr</title>
 
 
 <!-- jquery -->
@@ -40,11 +40,13 @@ specifications — adjustment_weights • adjustr</title>
 
 
 
-<meta property="og:title" content="Compute Pareto-smoothed importance weights for alternative model
-specifications — adjustment_weights" />
-<meta property="og:description" content="Given a set of new sampling statements, which can be parametrized by a
-data frame or list, compute Pareto-smoothed importance weights and attach
-them to the specification object, for further calculation and plotting." />
+<meta property="og:title" content="adjustr: Stan Model Adjustments and Sensitivity Analyses using Importance
+Sampling — adjustr" />
+<meta property="og:description" content="Functions to help assess the sensitivity of a Bayesian model to the
+specification of its likelihood and priors, estimated using the rstan
+package. Users provide a series of alternate sampling specifications, and the
+package uses Pareto-smoothed importance sampling to estimate posterior
+quantities of interest under each specification." />
 
 
 
@@ -164,56 +166,34 @@ them to the specification object, for further calculation and plotting." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Compute Pareto-smoothed importance weights for alternative model
-specifications</h1>
+    <h1>adjustr: Stan Model Adjustments and Sensitivity Analyses using Importance
+Sampling</h1>
     
-    <div class="hidden name"><code>adjustment_weights.Rd</code></div>
+    <div class="hidden name"><code>adjustr.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Given a set of new sampling statements, which can be parametrized by a
-data frame or list, compute Pareto-smoothed importance weights and attach
-them to the specification object, for further calculation and plotting.</p>
+    <p>Functions to help assess the sensitivity of a Bayesian model to the
+specification of its likelihood and priors, estimated using the rstan
+package. Users provide a series of alternate sampling specifications, and the
+package uses Pareto-smoothed importance sampling to estimate posterior
+quantities of interest under each specification.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>adjustment_weights</span>(<span class='no'>object</span>, <span class='no'>spec_samp</span>, <span class='kw'>specs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>object</th>
-      <td><p>A <code><a href='https://rdrr.io/pkg/rstan/man/stanfit-class.html'>stanfit</a></code> model object.</p></td>
-    </tr>
-    <tr>
-      <th>spec_samp</th>
-      <td><p>A formula, or list of formulas, of new sampling statements
-to replace their counterparts in the original Stan model. Sampling
-distributions can be parametrized by constants, Stan parameters and data,
-or by variables from the <code>specs</code> object.</p></td>
-    </tr>
-    <tr>
-      <th>specs</th>
-      <td><p>A data frame, or list of lists, containing parameters which will
-be substituted into the sampling statements contained in <code>spec_stamp</code>.
-If a data frame, columns will be substituted. If a list of lists, the named
-entries of each sublist will be substituted.</p></td>
-    </tr>
-    <tr>
-      <th>data</th>
-      <td><p>The data that was used to fit the model in <code>object</code>.
-Required only if one of the new sampling specifications involves Stan data
-variables.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>If no <code>specs</code> were provided, a data frame with columns
-  <code>.samp_stmt</code>, containing the sampling statements, and <code>.weights</code>,
-  containing weight objects of class <code><a href='https://mc-stan.org/loo/reference/psis.html'>psis</a></code>. If <code>specs</code>
-  is a data frame or list, then a <code>.weights</code> entry is added for each row
-  or sublist.</p>
+    <p>See the list of key functions and the example below.
+Full package documentation available at https://corymccartan.github.io/adjustr/.</p>
+    <h2 class="hasAnchor" id="key-functions"><a class="anchor" href="#key-functions"></a>Key Functions</h2>
+
+    
+
+<ul>
+<li><p><code><a href='adjustment_weights.html'>adjustment_weights</a></code></p></li>
+</ul>
+
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

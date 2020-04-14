@@ -1,9 +1,3 @@
-#' @import rlang
-#' @importFrom magrittr %>%
-#' @importFrom purrr map_chr map
-#' @import dplyr
-#' @import ggplot2
-
 # to store shared package objects
 pkg_env = new_environment()
 
