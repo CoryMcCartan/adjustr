@@ -21,7 +21,9 @@
 \arguments{
 \item{.data}{the \code{adjustr_spec} object}
 
-\item{...}{additional arguments to underlying}
+\item{...}{additional arguments to underlying method}
+
+\item{.preserve}{as in \code{filter} and \code{slice}}
 }
 \description{
 Core \code{\link[dplyr]{dplyr}} verbs which don't involve grouping

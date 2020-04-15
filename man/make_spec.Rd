@@ -2,7 +2,7 @@
 % Please edit documentation in R/make_spec.R
 \name{make_spec}
 \alias{make_spec}
-\title{Create a model specification object}
+\title{Set up model adjustment specifications}
 \usage{
 make_spec(...)
 }
@@ -34,5 +34,5 @@ supported and operate on the underlying table of specification parameters.
 \description{
 Takes a set of new sampling statements, which can be parametrized by other
 arguments, data frames, or lists, and creates an \code{adjustr_spec} object
-suitable for use in \code{\link{adjustment_weights}}.
+suitable for use in \code{\link{get_adjustment_weights}}.
 }

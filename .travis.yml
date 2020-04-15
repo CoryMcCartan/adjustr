@@ -10,5 +10,12 @@ r_binary_packages:
     - ggplot2
     - stringr
     - loo
+    - tidyr
+    - extraDistr
+    - testthat
+    - covr
 
 warnings_are_errors: true
+
+after_success:
+  - Rscript -e 'covr::codecov()'

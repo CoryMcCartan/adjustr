@@ -14,7 +14,7 @@
 #' @section Key Functions:
 #' \itemize{
 #'     \item \code{\link{make_spec}}
-#'     \item \code{\link{adjustment_weights}}
+#'     \item \code{\link{get_adjustment_weights}}
 #' }
 #'
 #' @import rlang

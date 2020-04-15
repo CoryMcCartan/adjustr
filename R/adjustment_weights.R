@@ -40,9 +40,9 @@ get_adjustment_weights = function(spec, object, data=NULL) {
         data = list()
     }
 
-    matched_samp = match_sampling_stmts(spec_samp, parsed_samp)
+    matched_samp = match_sampling_stmts(spec$samp, parsed_samp)
     original_lp = calc_original_lp(object, matched_samp, parsed_vars, data)
-    specs_lp = calc_specs_lp(object, spec_samp, parsed_vars, data, specs)
+    specs_lp = calc_specs_lp(object, spec$samp, parsed_vars, data, spec$params)
 
     # compute weights
     map(specs_lp, function(spec_lp) {

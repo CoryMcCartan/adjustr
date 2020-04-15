@@ -6,6 +6,11 @@
 \usage{
 \method{as.data.frame}{adjustr_spec}(x, ...)
 }
+\arguments{
+\item{x}{the \code{adjustr_spec} object}
+
+\item{...}{additional arguments to underlying method}
+}
 \description{
 Returns the data frame of specification parameters, with added columns of
 the form \code{.samp_1}, \code{.samp_2}, ... for each sampling statement

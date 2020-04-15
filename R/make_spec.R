@@ -91,6 +91,9 @@ length.adjustr_spec = function(x) length(x$params)
 #' Returns the data frame of specification parameters, with added columns of
 #' the form \code{.samp_1}, \code{.samp_2}, ... for each sampling statement
 #' (or just \code{.samp} if there is only one sampling statement).
+#'
+#' @param x the \code{adjustr_spec} object
+#' @param ... additional arguments to underlying method
 as.data.frame.adjustr_spec = function(x, ...) {
     if (length(x$params) == 0) {
         params_df = as.data.frame(matrix(nrow=1, ncol=0))
@@ -130,7 +133,8 @@ dplyr_handler = function(dplyr_func, x, ...) {
 #' implemented and operate on the underlying table of specification parameters.
 #'
 #' @param .data the \code{adjustr_spec} object
-#' @param ... additional arguments to underlying
+#' @param ... additional arguments to underlying method
+#' @param .preserve as in \code{filter} and \code{slice}
 #'
 #' @rdname filter.adjust_spec
 filter.adjustr_spec = function(.data, ..., .preserve=F) {
