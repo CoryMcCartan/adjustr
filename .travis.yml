@@ -1,0 +1,14 @@
+language: R
+cache: packages
+
+r_binary_packages:
+    - rlang
+    - rstan
+    - purrr
+    - tibble
+    - dplyr
+    - ggplot2
+    - stringr
+    - loo
+
+warnings_are_errors: true

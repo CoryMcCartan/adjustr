@@ -1,4 +1,4 @@
-context("Specification creation and weight generation")
+context("Specification creation")
 
 test_that("Specifications can be created out of any number of formulas with no data", {
     spec1 = make_spec(y ~ normal(mu, sigma))

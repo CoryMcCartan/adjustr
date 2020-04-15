@@ -22,9 +22,10 @@
 #'
 #'
 #' @export
-adjustment_weights = function(spec, object, data=NULL) {
+get_adjustment_weights = function(spec, object, data=NULL) {
     # CHECK ARGUMENTS
-    model_code = get_model_code(object)
+    object = get_fit_obj(object)
+    model_code = object@stanmodel@model_code
     #spec_samp =
 
     parsed_model = parse_model(model_code)
@@ -42,6 +43,7 @@ adjustment_weights = function(spec, object, data=NULL) {
     matched_samp = match_sampling_stmts(spec_samp, parsed_samp)
     original_lp = calc_original_lp(object, matched_samp, parsed_vars, data)
     specs_lp = calc_specs_lp(object, spec_samp, parsed_vars, data, specs)
+
     # compute weights
     map(specs_lp, function(spec_lp) {
         lratio = spec_lp - original_lp
@@ -65,7 +67,7 @@ adjustment_weights = function(spec, object, data=NULL) {
 #'
 #' @export
 extract_model = function(object) {
-    model_code = get_model_code(object)
+    model_code = get_fit_obj(object)@stanmodel@model_code
 
     parsed_model = parse_model(model_code)
     parsed_vars = get_variables(parsed_model)
@@ -83,29 +85,14 @@ extract_model = function(object) {
 }
 
 # Check that the model object is correct, and extract its Stan code
-get_model_code = function(object) {
+get_fit_obj = function(object) {
     if (is(object, "stanfit")) {
-        return(object@stanmodel@model_code)
+        object
+    } else if(is(object, "stanreg")) {
+        object$stanfit
+    } else if(is(object, "brmsfit")) {
+        object$fit
     } else {
-        stop("`object` must be a stanfit.")
-    }
-}
-
-# Change prior specification to list of lists with prior values
-prep_specs = function(specs) {
-    if (is.null(specs)) {
-        return(list(list()))
-    } else {
-        if (is(specs, "list")) {
-            purrr::walk(specs, function(el) {
-                if (!is(el, "list"))
-                    stop("`priors` must be a formula or a list of formulas")
-            })
-            return(specs)
-        } else if (is(specs, "data.frame")) {
-            return(as.list(specs) %>% purrr::transpose())
-        } else {
-            stop("`specs` must be NULL, a data frame, or a list of lists")
-        }
+        stop("`object` must be of class `stanfit`, `stanreg`, or `brmsfit`.")
     }
 }

@@ -2,6 +2,7 @@
 
 <!-- badges: start -->
 [![Codecov test coverage](https://codecov.io/gh/CoryMcCartan/adjustr/branch/master/graph/badge.svg)](https://codecov.io/gh/CoryMcCartan/adjustr?branch=master)
+[![Travis build status](https://travis-ci.org/CoryMcCartan/adjustr.svg?branch=master)](https://travis-ci.org/CoryMcCartan/adjustr)
 <!-- badges: end -->
 
 **adjustr** is an R package which provides functions to help assess the

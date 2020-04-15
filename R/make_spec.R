@@ -1,8 +1,8 @@
-#' Create a model specification object
+#' Set up model adjustment specifications
 #'
 #' Takes a set of new sampling statements, which can be parametrized by other
 #' arguments, data frames, or lists, and creates an \code{adjustr_spec} object
-#' suitable for use in \code{\link{adjustment_weights}}.
+#' suitable for use in \code{\link{get_adjustment_weights}}.
 #'
 #' @param ... Model specification. Each argument can either be a formula,
 #'   a named vector, data frames,
