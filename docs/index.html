@@ -45,7 +45,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="reference/index.html">Functions</a>
+  <a href="reference/">Functions</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -118,6 +118,8 @@
 <div id="adjustr" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#adjustr" class="anchor"></a>adjustr</h1></div>
+<!-- badges: start -->
+
 <p><strong>adjustr</strong> is an R package which provides functions to help assess the sensitivity of a Bayesian model (fitted with <a href="https://mc-stan.org">Stan</a>) to the specification of its likelihood and priors. Users provide a series of alternate sampling specifications, and the package uses Pareto-smoothed importance sampling to estimate posterior quantities of interest under each specification. The package also provides functions to summarize and plot how these quantities change across specifications.</p>
 <p>The package aims to provide simple interface that makes it as easy as possible for modellers to try out various adjustments to their Stan models, without needing to write any specific Stan code or even recompile or rerun their model.</p>
 <p>The package works by parsing Stan model code, so everything works best if the model was written by the user. The complexity of <strong>rstanarm</strong> and <strong>brms</strong> models makes it harder to make interpretable adjustments, but in principle these are possible too.</p>
@@ -133,7 +135,7 @@
 <div class="sourceCode" id="cb1"><pre class="r"><span class="kw">if</span> (!<span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="st">"devtools"</span>)) {
   <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)
 }
-<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"corymccartan/adjustr"</span>)</pre></div>
+<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"corymccartan/adjustr@*release"</span>)</pre></div>
 </div>
 </div>
   </div>
@@ -166,7 +168,13 @@
 </ul>
 </div>
 
-  </div>
+  <div class="dev-status">
+<h2>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://codecov.io/gh/CoryMcCartan/adjustr?branch=master"><img src="https://codecov.io/gh/CoryMcCartan/adjustr/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
+</ul>
+</div>
+</div>
 </div>
 
 

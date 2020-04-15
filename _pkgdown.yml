@@ -14,9 +14,9 @@ navbar:
   title: "adjustr"
   left:
     #- text: "Vignettes"
-    #  href: articles/index.html
+    #  href: articles/
     - text: "Functions"
-      href: reference/index.html
+      href: reference/
     - text: "Other Packages"
       menu:
         - text: "rstan"
@@ -70,7 +70,7 @@ reference:
   - title: "Model Adjustments"
     desc: Core functions for sensitivity anlysis workflow.
     contents:
-      - adjustr
+      - make_spec
       - adjustment_weights
   - title: "Helper Functions"
     desc: >

@@ -6,3 +6,4 @@
 *.tmp
 *.bak
 
+.Rproj.user

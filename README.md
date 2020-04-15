@@ -1,5 +1,9 @@
 # adjustr
 
+<!-- badges: start -->
+[![Codecov test coverage](https://codecov.io/gh/CoryMcCartan/adjustr/branch/master/graph/badge.svg)](https://codecov.io/gh/CoryMcCartan/adjustr?branch=master)
+<!-- badges: end -->
+
 **adjustr** is an R package which provides functions to help assess the
 sensitivity of a Bayesian model (fitted with [Stan](https://mc-stan.org)) to the
 specification of its likelihood and priors. Users provide a series of alternate
@@ -32,5 +36,5 @@ Install the latest version from **GitHub**:
 if (!require("devtools")) {
   install.packages("devtools")
 }
-devtools::install_github("corymccartan/adjustr")
+devtools::install_github("corymccartan/adjustr@*release")
 ```

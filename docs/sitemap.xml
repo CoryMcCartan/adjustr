@@ -10,6 +10,15 @@
     <loc>https://corymccartan.github.io/adjustr//reference/adjustr.html</loc>
   </url>
   <url>
+    <loc>https://corymccartan.github.io/adjustr//reference/as.data.frame.adjustr_spec.html</loc>
+  </url>
+  <url>
     <loc>https://corymccartan.github.io/adjustr//reference/extract_model.html</loc>
+  </url>
+  <url>
+    <loc>https://corymccartan.github.io/adjustr//reference/filter.adjust_spec.html</loc>
+  </url>
+  <url>
+    <loc>https://corymccartan.github.io/adjustr//reference/make_spec.html</loc>
   </url>
 </urlset>

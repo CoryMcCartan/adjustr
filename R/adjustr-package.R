@@ -9,20 +9,28 @@
 #' quantities of interest under each specification.
 #'
 #' See the list of key functions and the example below.
-#' Full package documentation available at \link{https://corymccartan.github.io/adjustr/}.
+#' Full package documentation available at \url{https://corymccartan.github.io/adjustr/}.
 #'
 #' @section Key Functions:
 #' \itemize{
+#'     \item \code{\link{make_spec}}
 #'     \item \code{\link{adjustment_weights}}
 #' }
 #'
 #' @import rlang
-#' @importFrom magrittr %>%
-#' @importFrom purrr map_chr map
+#' @importFrom purrr map_chr map map2
 #' @import dplyr
 #' @import ggplot2
 #'
 #' @docType package
 #' @name adjustr
 NULL
+
+# to store shared package objects
+pkg_env = new_environment()
+
+.onLoad = function(libname, pkgname) {  # nocov start
+    # create the Stan parser
+    tryCatch(get_parser(), error = function(e) {})
+}  # nocov end
 #> NULL

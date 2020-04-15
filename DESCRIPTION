@@ -14,15 +14,17 @@ Imports:
     rlang,
     rstan,
     purrr,
+    tibble,
     dplyr,
     ggplot2,
     stringr,
-    magrittr,
     dparser,
     loo
 Suggests:
+    tidyr,
     extraDistr,
-    testthat
+    testthat,
+    covr
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.0

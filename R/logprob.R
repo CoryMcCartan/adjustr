@@ -9,57 +9,69 @@ make_dens = function(f) {
     }
 }
 
-# Given a `prior` formula and a `vars_data` object containing (1) model draws,
+# Given a sampling formula and a `vars_data` object containing (1) model draws,
 # (2) model input data (if applicable), and (3) prior specification data (if
 # applicable), compute the log probability of the prior distribution for each
 # MCMC draw of the parameter of interest
-calc_lp = function(prior, vars_data) {
-    distr = tryCatch(call_fn(f_rhs(prior), distr_env),
-                error = function(e) stop(paste("Distribution", as.character(prior)[3], "not supported.")))
-    distr = distr(eval_tidy(f_lhs(prior), vars_data)) # plug in LHS values
-    params = call_args(f_rhs(prior)) %>% map(eval_tidy, vars_data) # plug in RHS values
+calc_lp = function(samp, vars_data) {
+    # plug in RHS sampling distribution
+    distr = tryCatch(call_fn(f_rhs(samp), distr_env),
+                error=function(e)
+                    stop("Distribution ", as.character(samp)[3], " not supported."))
+    # plug in LHS, then RHS values. eval_tidy will throw error if no matches found
+    distr = distr(eval_tidy(f_lhs(samp), vars_data))
+    params = call_args(f_rhs(samp)) %>% map(eval_tidy, vars_data)
+
     exec(distr, !!!params) %>%
         apply(1:2, sum) # handle multivariate cases
 }
 
-# Given a `priors` list of prior formula, compile the necessary data from
+# Given a list of sampling formulas, compile the necessary data from
 # `object` MCMC draws and `data` model data
-get_base_data = function(object, priors, parsed_vars, data) {
-    map(priors, function(prior) {
-        vars = c(as.character(f_lhs(prior)),
-                 map_chr(call_args(f_rhs(prior)), as.character))
+# NOTE: fills data first with MCMC data, so these values will override any
+# passed in data
+get_base_data = function(object, samps, parsed_vars, data, extra_names=NULL) {
+    map(samps, function(samp) {
+        vars = c(as.character(f_lhs(samp)), map_chr(call_args(f_rhs(samp)), as.character))
         # vars stored in MCMC draws
         vars_inmodel = intersect(vars, names(parsed_vars))
         vars_indraws = vars_inmodel[!stringr::str_ends(parsed_vars[vars_inmodel], "data")]
-        vars_data = map(vars_indraws, ~ extract(object, ., permuted=F)) %>%
+        base_data = map(vars_indraws, ~ rstan::extract(object, ., permuted=F)) %>%
             set_names(vars_indraws) %>%
-            append(data) # add rest of the data (`specs` + `data`)
+            append(data) # add rest of the `data` (+ `specs`)
+        # check all data found
+        found = vars %in% c(names(base_data), extra_names) |
+            !is.na(suppressWarnings(as.numeric(vars)))
+        if (!all(found)) stop(paste(vars[!found], collapse=", "), " not found")
+        base_data
     })
 }
 
-# Given a `priors` list of prior formula, compute the total log probability
+# Given a `samps` list of samp formula, compute the total log probability
 # for each draw of the parameters of interest
-calc_original_lp = function(object, priors, parsed_vars, data) {
+calc_original_lp = function(object, samps, parsed_vars, data) {
     # figure out what data we need and calculate and sum lp
-    map2(priors, get_base_data(object, priors, parsed_vars, data), calc_lp) %>%
-        reduce(`+`)
+    base_data = get_base_data(object, samps, parsed_vars, data)
+    map2(samps, base_data, calc_lp) %>%
+        purrr::reduce(`+`)
 }
 
-# Given a `priors` list of prior formula, compute the total log probability for
-# each draw of the parameters of interest, for each prior specification given
+# Given a `samps` list of samp formula, compute the total log probability for
+# each draw of the parameters of interest, for each samp specification given
 # in `specs`
-calc_specs_lp = function(object, priors, parsed_vars, data, specs) {
-    base_data = get_base_data(object, priors, parsed_vars, data)
+calc_specs_lp = function(object, samps, parsed_vars, data, specs) {
+    base_data = get_base_data(object, samps, parsed_vars, data, names(specs[[1]]))
     map(specs, function(spec) {
         # append this spec to base_data and calculate LP
-        map2(priors, base_data, ~ calc_lp(.x, append(.y, spec))) %>%
-            reduce(`+`)
+        map2(samps, base_data, ~ calc_lp(.x, append(.y, spec))) %>%
+            purrr::reduce(`+`)
     })
 }
 
 
 # Mapping of Stan distribution names to R functions
-distrs = list(
+# Grab even more distributions from `extraDistr` if avaialable
+ distrs = list(
     bernoulli = function(x, p, ...) dbinom(x, 1, p, ...),
     bernoulli_logit = function(x, p, ...) dbinom(x, 1, plogis(p), ...),
     binomial = dbinom,
@@ -95,6 +107,9 @@ if (requireNamespace("extraDistr", quietly=T)) {
         rayleigh = extraDistr::drayleigh,
         pareto = extraDistr::dpareto
     ))
+} else {
+    message("`extraDistr` package not found. Install to access more ",
+            "distributions, like inverse chi-square and beta-binomial.")
 }
 # Turn mapping into an environment suitable for metaprogramming,
 # and turn each density into its curried form (see `make_dens` above)

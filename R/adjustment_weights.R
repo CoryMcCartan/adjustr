@@ -1,12 +1,3 @@
-# to store shared package objects
-pkg_env = new_environment()
-
-.onLoad = function(libname, pkgname) {
-    # create the Stan parser
-    tryCatch(get_parser(), error = function(e) {})
-}
-
-
 #' Compute Pareto-smoothed importance weights for alternative model
 #' specifications
 #'
@@ -14,15 +5,11 @@ pkg_env = new_environment()
 #' data frame or list, compute Pareto-smoothed importance weights and attach
 #' them to the specification object, for further calculation and plotting.
 #'
+#' @param spec An object of class \code{adjustr_spec}, probably produced by
+#'   \code{\link{make_spec}}, containing the new sampling sampling statements
+#'   to replace their counterparts in the original Stan model, and the data,
+#'   if any, by which these sampling statements are parametrized.
 #' @param object A \code{\link[rstan]{stanfit}} model object.
-#' @param spec_samp A formula, or list of formulas, of new sampling statements
-#'   to replace their counterparts in the original Stan model. Sampling
-#'   distributions can be parametrized by constants, Stan parameters and data,
-#'   or by variables from the \code{specs} object.
-#' @param specs A data frame, or list of lists, containing parameters which will
-#'   be substituted into the sampling statements contained in \code{spec_stamp}.
-#'   If a data frame, columns will be substituted. If a list of lists, the named
-#'   entries of each sublist will be substituted.
 #' @param data The data that was used to fit the model in \code{object}.
 #'   Required only if one of the new sampling specifications involves Stan data
 #'   variables.
@@ -35,11 +22,10 @@ pkg_env = new_environment()
 #'
 #'
 #' @export
-adjustment_weights = function(object, spec_samp, specs=NULL, data=NULL) {
+adjustment_weights = function(spec, object, data=NULL) {
     # CHECK ARGUMENTS
     model_code = get_model_code(object)
-    spec_samp = check_samp(spec_samp)
-    specs = prep_specs(specs)
+    #spec_samp =
 
     parsed_model = parse_model(model_code)
     parsed_vars = get_variables(parsed_model)
@@ -53,7 +39,7 @@ adjustment_weights = function(object, spec_samp, specs=NULL, data=NULL) {
         data = list()
     }
 
-    matched_samp = match_samp_stmts(spec_samp, parsed_samp)
+    matched_samp = match_sampling_stmts(spec_samp, parsed_samp)
     original_lp = calc_original_lp(object, matched_samp, parsed_vars, data)
     specs_lp = calc_specs_lp(object, spec_samp, parsed_vars, data, specs)
     # compute weights
@@ -103,18 +89,6 @@ get_model_code = function(object) {
     } else {
         stop("`object` must be a stanfit.")
     }
-}
-
-# Check that priors are in the correct format
-check_samp = function(priors) {
-    if (is(priors, "formula")) priors = list(priors)
-    if (!is(priors, "list"))
-        stop("`priors` must be a formula or a list of formulas")
-    purrr::walk(priors, function(el) {
-        if (!is(el, "formula"))
-            stop("`priors` must be a formula or a list of formulas")
-    })
-    priors
 }
 
 # Change prior specification to list of lists with prior values

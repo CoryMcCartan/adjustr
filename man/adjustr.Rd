@@ -14,11 +14,12 @@ quantities of interest under each specification.
 }
 \details{
 See the list of key functions and the example below.
-Full package documentation available at \link{https://corymccartan.github.io/adjustr/}.
+Full package documentation available at \url{https://corymccartan.github.io/adjustr/}.
 }
 \section{Key Functions}{
 
 \itemize{
+    \item \code{\link{make_spec}}
     \item \code{\link{adjustment_weights}}
 }
 }

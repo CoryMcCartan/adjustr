@@ -80,15 +80,15 @@ common_expression : real_literal
     | variable
     | '{' expressions '}'
     | '[' expressions ']'
-    | variable '[' expressions ']'
+    | variable '[' expression ']'
     | function_literal '(' expressions? ')'
     | function_literal '(' expression ('|' (expression (',' expression)*)?)? ')'
-    //| 'integrate_1d' '(' function_literal (',' expression)@5:6 ')'
-    //| 'integrate_ode' '(' function_literal (',' expression)@6 ')'
-    //| 'integrate_ode_rk45' '(' function_literal (',' expression)@6:9 ')'
-    //| 'integrate_ode_bdf' '(' function_literal (',' expression)@6:9 ')'
-    //| 'algebra_solver' '(' function_literal (',' expression)@4:7 ')'
-    //| 'map_rect' '(' function_literal (',' expression)@4 ')'
+    | 'integrate_1d' '(' function_literal (',' expression)@5:6 ')'
+    | 'integrate_ode' '(' function_literal (',' expression)@6 ')'
+    | 'integrate_ode_rk45' '(' function_literal (',' expression)@6:9 ')'
+    | 'integrate_ode_bdf' '(' function_literal (',' expression)@6:9 ')'
+    | 'algebra_solver' '(' function_literal (',' expression)@4:7 ')'
+    | 'map_rect' '(' function_literal (',' expression)@4 ')'
     | '(' expression ')';
 
 prefixOp: ('!' | '-' | '+' | '^');

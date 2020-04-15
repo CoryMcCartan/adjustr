@@ -14,7 +14,7 @@ get_parser = function() {
 parse_model = function(model_code) {
     capture.output(
     get_parser()(model_code, function(name, value, pos, depth) {
-        cat(paste0('"', name, '","', value, '","', pos, '","', depth, '"\n'))
+        cat(stringr::str_glue('"{name}","{value}",{pos},{depth}\n\n'))
     })
     ) %>%
         paste(collapse="\n") %>%
@@ -41,21 +41,22 @@ get_variables = function(parsed_model) {
 
 # Take a parsing tree and return a list of formulas, one for each samping statement
 # in the model
-get_sampling_stmts_list = function(parsed_model) {
+get_sampling_stmts = function(parsed_model) {
     parsed_model %>%
         filter(name == "sampling_statement", pos == -2) %>%
         purrr::pmap(function(value, ...) as.formula(value, env=global_env()))
 }
 
-# Take a list of prior formulas and return a matching list of sampling statements
-match_priors_to_samp = function(priors, parsed_samp) {
-    ref_vars = map_chr(parsed_samp, ~ as.character(f_lhs(.)))
-    pri_vars = map_chr(priors, ~ as.character(f_lhs(.)))
-    indices = match(pri_vars, ref_vars)
+# Take a list of provided sampling formulas and return a matching list of
+# sampling statements from a reference list
+match_sampling_stmts = function(new_samp, ref_samp) {
+    ref_vars = map_chr(ref_samp, ~ as.character(f_lhs(.)))
+    new_vars = map_chr(new_samp, ~ as.character(f_lhs(.)))
+    indices = match(new_vars, ref_vars)
     # check that every prior was matched
     if (any(is.na(indices))) {
-        stop(paste("No matching sampling statement found for prior",
-                   priors[which.max(is.na(indices))] ))
+        stop("No matching sampling statement found for prior ",
+             new_samp[which.max(is.na(indices))] )
     }
-    parsed_samp[indices]
+    ref_samp[indices]
 }

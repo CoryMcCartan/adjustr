@@ -28,11 +28,13 @@ model {
 model_d = list(J = 8,
                y = c(28,  8, -3,  7, -1,  1, 18, 12),
                sigma = c(15, 10, 16, 11,  9, 11, 10, 18))
-eightschools_m = stan(model_code=model_code, chains=2, data=model_d)
+eightschools_m = stan(model_code=model_code, chains=2, data=model_d, warmup=500,
+                      iter=510, save_dso=F, save_warmup=F)
+eightschools_m@stanmodel@dso = new("cxxdso")
+save(eightschools_m, file="tests/test_model.rda")
 
+#slot(eightschools_m@stanmodel, "dso", F) = NULL
 draws = extract(eightschools_m)
-slot(eightschools_m@stanmodel, "dso", F) = NULL
-save(eightschools_m, file="R/sysdata.rda")
 
 
 
@@ -105,3 +107,4 @@ specs = cross(list(df=1:4, mean=0))
 make_rs_weights(sm, eta ~ student_t(df, mean, 1), specs)
 
 }
+
