@@ -20,10 +20,9 @@ calc_lp = function(samp, vars_data) {
                     stop("Distribution ", as.character(samp)[3], " not supported."))
     # plug in LHS, then RHS values. eval_tidy will throw error if no matches found
     distr = distr(eval_tidy(f_lhs(samp), vars_data))
-    params = call_args(f_rhs(samp)) %>% map(eval_tidy, vars_data)
+    params = map(call_args(f_rhs(samp)), eval_tidy, vars_data)
 
-    exec(distr, !!!params) %>%
-        apply(1:2, sum) # handle multivariate cases
+    apply(exec(distr, !!!params), 1:2, sum)
 }
 
 # Given a list of sampling formulas, compile the necessary data from
@@ -31,17 +30,34 @@ calc_lp = function(samp, vars_data) {
 # NOTE: fills data first with MCMC data, so these values will override any
 # passed in data
 get_base_data = function(object, samps, parsed_vars, data, extra_names=NULL) {
+    iter = object@sim$iter - object@sim$warmup
+    chains = object@sim$chains
+    reshape_data = function(x) {
+        x = as.array(x)
+        new_dim = c(iter, chains)
+        new_x = array(rep(0, prod(new_dim)), dim=new_dim)
+        apply(new_x, 1:2, function(y) x) %>%
+            aperm(c(length(dim(x)) + 1:2, 1:length(dim(x))))
+    }
+
     map(samps, function(samp) {
-        vars = c(as.character(f_lhs(samp)), map_chr(call_args(f_rhs(samp)), as.character))
+        vars = get_stmt_vars(samp)
         # vars stored in MCMC draws
         vars_inmodel = intersect(vars, names(parsed_vars))
         vars_indraws = vars_inmodel[!stringr::str_ends(parsed_vars[vars_inmodel], "data")]
-        base_data = map(vars_indraws, ~ rstan::extract(object, ., permuted=F)) %>%
-            set_names(vars_indraws) %>%
-            append(data) # add rest of the `data` (+ `specs`)
+        vars_indata = vars_inmodel[stringr::str_ends(parsed_vars[vars_inmodel], "data")]
+        # check data vars provided
+        found = vars_indata %in% names(data)
+        if (!all(found)) stop(paste(vars_indata[!found], collapse=", "), " not found")
+        # combine draws and data
+        base_data = append(
+            map(vars_indraws, ~ rstan::extract(object, ., permuted=F)) %>%
+                set_names(vars_indraws),
+            map(vars_indata, ~ reshape_data(data[[.]])) %>%
+                set_names(vars_indata),
+        )
         # check all data found
-        found = vars %in% c(names(base_data), extra_names) |
-            !is.na(suppressWarnings(as.numeric(vars)))
+        found = vars %in% c(names(base_data), extra_names)
         if (!all(found)) stop(paste(vars[!found], collapse=", "), " not found")
         base_data
     })
@@ -52,8 +68,7 @@ get_base_data = function(object, samps, parsed_vars, data, extra_names=NULL) {
 calc_original_lp = function(object, samps, parsed_vars, data) {
     # figure out what data we need and calculate and sum lp
     base_data = get_base_data(object, samps, parsed_vars, data)
-    map2(samps, base_data, calc_lp) %>%
-        purrr::reduce(`+`)
+    purrr::reduce(map2(samps, base_data, calc_lp), `+`)
 }
 
 # Given a `samps` list of samp formula, compute the total log probability for
@@ -62,9 +77,7 @@ calc_original_lp = function(object, samps, parsed_vars, data) {
 calc_specs_lp = function(object, samps, parsed_vars, data, specs) {
     base_data = get_base_data(object, samps, parsed_vars, data, names(specs[[1]]))
     map(specs, function(spec) {
-        # append this spec to base_data and calculate LP
-        map2(samps, base_data, ~ calc_lp(.x, append(.y, spec))) %>%
-            purrr::reduce(`+`)
+        purrr::reduce(map2(samps, base_data, ~ calc_lp(.x, append(.y, spec))), `+`)
     })
 }
 

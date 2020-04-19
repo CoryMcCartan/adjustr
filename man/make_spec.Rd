@@ -2,24 +2,39 @@
 % Please edit documentation in R/make_spec.R
 \name{make_spec}
 \alias{make_spec}
-\title{Set up model adjustment specifications}
+\title{Set Up Model Adjustment Specifications}
 \usage{
 make_spec(...)
 }
 \arguments{
 \item{...}{Model specification. Each argument can either be a formula,
-  a named vector, data frames,
-  or lists.
+  a named vector, data frames, or lists.
 
+  Formula arguments provide new sampling statements to replace their
+  counterparts in the original Stan model. All such formulas must be of the
+  form \code{variable ~ distribution(parameters)}, where \code{variable} and
+  \code{parameters} are Stan data variables or parameters, or are provided by
+  other arguments to this function (see below), and where \code{distribution}
+  matches one of the univariate
+  \href{https://mc-stan.org/docs/2_22/functions-reference/conventions-for-probability-functions.html}{Stan distributions}.
+  Arithmetic expressions of parameters are also allowed, but care must be
+  taken with multivariate parameter arguments.  Since specifications are
+  passed as formulas, R's arithmetic operators are used, not Stan's. As a
+  result, matrix and elementwise multiplcation in Stan sampling statments may
+  not be interpreted correctly. Moving these computations out of sampling
+  statements and into a local variables will ensure correct results.
 
-data frame, or list of lists, containing parameters which will
-  be substituted into the sampling statements contained in \code{spec_stamp}.
-  If a data frame, columns will be substituted. If a list of lists, the named
-  entries of each sublist will be substituted.
-spec_samp A formula, or list of formulas, of new sampling statements
-  to replace their counterparts in the original Stan model. Sampling
-  distributions can be parametrized by constants, Stan parameters and data,
-  or by variables from the \code{specs} object.}
+  For named vector arguments, each entry of the vector will be substituted
+  into the corresponding parameter in the sampling statements. For data
+  frame, each entry in each column will be substituted into the corresponding
+  parameter in the sampling statements.
+
+  List arguments are coerced to data frame. They can either be lists of named
+  vectors, or lists of lists of single-element named vector.
+
+  The lengths of all parameter arguments must be consistent.  Named vectors
+  can have length 1 or must have length equal to the number of rows in all
+  data frame arguments and the length of list arguments.}
 }
 \value{
 An object of class \code{adjustr_spec}, which is essentially a list
@@ -34,5 +49,5 @@ supported and operate on the underlying table of specification parameters.
 \description{
 Takes a set of new sampling statements, which can be parametrized by other
 arguments, data frames, or lists, and creates an \code{adjustr_spec} object
-suitable for use in \code{\link{get_adjustment_weights}}.
+suitable for use in \code{\link{adjust_weights}}.
 }

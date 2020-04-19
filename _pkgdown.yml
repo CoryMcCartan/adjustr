@@ -71,13 +71,16 @@ reference:
     desc: Core functions for sensitivity anlysis workflow.
     contents:
       - make_spec
-      - adjustment_weights
+      - adjust_weights
   - title: "Helper Functions"
     desc: >
       Various helper functions for examining a model or building sampling
       specifications.
     contents:
-      - extract_model
+      - extract_samp_stmts
+      - dplyr.adjustr_spec
+      - get_resampling_idxs
+      - pull.adjustr_weighted
   - title: "Plotting Functions"
     desc: >
       Functions to visualize changes to a model's posterior across

@@ -2,7 +2,7 @@
 % Please edit documentation in R/make_spec.R
 \name{as.data.frame.adjustr_spec}
 \alias{as.data.frame.adjustr_spec}
-\title{Convert an \code{adjustr_spec} object into a data frame}
+\title{Convert an \code{adjustr_spec} Object Into a Data Frame}
 \usage{
 \method{as.data.frame}{adjustr_spec}(x, ...)
 }

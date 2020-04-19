@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a model specification object — make_spec • adjustr</title>
+<title>Set Up Model Adjustment Specifications — make_spec • adjustr</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,10 @@
 
 
 
-<meta property="og:title" content="Create a model specification object — make_spec" />
+<meta property="og:title" content="Set Up Model Adjustment Specifications — make_spec" />
 <meta property="og:description" content="Takes a set of new sampling statements, which can be parametrized by other
 arguments, data frames, or lists, and creates an adjustr_spec object
-suitable for use in adjustment_weights." />
+suitable for use in adjust_weights." />
 
 
 
@@ -162,7 +162,7 @@ suitable for use in adjustment_weights." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create a model specification object</h1>
+    <h1>Set Up Model Adjustment Specifications</h1>
     
     <div class="hidden name"><code>make_spec.Rd</code></div>
     </div>
@@ -170,7 +170,7 @@ suitable for use in adjustment_weights." />
     <div class="ref-description">
     <p>Takes a set of new sampling statements, which can be parametrized by other
 arguments, data frames, or lists, and creates an <code>adjustr_spec</code> object
-suitable for use in <code><a href='adjustment_weights.html'>adjustment_weights</a></code>.</p>
+suitable for use in <code><a href='adjust_weights.html'>adjust_weights</a></code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>make_spec</span>(<span class='no'>...</span>)</pre>
@@ -181,17 +181,29 @@ suitable for use in <code><a href='adjustment_weights.html'>adjustment_weights</
     <tr>
       <th>...</th>
       <td><p>Model specification. Each argument can either be a formula,
-  a named vector, data frames,
-  or lists.</p>
-
-<p>data frame, or list of lists, containing parameters which will
-  be substituted into the sampling statements contained in <code>spec_stamp</code>.
-  If a data frame, columns will be substituted. If a list of lists, the named
-  entries of each sublist will be substituted.
-spec_samp A formula, or list of formulas, of new sampling statements
-  to replace their counterparts in the original Stan model. Sampling
-  distributions can be parametrized by constants, Stan parameters and data,
-  or by variables from the <code>specs</code> object.</p></td>
+  a named vector, data frames, or lists.</p>
+<p>Formula arguments provide new sampling statements to replace their
+  counterparts in the original Stan model. All such formulas must be of the
+  form <code>variable ~ distribution(parameters)</code>, where <code>variable</code> and
+  <code>parameters</code> are Stan data variables or parameters, or are provided by
+  other arguments to this function (see below), and where <code>distribution</code>
+  matches one of the univariate
+  <a href='https://mc-stan.org/docs/2_22/functions-reference/conventions-for-probability-functions.html'>Stan distributions</a>.
+  Arithmetic expressions of parameters are also allowed, but care must be
+  taken with multivariate parameter arguments.  Since specifications are
+  passed as formulas, R's arithmetic operators are used, not Stan's. As a
+  result, matrix and elementwise multiplcation in Stan sampling statments may
+  not be interpreted correctly. Moving these computations out of sampling
+  statements and into a local variables will ensure correct results.</p>
+<p>For named vector arguments, each entry of the vector will be substituted
+  into the corresponding parameter in the sampling statements. For data
+  frame, each entry in each column will be substituted into the corresponding
+  parameter in the sampling statements.</p>
+<p>List arguments are coerced to data frame. They can either be lists of named
+  vectors, or lists of lists of single-element named vector.</p>
+<p>The lengths of all parameter arguments must be consistent.  Named vectors
+  can have length 1 or must have length equal to the number of rows in all
+  data frame arguments and the length of list arguments.</p></td>
     </tr>
     </table>
 
@@ -200,7 +212,7 @@ spec_samp A formula, or list of formulas, of new sampling statements
     <p>An object of class <code>adjustr_spec</code>, which is essentially a list
 with two elements: <code>samp</code>, which is a list of sampling formulas, and
 <code>params</code>, which is a list of lists of parameters. Core
-<a href='filter.adjust_spec.html'>dplyr verbs</a> which don't involve grouping
+<a href='dplyr.adjustr_spec.html'>dplyr verbs</a> which don't involve grouping
 (<code><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></code>,
 <code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></code>,
 <code><a href='https://dplyr.tidyverse.org/reference/select.html'>rename</a></code>, and <code><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></code>) are

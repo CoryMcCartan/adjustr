@@ -17,7 +17,7 @@ test_that("Constant parameter log probabilities are calculated correctly", {
 test_that("Model parameter log probabilities are calculated correctly", {
     draws = matrix(-3:3, ncol=1)
     mus = -4:2
-    sigmas = c(2,1,1,1,2)
+    sigmas = c(2, 1, 1, 1, 2, 1, 2)
     lp = calc_lp(y ~ normal(mu, sigma), list(y=draws, mu=mus, sigma=sigmas))
     expect_equal(lp, matrix(dnorm(-3:3, mus, sigmas, log=T), ncol=1))
 })
@@ -27,13 +27,12 @@ test_that("Data is assembled correctly", {
     parsed_model = parse_model(code)
     parsed_vars = get_variables(parsed_model)
     bd = get_base_data(eightschools_m, list(eta ~ student_t(df, 0, tau)),
-                       parsed_vars, list(df=1:2))
+                       parsed_vars, list(df=1:2), "df")
 
     expect_length(bd, 1)
-    expect_named(bd[[1]], c("eta", "tau", "df"), ignore.order=T)
+    expect_named(bd[[1]], c("eta", "tau"), ignore.order=T)
     expect_equal(dim(bd[[1]]$eta), c(10, 2, 8))
     expect_equal(dim(bd[[1]]$tau), c(10, 2, 1))
-    expect_equal(bd[[1]]$df, 1:2)
 })
 
 test_that("MCMC draws are preferred over provided data", {
@@ -44,10 +43,23 @@ test_that("MCMC draws are preferred over provided data", {
                        parsed_vars, list(tau=3))
 
     expect_length(bd, 1)
-    expect_named(bd[[1]], c("eta", "tau", "tau"), ignore.order=T)
+    expect_named(bd[[1]], c("eta", "tau"), ignore.order=T)
     expect_equal(dim(bd[[1]]$eta), c(10, 2, 8))
     expect_equal(dim(bd[[1]]$tau), c(10, 2, 1))
 })
+
+test_that("Parameter-less specification data is correctly assembled", {
+    code = eightschools_m@stanmodel@model_code
+    parsed_model = parse_model(code)
+    parsed_vars = get_variables(parsed_model)
+    bd = get_base_data(eightschools_m, list(y ~ std_normal()), parsed_vars,
+                       list(y=c(28,  8, -3,  7, -1,  1, 18, 12), J=8))
+
+    expect_length(bd, 1)
+    expect_named(bd[[1]], "y")
+    expect_equal(dim(bd[[1]]$y), c(10, 2, 8))
+})
+
 
 test_that("Error thrown for missing data", {
     code = eightschools_m@stanmodel@model_code
@@ -55,8 +67,9 @@ test_that("Error thrown for missing data", {
     parsed_vars = get_variables(parsed_model)
 
     expect_error(get_base_data(eightschools_m, list(eta ~ normal(gamma, sigma)),
-                               parsed_vars, list()),
-                 "gamma, sigma not found")
+                               parsed_vars, list()), "sigma not found")
+    expect_error(get_base_data(eightschools_m, list(eta ~ normal(gamma, 2)),
+                               parsed_vars, list()), "gamma not found")
 })
 
 test_that("Model log probability is correctly calculated", {

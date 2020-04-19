@@ -20,7 +20,7 @@ Full package documentation available at \url{https://corymccartan.github.io/adju
 
 \itemize{
     \item \code{\link{make_spec}}
-    \item \code{\link{get_adjustment_weights}}
+    \item \code{\link{adjust_weights}}
 }
 }
 

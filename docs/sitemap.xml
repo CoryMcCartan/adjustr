@@ -4,7 +4,7 @@
     <loc>https://corymccartan.github.io/adjustr//index.html</loc>
   </url>
   <url>
-    <loc>https://corymccartan.github.io/adjustr//reference/adjustment_weights.html</loc>
+    <loc>https://corymccartan.github.io/adjustr//reference/adjust_weights.html</loc>
   </url>
   <url>
     <loc>https://corymccartan.github.io/adjustr//reference/adjustr.html</loc>
@@ -13,12 +13,18 @@
     <loc>https://corymccartan.github.io/adjustr//reference/as.data.frame.adjustr_spec.html</loc>
   </url>
   <url>
-    <loc>https://corymccartan.github.io/adjustr//reference/extract_model.html</loc>
+    <loc>https://corymccartan.github.io/adjustr//reference/dplyr.adjustr_spec.html</loc>
   </url>
   <url>
-    <loc>https://corymccartan.github.io/adjustr//reference/filter.adjust_spec.html</loc>
+    <loc>https://corymccartan.github.io/adjustr//reference/extract_samp_stmts.html</loc>
+  </url>
+  <url>
+    <loc>https://corymccartan.github.io/adjustr//reference/get_resampling_idxs.html</loc>
   </url>
   <url>
     <loc>https://corymccartan.github.io/adjustr//reference/make_spec.html</loc>
+  </url>
+  <url>
+    <loc>https://corymccartan.github.io/adjustr//reference/pull.adjustr_weighted.html</loc>
   </url>
 </urlset>

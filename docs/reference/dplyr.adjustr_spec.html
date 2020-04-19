@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Extract model sampling statements from a Stan model. — extract_model • adjustr</title>
+<title><code>dplyr</code> Methods for <code>adjustr_spec</code> Objects — dplyr.adjustr_spec • adjustr</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,12 @@
 
 
 
-<meta property="og:title" content="Extract model sampling statements from a Stan model. — extract_model" />
-<meta property="og:description" content="Prints a list of sampling statements extracted from the model block of
-a Stan program, with each labelled &quot;parameter&quot; or &quot;data&quot; depending on the
-type of variable being sampled." />
+<meta property="og:title" content="<code>dplyr</code> Methods for <code>adjustr_spec</code> Objects — dplyr.adjustr_spec" />
+<meta property="og:description" content="Core dplyr verbs which don't involve grouping
+ (filter, arrange,
+  mutate, select,
+  rename, and slice) are
+implemented and operate on the underlying table of specification parameters." />
 
 
 
@@ -162,31 +164,51 @@ type of variable being sampled." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Extract model sampling statements from a Stan model.</h1>
+    <h1><code>dplyr</code> Methods for <code>adjustr_spec</code> Objects</h1>
     
-    <div class="hidden name"><code>extract_model.Rd</code></div>
+    <div class="hidden name"><code>dplyr.adjustr_spec.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Prints a list of sampling statements extracted from the <code>model</code> block of
-a Stan program, with each labelled "parameter" or "data" depending on the
-type of variable being sampled.</p>
+    <p>Core <code><a href='https://dplyr.tidyverse.org/reference/dplyr-package.html'>dplyr</a></code> verbs which don't involve grouping
+ (<code><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></code>,
+  <code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></code>,
+  <code><a href='https://dplyr.tidyverse.org/reference/select.html'>rename</a></code>, and <code><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></code>) are
+implemented and operate on the underlying table of specification parameters.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>extract_model</span>(<span class='no'>object</span>)</pre>
+    <pre class="usage"><span class='co'># S3 method for adjustr_spec</span>
+<span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.preserve</span> <span class='kw'>=</span> <span class='no'>F</span>)
+
+<span class='co'># S3 method for adjustr_spec</span>
+<span class='fu'>arrange</span>(<span class='no'>.data</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for adjustr_spec</span>
+<span class='fu'>rename</span>(<span class='no'>.data</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for adjustr_spec</span>
+<span class='fu'>select</span>(<span class='no'>.data</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for adjustr_spec</span>
+<span class='fu'>slice</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.preserve</span> <span class='kw'>=</span> <span class='no'>F</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>object</th>
-      <td><p>A <code><a href='https://rdrr.io/pkg/rstan/man/stanfit-class.html'>stanfit</a></code> model object.</p></td>
+      <th>.data</th>
+      <td><p>the <code>adjustr_spec</code> object</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>additional arguments to underlying method</p></td>
+    </tr>
+    <tr>
+      <th>.preserve</th>
+      <td><p>as in <code>filter</code> and <code>slice</code></p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>Invisbly returns a list of sampling formulas.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

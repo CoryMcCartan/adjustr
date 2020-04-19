@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert an <code>adjustr_spec</code> Object Into a Data Frame — as.data.frame.adjustr_spec • adjustr</title>
+<title>Extract Weights From an <code>adjustr_spec_weighted</code> Object — pull.adjustr_weighted • adjustr</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,9 @@
 
 
 
-<meta property="og:title" content="Convert an <code>adjustr_spec</code> Object Into a Data Frame — as.data.frame.adjustr_spec" />
-<meta property="og:description" content="Returns the data frame of specification parameters, with added columns of
-the form .samp_1, .samp_2, ... for each sampling statement
-(or just .samp if there is only one sampling statement)." />
+<meta property="og:title" content="Extract Weights From an <code>adjustr_spec_weighted</code> Object — pull.adjustr_weighted" />
+<meta property="og:description" content="This function modifies the default behavior of dplyr::pull to extract
+the .weights column." />
 
 
 
@@ -162,30 +161,31 @@ the form .samp_1, .samp_2, ... for each sampling statement
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert an <code>adjustr_spec</code> Object Into a Data Frame</h1>
+    <h1>Extract Weights From an <code>adjustr_spec_weighted</code> Object</h1>
     
-    <div class="hidden name"><code>as.data.frame.adjustr_spec.Rd</code></div>
+    <div class="hidden name"><code>pull.adjustr_weighted.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Returns the data frame of specification parameters, with added columns of
-the form <code>.samp_1</code>, <code>.samp_2</code>, ... for each sampling statement
-(or just <code>.samp</code> if there is only one sampling statement).</p>
+    <p>This function modifies the default behavior of <code><a href='https://dplyr.tidyverse.org/reference/pull.html'>dplyr::pull</a></code> to extract
+the <code>.weights</code> column.</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for adjustr_spec</span>
-<span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='co'># S3 method for adjustr_weighted</span>
+<span class='fu'>pull</span>(<span class='no'>.data</span>, <span class='kw'>var</span> <span class='kw'>=</span> <span class='st'>".weights"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>the <code>adjustr_spec</code> object</p></td>
+      <th>.data</th>
+      <td><p>A table of data</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>additional arguments to underlying method</p></td>
+      <th>var</th>
+      <td><p>A variable, as in <code><a href='https://dplyr.tidyverse.org/reference/pull.html'>pull</a></code>. The default returns
+the <code>.weights</code> column, and if there is only one row, it returns the
+first element of that column</p></td>
     </tr>
     </table>
 

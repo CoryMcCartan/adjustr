@@ -11,11 +11,14 @@ Description: Functions to help assess the sensitivity of a Bayesian model
 License: BSD_3_clause + file LICENSE
 Depends: R (>= 3.6.0)
 Imports:
-    rlang,
-    rstan,
-    purrr,
     tibble,
     dplyr,
+    purrr,
+    methods,
+    utils,
+    stats,
+    rlang,
+    rstan,
     ggplot2,
     stringr,
     dparser,

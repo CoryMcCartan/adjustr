@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert an <code>adjustr_spec</code> Object Into a Data Frame — as.data.frame.adjustr_spec • adjustr</title>
+<title>Extract Model Sampling Statements From a Stan Model. — extract_samp_stmts • adjustr</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,10 @@
 
 
 
-<meta property="og:title" content="Convert an <code>adjustr_spec</code> Object Into a Data Frame — as.data.frame.adjustr_spec" />
-<meta property="og:description" content="Returns the data frame of specification parameters, with added columns of
-the form .samp_1, .samp_2, ... for each sampling statement
-(or just .samp if there is only one sampling statement)." />
+<meta property="og:title" content="Extract Model Sampling Statements From a Stan Model. — extract_samp_stmts" />
+<meta property="og:description" content="Prints a list of sampling statements extracted from the model block of
+a Stan program, with each labelled &quot;parameter&quot; or &quot;data&quot; depending on the
+type of variable being sampled." />
 
 
 
@@ -162,33 +162,31 @@ the form .samp_1, .samp_2, ... for each sampling statement
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert an <code>adjustr_spec</code> Object Into a Data Frame</h1>
+    <h1>Extract Model Sampling Statements From a Stan Model.</h1>
     
-    <div class="hidden name"><code>as.data.frame.adjustr_spec.Rd</code></div>
+    <div class="hidden name"><code>extract_samp_stmts.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Returns the data frame of specification parameters, with added columns of
-the form <code>.samp_1</code>, <code>.samp_2</code>, ... for each sampling statement
-(or just <code>.samp</code> if there is only one sampling statement).</p>
+    <p>Prints a list of sampling statements extracted from the <code>model</code> block of
+a Stan program, with each labelled "parameter" or "data" depending on the
+type of variable being sampled.</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for adjustr_spec</span>
-<span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>extract_samp_stmts</span>(<span class='no'>object</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>the <code>adjustr_spec</code> object</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>additional arguments to underlying method</p></td>
+      <th>object</th>
+      <td><p>A <code><a href='https://rdrr.io/pkg/rstan/man/stanfit-class.html'>stanfit</a></code> model object.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Invisbly returns a list of sampling formulas.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -14,9 +14,10 @@
 #' @section Key Functions:
 #' \itemize{
 #'     \item \code{\link{make_spec}}
-#'     \item \code{\link{get_adjustment_weights}}
+#'     \item \code{\link{adjust_weights}}
 #' }
 #'
+#' @importFrom methods is
 #' @import rlang
 #' @importFrom purrr map_chr map map2
 #' @import dplyr
@@ -32,5 +33,7 @@ pkg_env = new_environment()
 .onLoad = function(libname, pkgname) {  # nocov start
     # create the Stan parser
     tryCatch(get_parser(), error = function(e) {})
+
+    utils::globalVariables(c("name", "pos", "value"))
 }  # nocov end
 #> NULL

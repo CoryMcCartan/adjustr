@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert an <code>adjustr_spec</code> Object Into a Data Frame — as.data.frame.adjustr_spec • adjustr</title>
+<title>Compute Pareto-smoothed Importance Weights for Alternative Model
+Specifications — adjust_weights • adjustr</title>
 
 
 <!-- jquery -->
@@ -39,10 +40,11 @@
 
 
 
-<meta property="og:title" content="Convert an <code>adjustr_spec</code> Object Into a Data Frame — as.data.frame.adjustr_spec" />
-<meta property="og:description" content="Returns the data frame of specification parameters, with added columns of
-the form .samp_1, .samp_2, ... for each sampling statement
-(or just .samp if there is only one sampling statement)." />
+<meta property="og:title" content="Compute Pareto-smoothed Importance Weights for Alternative Model
+Specifications — adjust_weights" />
+<meta property="og:description" content="Given a set of new sampling statements, which can be parametrized by a
+data frame or list, compute Pareto-smoothed importance weights and attach
+them to the specification object, for further calculation and plotting." />
 
 
 
@@ -162,33 +164,60 @@ the form .samp_1, .samp_2, ... for each sampling statement
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert an <code>adjustr_spec</code> Object Into a Data Frame</h1>
+    <h1>Compute Pareto-smoothed Importance Weights for Alternative Model
+Specifications</h1>
     
-    <div class="hidden name"><code>as.data.frame.adjustr_spec.Rd</code></div>
+    <div class="hidden name"><code>adjust_weights.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Returns the data frame of specification parameters, with added columns of
-the form <code>.samp_1</code>, <code>.samp_2</code>, ... for each sampling statement
-(or just <code>.samp</code> if there is only one sampling statement).</p>
+    <p>Given a set of new sampling statements, which can be parametrized by a
+data frame or list, compute Pareto-smoothed importance weights and attach
+them to the specification object, for further calculation and plotting.</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for adjustr_spec</span>
-<span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>adjust_weights</span>(<span class='no'>spec</span>, <span class='no'>object</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>keep_bad</span> <span class='kw'>=</span> <span class='no'>F</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>the <code>adjustr_spec</code> object</p></td>
+      <th>spec</th>
+      <td><p>An object of class <code>adjustr_spec</code>, probably produced by
+<code><a href='make_spec.html'>make_spec</a></code>, containing the new sampling sampling statements
+to replace their counterparts in the original Stan model, and the data,
+if any, by which these sampling statements are parametrized.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>additional arguments to underlying method</p></td>
+      <th>object</th>
+      <td><p>A <code><a href='https://rdrr.io/pkg/rstan/man/stanfit-class.html'>stanfit</a></code> model object.</p></td>
+    </tr>
+    <tr>
+      <th>data</th>
+      <td><p>The data that was used to fit the model in <code>object</code>.
+Required only if one of the new sampling specifications involves Stan data
+variables.</p></td>
+    </tr>
+    <tr>
+      <th>keep_bad</th>
+      <td><p>When <code>FALSE</code> (the strongly recommended default),
+alternate specifications which deviate too much from the original
+posterior, and which as a result cannot be reliably estimated using
+importance sampling (i.e., if the Pareto shape parameter is larger than
+0.7), have their weights discarded.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A tibble, produced by converting the provided <code>specs</code> to a
+  tibble (see <code><a href='as.data.frame.adjustr_spec.html'>as.data.frame.adjustr_spec</a></code>), and adding columns
+  <code>.weights</code>, containing vectors of weights for each draw, and
+  <code>.pareto_k</code>, containing the diagnostic Pareto shape parameters. Values
+  greater than 0.7 indicate that importance sampling is not reliable.
+  Weights can be extracted with the <code><a href='pull.adjustr_weighted.html'>pull.adjustr_weighted</a></code>
+  method. The returned object also includes the model sample draws, in the
+  <code>draws</code> attribute.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

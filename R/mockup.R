@@ -34,7 +34,7 @@ eightschools_m@stanmodel@dso = new("cxxdso")
 save(eightschools_m, file="tests/test_model.rda")
 
 #slot(eightschools_m@stanmodel, "dso", F) = NULL
-draws = extract(eightschools_m)
+#draws = extract(eightschools_m)
 
 
 

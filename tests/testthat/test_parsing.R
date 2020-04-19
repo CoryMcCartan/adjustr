@@ -43,3 +43,9 @@ test_that("Extra sampling statements not in model throw an error", {
     expect_error(match_sampling_stmts(prov_samp, model_samp),
                  "No matching sampling statement found for prior x ~ normal\\(theta, sigma\\)")
 })
+
+test_that("Variables are correctly extracted from sampling statements", {
+    expect_equal(get_stmt_vars(y ~ normal(theta %*% eta/2, 2%%4 + sigma)),
+                 c("y", "theta", "eta", "sigma"))
+    expect_error(get_stmt_vars(y ~ .), "y ~ \\. does not")
+})

@@ -2,12 +2,12 @@ context("Specification creation")
 
 test_that("Specifications can be created out of any number of formulas with no data", {
     spec1 = make_spec(y ~ normal(mu, sigma))
-    expect_equal(spec1$params, list())
+    expect_equal(spec1$params, list(list()))
     expect_length(spec1$samp, 1)
     expect_is(spec1$samp[[1]], "formula")
 
     spec2 = make_spec(y ~ normal(mu, sigma), sigma ~ gamma(alpha, beta))
-    expect_equal(spec1$params, list())
+    expect_equal(spec2$params, list(list()))
     expect_length(spec2$samp, 2)
     expect_is(spec2$samp[[1]], "formula")
     expect_is(spec2$samp[[2]], "formula")
@@ -57,6 +57,7 @@ test_that("Specifications generics work correctly", {
     expect_equal(slice(arrange(spec2, desc(df)), 1)$params[[1]]$df, 5)
     expect_equal(names(rename(spec2, b=df)$params[[1]]), c("b", "mu"))
     expect_equal(length(select(spec2, df)$params[[1]]), 1)
+    expect_equal(filter(make_spec(y ~ normal())), make_spec(y ~ normal()))
     expect_is(as.data.frame(spec2), "data.frame")
     expect_is(as.data.frame(make_spec(y ~ normal(), x ~ normal())), "data.frame")
 })

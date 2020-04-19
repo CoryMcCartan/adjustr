@@ -1,22 +1,37 @@
-#' Set up model adjustment specifications
+#' Set Up Model Adjustment Specifications
 #'
 #' Takes a set of new sampling statements, which can be parametrized by other
 #' arguments, data frames, or lists, and creates an \code{adjustr_spec} object
-#' suitable for use in \code{\link{get_adjustment_weights}}.
+#' suitable for use in \code{\link{adjust_weights}}.
 #'
 #' @param ... Model specification. Each argument can either be a formula,
-#'   a named vector, data frames,
-#'   or lists.
+#'   a named vector, data frames, or lists.
 #'
+#'   Formula arguments provide new sampling statements to replace their
+#'   counterparts in the original Stan model. All such formulas must be of the
+#'   form \code{variable ~ distribution(parameters)}, where \code{variable} and
+#'   \code{parameters} are Stan data variables or parameters, or are provided by
+#'   other arguments to this function (see below), and where \code{distribution}
+#'   matches one of the univariate
+#'   \href{https://mc-stan.org/docs/2_22/functions-reference/conventions-for-probability-functions.html}{Stan distributions}.
+#'   Arithmetic expressions of parameters are also allowed, but care must be
+#'   taken with multivariate parameter arguments.  Since specifications are
+#'   passed as formulas, R's arithmetic operators are used, not Stan's. As a
+#'   result, matrix and elementwise multiplcation in Stan sampling statments may
+#'   not be interpreted correctly. Moving these computations out of sampling
+#'   statements and into a local variables will ensure correct results.
 #'
-#' data frame, or list of lists, containing parameters which will
-#'   be substituted into the sampling statements contained in \code{spec_stamp}.
-#'   If a data frame, columns will be substituted. If a list of lists, the named
-#'   entries of each sublist will be substituted.
-#' spec_samp A formula, or list of formulas, of new sampling statements
-#'   to replace their counterparts in the original Stan model. Sampling
-#'   distributions can be parametrized by constants, Stan parameters and data,
-#'   or by variables from the \code{specs} object.
+#'   For named vector arguments, each entry of the vector will be substituted
+#'   into the corresponding parameter in the sampling statements. For data
+#'   frame, each entry in each column will be substituted into the corresponding
+#'   parameter in the sampling statements.
+#'
+#'   List arguments are coerced to data frame. They can either be lists of named
+#'   vectors, or lists of lists of single-element named vector.
+#'
+#'   The lengths of all parameter arguments must be consistent.  Named vectors
+#'   can have length 1 or must have length equal to the number of rows in all
+#'   data frame arguments and the length of list arguments.
 #'
 #' @return An object of class \code{adjustr_spec}, which is essentially a list
 #' with two elements: \code{samp}, which is a list of sampling formulas, and
@@ -68,25 +83,30 @@ make_spec = function(...) {
 
     spec_obj = structure(list(
         samp = spec_samp,
-        params = purrr::transpose(as.list(spec_params))
+        params = if (nrow(spec_params) > 0)
+                purrr::transpose(as.list(spec_params))
+            else
+                list(list())
     ),  class="adjustr_spec")
     spec_obj
 }
 
 # GENERIC FUNCTIONS for `adjustr_spec`
 is.adjustr_spec = function(x) inherits(x, "adjustr_spec")
+#' @export
 print.adjustr_spec = function(x, ...) {
     cat("Sampling specifications:\n")
     purrr::walk(x$samp, print)
-    if (!is_empty(x$params)) {
+    if (length(x$params[[1]]) > 0) {
         cat("\nSpecification parameters:\n")
-        do.call(rbind, x$params) %>%
-            as.data.frame %>%
-            print(row.names=F, max=15*ncol(.))
+        df = as.data.frame(do.call(rbind, x$params))
+        print(df, row.names=F, max=15*ncol(df))
     }
 }
+#' @export
 length.adjustr_spec = function(x) length(x$params)
-#' Convert an \code{adjustr_spec} object into a data frame
+
+#' Convert an \code{adjustr_spec} Object Into a Data Frame
 #'
 #' Returns the data frame of specification parameters, with added columns of
 #' the form \code{.samp_1}, \code{.samp_2}, ... for each sampling statement
@@ -94,8 +114,10 @@ length.adjustr_spec = function(x) length(x$params)
 #'
 #' @param x the \code{adjustr_spec} object
 #' @param ... additional arguments to underlying method
+#'
+#' @export
 as.data.frame.adjustr_spec = function(x, ...) {
-    if (length(x$params) == 0) {
+    if (length(x$params[[1]]) == 0) {
         params_df = as.data.frame(matrix(nrow=1, ncol=0))
     } else {
         params_df = do.call(bind_rows, x$params) %>%
@@ -115,16 +137,9 @@ as.data.frame.adjustr_spec = function(x, ...) {
 
     params_df
 }
-# dplyr generics
-dplyr_handler = function(dplyr_func, x, ...) {
-    x$params = do.call(bind_rows, x$params) %>%
-        as_tibble %>%
-        dplyr_func(...) %>%
-        as.list %>%
-        purrr::transpose()
-    x
-}
-#' \code{dplyr} methods for \code{adjustr_spec} objects
+
+
+#' \code{dplyr} Methods for \code{adjustr_spec} Objects
 #'
 #' Core \code{\link[dplyr]{dplyr}} verbs which don't involve grouping
 #'  (\code{\link[dplyr]{filter}}, \code{\link[dplyr]{arrange}},
@@ -135,24 +150,41 @@ dplyr_handler = function(dplyr_func, x, ...) {
 #' @param .data the \code{adjustr_spec} object
 #' @param ... additional arguments to underlying method
 #' @param .preserve as in \code{filter} and \code{slice}
-#'
-#' @rdname filter.adjust_spec
+#' @name dplyr.adjustr_spec
+NULL
+# dplyr generics
+dplyr_handler = function(dplyr_func, x, ...) {
+    if (length(x$params[[1]]) == 0) return(x)
+    x$params = do.call(bind_rows, x$params) %>%
+        as_tibble %>%
+        dplyr_func(...) %>%
+        as.list %>%
+        purrr::transpose()
+    x
+}
+
+# no @export because R CMD CHECK didn't like it
+#' @rdname dplyr.adjustr_spec
 filter.adjustr_spec = function(.data, ..., .preserve=F) {
     dplyr_handler(dplyr::filter, .data, ..., .preserve=.preserve)
 }
-#' @rdname filter.adjust_spec
+#' @rdname dplyr.adjustr_spec
+#' @export
 arrange.adjustr_spec = function(.data, ...) {
     dplyr_handler(dplyr::arrange, .data, ...)
 }
-#' @rdname filter.adjust_spec
+#' @rdname dplyr.adjustr_spec
+#' @export
 rename.adjustr_spec = function(.data, ...) {
     dplyr_handler(dplyr::rename, .data, ...)
 }
-#' @rdname filter.adjust_spec
+#' @rdname dplyr.adjustr_spec
+#' @export
 select.adjustr_spec = function(.data, ...) {
     dplyr_handler(dplyr::select, .data, ...)
 }
-#' @rdname filter.adjust_spec
+#' @rdname dplyr.adjustr_spec
+#' @export
 slice.adjustr_spec = function(.data, ..., .preserve=F) {
     dplyr_handler(dplyr::slice, .data, ..., .preserve=.preserve)
 }
