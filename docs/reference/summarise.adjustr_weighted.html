@@ -6,8 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>adjustr: Stan Model Adjustments and Sensitivity Analyses using Importance
-Sampling — adjustr • adjustr</title>
+<title>Summarize Posterior Distributions Under Alternative Model Specifications — summarise.adjustr_weighted • adjustr</title>
 
 
 <!-- jquery -->
@@ -40,13 +39,11 @@ Sampling — adjustr • adjustr</title>
 
 
 
-<meta property="og:title" content="adjustr: Stan Model Adjustments and Sensitivity Analyses using Importance
-Sampling — adjustr" />
-<meta property="og:description" content="Functions to help assess the sensitivity of a Bayesian model to the
-specification of its likelihood and priors, estimated using the rstan
-package. Users provide a series of alternate sampling specifications, and the
-package uses Pareto-smoothed importance sampling to estimate posterior
-quantities of interest under each specification." />
+<meta property="og:title" content="Summarize Posterior Distributions Under Alternative Model Specifications — summarise.adjustr_weighted" />
+<meta property="og:description" content="Uses weights computed in adjust_weights to compute posterior
+summary statistics. These statistics can be compared against their reference
+values to quantify the sensitivity of the model to aspects of its
+specification." />
 
 
 
@@ -166,36 +163,47 @@ quantities of interest under each specification." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>adjustr: Stan Model Adjustments and Sensitivity Analyses using Importance
-Sampling</h1>
+    <h1>Summarize Posterior Distributions Under Alternative Model Specifications</h1>
     
-    <div class="hidden name"><code>adjustr.Rd</code></div>
+    <div class="hidden name"><code>summarise.adjustr_weighted.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Functions to help assess the sensitivity of a Bayesian model to the
-specification of its likelihood and priors, estimated using the rstan
-package. Users provide a series of alternate sampling specifications, and the
-package uses Pareto-smoothed importance sampling to estimate posterior
-quantities of interest under each specification.</p>
+    <p>Uses weights computed in <code>adjust_weights</code> to compute posterior
+summary statistics. These statistics can be compared against their reference
+values to quantify the sensitivity of the model to aspects of its
+specification.</p>
     </div>
 
+    <pre class="usage"><span class='co'># S3 method for adjustr_weighted</span>
+<span class='fu'>summarise</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.model_data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>.data</th>
+      <td><p>An <code>adjustr_weighted</code> object.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Name-value pairs of expressions. The name of each argument will be
+the name of a new variable, and the value will be computed for the
+posterior distribution of eight alternative specification. For example,
+a value of <code><a href='https://rdrr.io/r/base/mean.html'>mean(theta)</a></code> will compute the posterior mean of
+<code>theta</code> for each alternative specification.</p></td>
+    </tr>
+    <tr>
+      <th>.model_data</th>
+      <td><p>Stan model data, if not provided in the earlier call to
+adjust_weights.</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>See the list of key functions and the example below.
-Full package documentation available at <a href='https://corymccartan.github.io/adjustr/'>https://corymccartan.github.io/adjustr/</a>.</p>
-    <h2 class="hasAnchor" id="key-functions"><a class="anchor" href="#key-functions"></a>Key Functions</h2>
-
-    
-
-<ul>
-<li><p><code>make_spec</code></p></li>
-<li><p><code>adjust_weights</code></p></li>
-<li><p><code>summarize</code></p></li>
-</ul>
-
+    <p>An <code>adjustr_weighted</code> object, with the new columns specified in
+<code>...</code> added.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

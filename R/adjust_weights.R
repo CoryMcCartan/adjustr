@@ -76,6 +76,8 @@ adjust_weights = function(spec, object, data=NULL, keep_bad=F) {
     if (!keep_bad)
         adjust_obj$.weights[adjust_obj$.pareto_k > 0.7] = list(NA_real_)
     attr(adjust_obj, "draws") = rstan::extract(object)
+    attr(adjust_obj, "data") = data
+    attr(adjust_obj, "iter") = object@sim$chains * (object@sim$iter - object@sim$warmup)
     adjust_obj
 }
 

@@ -10,11 +10,11 @@ get_parser = function() { # nocov start
     }
 } # nocov end
 
-# Parse Satan `model_code` into a data frame which represents the parsing tree
+# Parse Stan `model_code` into a data frame which represents the parsing tree
 parse_model = function(model_code) {
     parser_output = utils::capture.output(
     get_parser()(model_code, function(name, value, pos, depth) {
-        cat(stringr::str_glue('"{name}","{value}",{pos},{depth}\n\n'))
+        cat('"', name, '","', value, '",', pos, ',', depth, '\n', sep="")
     })
     )
     parser_csv = paste0("name,value,pos,depth\n",

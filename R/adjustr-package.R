@@ -15,6 +15,7 @@
 #' \itemize{
 #'     \item \code{\link{make_spec}}
 #'     \item \code{\link{adjust_weights}}
+#'     \item \code{\link{summarize}}
 #' }
 #'
 #' @importFrom methods is

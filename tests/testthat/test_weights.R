@@ -38,6 +38,7 @@ test_that("Weights calculated correctly (normal/inflated)", {
     expect_s3_class(obj, "tbl_df")
     expect_true(is.adjustr_weighted(obj))
     expect_true("draws" %in% names(attributes(obj)))
+    expect_true("data" %in% names(attributes(obj)))
     expect_equal(weights, obj$.weights[[1]])
     expect_equal(pareto_k, obj$.pareto_k)
 })

@@ -32,6 +32,7 @@ eightschools_m = stan(model_code=model_code, chains=2, data=model_d, warmup=500,
                       iter=510, save_dso=F, save_warmup=F)
 eightschools_m@stanmodel@dso = new("cxxdso")
 save(eightschools_m, file="tests/test_model.rda")
+load("tests/test_model.rda")
 
 #slot(eightschools_m@stanmodel, "dso", F) = NULL
 #draws = extract(eightschools_m)

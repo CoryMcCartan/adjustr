@@ -140,7 +140,7 @@ them to the specification object, for further calculation and plotting." />
   </a>
 </li>
 <li>
-  <a href="https://github.com/stan-dev/bayesplot">
+  <a href="https://github.com/CoryMcCartan/adjustr/">
     <span class="fa fa-github"></span>
      
   </a>
@@ -184,7 +184,7 @@ them to the specification object, for further calculation and plotting.</p>
     <tr>
       <th>spec</th>
       <td><p>An object of class <code>adjustr_spec</code>, probably produced by
-<code><a href='make_spec.html'>make_spec</a></code>, containing the new sampling sampling statements
+<code>make_spec</code>, containing the new sampling sampling statements
 to replace their counterparts in the original Stan model, and the data,
 if any, by which these sampling statements are parametrized.</p></td>
     </tr>
@@ -211,11 +211,11 @@ importance sampling (i.e., if the Pareto shape parameter is larger than
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A tibble, produced by converting the provided <code>specs</code> to a
-  tibble (see <code><a href='as.data.frame.adjustr_spec.html'>as.data.frame.adjustr_spec</a></code>), and adding columns
+  tibble (see <code>as.data.frame.adjustr_spec</code>), and adding columns
   <code>.weights</code>, containing vectors of weights for each draw, and
   <code>.pareto_k</code>, containing the diagnostic Pareto shape parameters. Values
   greater than 0.7 indicate that importance sampling is not reliable.
-  Weights can be extracted with the <code><a href='pull.adjustr_weighted.html'>pull.adjustr_weighted</a></code>
+  Weights can be extracted with the <code>pull.adjustr_weighted</code>
   method. The returned object also includes the model sample draws, in the
   <code>draws</code> attribute.</p>
 

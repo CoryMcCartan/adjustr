@@ -21,6 +21,7 @@ Full package documentation available at \url{https://corymccartan.github.io/adju
 \itemize{
     \item \code{\link{make_spec}}
     \item \code{\link{adjust_weights}}
+    \item \code{\link{summarize}}
 }
 }
 

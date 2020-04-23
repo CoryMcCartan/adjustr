@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title><code>dplyr</code> methods for <code>adjustr_spec</code> objects — filter.adjustr_spec • adjustr</title>
+<title>Summarize Posterior Distributions Under Alternative Model Specifications — summarise.adjustr_weighted • adjustr</title>
 
 
 <!-- jquery -->
@@ -39,12 +39,11 @@
 
 
 
-<meta property="og:title" content="<code>dplyr</code> methods for <code>adjustr_spec</code> objects — filter.adjustr_spec" />
-<meta property="og:description" content="Core dplyr verbs which don't involve grouping
- (filter, arrange,
-  mutate, select,
-  rename, and slice) are
-implemented and operate on the underlying table of specification parameters." />
+<meta property="og:title" content="Summarize Posterior Distributions Under Alternative Model Specifications — summarise.adjustr_weighted" />
+<meta property="og:description" content="Uses weights computed in adjust_weights to compute posterior
+summary statistics. These statistics can be compared against their reference
+values to quantify the sensitivity of the model to aspects of its
+specification." />
 
 
 
@@ -140,7 +139,7 @@ implemented and operate on the underlying table of specification parameters." />
   </a>
 </li>
 <li>
-  <a href="https://github.com/stan-dev/bayesplot">
+  <a href="https://github.com/CoryMcCartan/adjustr/">
     <span class="fa fa-github"></span>
      
   </a>
@@ -164,51 +163,57 @@ implemented and operate on the underlying table of specification parameters." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1><code>dplyr</code> methods for <code>adjustr_spec</code> objects</h1>
+    <h1>Summarize Posterior Distributions Under Alternative Model Specifications</h1>
     
-    <div class="hidden name"><code>filter.adjust_spec.Rd</code></div>
+    <div class="hidden name"><code>summarize.adjustr_weighted.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Core <code><a href='https://dplyr.tidyverse.org/reference/dplyr-package.html'>dplyr</a></code> verbs which don't involve grouping
- (<code><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></code>,
-  <code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></code>,
-  <code><a href='https://dplyr.tidyverse.org/reference/select.html'>rename</a></code>, and <code><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></code>) are
-implemented and operate on the underlying table of specification parameters.</p>
+    <p>Uses weights computed in <code>adjust_weights</code> to compute posterior
+summary statistics. These statistics can be compared against their reference
+values to quantify the sensitivity of the model to aspects of its
+specification.</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for adjustr_spec</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.preserve</span> <span class='kw'>=</span> <span class='no'>F</span>)
+    <pre class="usage"><span class='co'># S3 method for adjustr_weighted</span>
+<span class='fu'>summarise</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.resampling</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>.model_data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
-<span class='co'># S3 method for adjustr_spec</span>
-<span class='fu'>arrange</span>(<span class='no'>.data</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for adjustr_spec</span>
-<span class='fu'>rename</span>(<span class='no'>.data</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for adjustr_spec</span>
-<span class='fu'>select</span>(<span class='no'>.data</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for adjustr_spec</span>
-<span class='fu'>slice</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.preserve</span> <span class='kw'>=</span> <span class='no'>F</span>)</pre>
+<span class='co'># S3 method for adjustr_weighted</span>
+<span class='fu'>summarize</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.resampling</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>.model_data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>.data</th>
-      <td><p>the <code>adjustr_spec</code> object</p></td>
+      <td><p>An <code>adjustr_weighted</code> object.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>additional arguments to underlying method</p></td>
+      <td><p>Name-value pairs of expressions. The name of each argument will be
+the name of a new variable, and the value will be computed for the
+posterior distribution of eight alternative specification. For example,
+a value of <code><a href='https://rdrr.io/r/base/mean.html'>mean(theta)</a></code> will compute the posterior mean of
+<code>theta</code> for each alternative specification.</p></td>
     </tr>
     <tr>
-      <th>.preserve</th>
-      <td><p>as in <code>filter</code> and <code>slice</code></p></td>
+      <th>.resampling</th>
+      <td><p>Wether to compute summary statistics by first resampling
+the data according to the weights. Defaults to <code>FALSE</code>, but will be
+used for any summary statistic that is not <code>mean</code>, <code>var</code> or
+<code>sd</code>.</p></td>
+    </tr>
+    <tr>
+      <th>.model_data</th>
+      <td><p>Stan model data, if not provided in the earlier call to
+<code>adjust_weights</code>.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>An <code>adjustr_weighted</code> object, wth the new columns specified in
+<code>...</code> added.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

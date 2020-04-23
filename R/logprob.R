@@ -126,4 +126,4 @@ if (requireNamespace("extraDistr", quietly=T)) {
 }
 # Turn mapping into an environment suitable for metaprogramming,
 # and turn each density into its curried form (see `make_dens` above)
-distr_env = new_environment(purrr::map(distrs, make_dens), parent=empty_env())
+distr_env = new_environment(purrr::map(distrs, make_dens))

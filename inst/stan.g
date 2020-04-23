@@ -68,6 +68,7 @@ expression: expression '?' expression ':' expression
              | expression infixOp expression
              | prefixOp expression
              | expression postfixOp
+             | expression '[' indexes ']'
              | common_expression;
 
 constr_expression: constr_expression arithmeticInfixOp constr_expression
@@ -80,7 +81,6 @@ common_expression : real_literal
     | variable
     | '{' expressions '}'
     | '[' expressions ']'
-    | variable '[' expression ']'
     | function_literal '(' expressions? ')'
     | function_literal '(' expression ('|' (expression (',' expression)*)?)? ')'
     | 'integrate_1d' '(' function_literal (',' expression)@5:6 ')'

@@ -24,3 +24,64 @@ test_that("Resampling indices can be made from an adjustr_weighted object", {
 test_that("Resampling indices fail with negative `frac`", {
     expect_error(get_resampling_idxs(c(0, 0, 1), frac=-0.5), "must be nonnegative")
 })
+
+test_that("Weighted array functions compute correctly", {
+    y = as.array(1:5)
+    dim(y) = c(dim(y), 1)
+    wgt = c(1, 1, 2, 5, 1)
+    wtd_mean = weighted.mean(y, wgt)
+
+    expect_equal(wtd_array_mean(y, wgt), wtd_mean)
+    expect_equal(wtd_array_var(y, wgt), weighted.mean((y - wtd_mean)^2, wgt))
+    expect_equal(wtd_array_sd(y, wgt), sqrt(weighted.mean((y - wtd_mean)^2, wgt)))
+})
+
+test_that("Empty call to `summarize` should change nothing", {
+    obj = tibble(.weights=list(c(1,1,1), c(1,1,4)))
+    class(obj) = c("adjustr_weighted", class(obj))
+    expect_identical(summarize(obj), obj)
+})
+
+test_that("Basic summaries are computed correctly", {
+    obj = tibble(.weights=list(c(1,1,1), c(1,1,4)))
+    attr(obj, "draws") = list(theta=matrix(c(3,5,7,1,1,1), ncol=2))
+    attr(obj, "iter") = 3
+    class(obj) = c("adjustr_weighted", class(obj))
+
+    sum1 = summarize(obj, mean(theta[1]))
+    expect_is(sum1, "adjustr_weighted")
+    expect_equal(sum1$`mean(theta[1])`, 5:6)
+
+    sum2 = summarize(obj, th = mean(theta))
+    expect_is(sum2, "adjustr_weighted")
+    expect_equal(sum2$th, list(c(5, 1), c(6, 1)))
+
+    expect_error(summarise.adjustr_weighted(as_tibble(obj)), "is not TRUE")
+})
+
+test_that("`summarize` uses data correctly", {
+    obj = tibble(.weights=list(c(1,1,1), c(1,1,4)))
+    attr(obj, "draws") = list(eta=matrix(c(3,5,7), nrow=3, ncol=1))
+    attr(obj, "iter") = 3
+    class(obj) = c("adjustr_weighted", class(obj))
+    model_d = list(theta=4)
+
+    expect_equal(summarize(obj, th=mean(theta+eta), .model_data=model_d)$th, c(9,10))
+
+    attr(obj, "data") = model_d
+    expect_equal(summarize(obj, th=mean(theta+eta))$th, c(9,10))
+})
+
+
+test_that("Resampling-based summaries are computed correctly", {
+    obj = tibble(.weights=list(c(1,0,0), c(0,0,1)))
+    attr(obj, "draws") = list(theta=matrix(c(3,5,7), nrow=3, ncol=1))
+    attr(obj, "iter") = 3
+    class(obj) = c("adjustr_weighted", class(obj))
+
+    sum1 = summarize(obj, th=mean(theta), .resampling=T)
+    expect_equal(sum1$th, c(3,7))
+
+    sum2 = summarize(obj, th=quantile(theta, 0.05))
+    expect_equal(sum2$th, c(3,7))
+})
