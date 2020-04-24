@@ -28,3 +28,13 @@ will also be \code{NA}.
 Takes a vector of weights, or data frame or list containing sets of weights,
 and resamples indices for use in later computation.
 }
+\examples{
+\dontrun{
+spec = make_spec(eta ~ student_t(df, 0, 1), df=1:10)
+adjusted = adjust_weights(spec, eightschools_m)
+
+get_resampling_idxs(adjusted)
+get_resampling_idxs(adjusted, frac=0.1, replace=FALSE)
+}
+
+}

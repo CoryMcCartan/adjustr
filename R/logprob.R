@@ -51,7 +51,7 @@ get_base_data = function(object, samps, parsed_vars, data, extra_names=NULL) {
         if (!all(found)) stop(paste(vars_indata[!found], collapse=", "), " not found")
         # combine draws and data
         base_data = append(
-            map(vars_indraws, ~ rstan::extract(object, ., permuted=F)) %>%
+            map(vars_indraws, ~ rstan::extract(object, ., permuted=FALSE)) %>%
                 set_names(vars_indraws),
             map(vars_indata, ~ reshape_data(data[[.]])) %>%
                 set_names(vars_indata),

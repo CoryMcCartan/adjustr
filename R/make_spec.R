@@ -42,6 +42,16 @@
 #' \code{\link[dplyr]{rename}}, and \code{\link[dplyr]{slice}}) are
 #' supported and operate on the underlying table of specification parameters.
 #'
+#' @examples
+#' make_spec(eta ~ cauchy(0, 1))
+#'
+#' make_spec(eta ~ student_t(df, 0, 1), df=1:10)
+#'
+#' params = tidyr::crossing(df=1:10, infl=c(1, 1.5, 2))
+#' make_spec(eta ~ student_t(df, 0, 1),
+#'           y ~ normal(theta, infl*sigma),
+#'           params)
+#'
 #' @export
 make_spec = function(...) {
     args = dots_list(..., .check_assign=T)
@@ -151,6 +161,14 @@ as.data.frame.adjustr_spec = function(x, ...) {
 #' @param ... additional arguments to underlying method
 #' @param .preserve as in \code{filter} and \code{slice}
 #' @name dplyr.adjustr_spec
+#'
+#' @examples \dontrun{
+#' spec = make_spec(eta ~ student_t(df, 0, 1), df=1:10)
+#'
+#' arrange(spec, desc(df))
+#' slice(spec, 4:7)
+#' filter(spec, df == 2)
+#' }
 NULL
 # dplyr generics
 dplyr_handler = function(dplyr_func, x, ...) {
@@ -165,7 +183,7 @@ dplyr_handler = function(dplyr_func, x, ...) {
 
 # no @export because R CMD CHECK didn't like it
 #' @rdname dplyr.adjustr_spec
-filter.adjustr_spec = function(.data, ..., .preserve=F) {
+filter.adjustr_spec = function(.data, ..., .preserve=FALSE) {
     dplyr_handler(dplyr::filter, .data, ..., .preserve=.preserve)
 }
 #' @rdname dplyr.adjustr_spec
@@ -185,7 +203,7 @@ select.adjustr_spec = function(.data, ...) {
 }
 #' @rdname dplyr.adjustr_spec
 #' @export
-slice.adjustr_spec = function(.data, ..., .preserve=F) {
+slice.adjustr_spec = function(.data, ..., .preserve=FALSE) {
     dplyr_handler(dplyr::slice, .data, ..., .preserve=.preserve)
 }
 

@@ -22,6 +22,7 @@ Full package documentation available at \url{https://corymccartan.github.io/adju
     \item \code{\link{make_spec}}
     \item \code{\link{adjust_weights}}
     \item \code{\link{summarize}}
+    \item \code{\link{plot}}
 }
 }
 

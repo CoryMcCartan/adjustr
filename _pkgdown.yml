@@ -13,10 +13,10 @@ template:
 navbar:
   title: "adjustr"
   left:
-    #- text: "Vignettes"
-    #  href: articles/
+    - text: "Vignettes"
+      href: articles/index.html
     - text: "Functions"
-      href: reference/
+      href: reference/index.html
     - text: "Other Packages"
       menu:
         - text: "rstan"
@@ -72,7 +72,8 @@ reference:
     contents:
       - make_spec
       - adjust_weights
-      - summarise.adjustr_weighted
+      - summarize.adjustr_weighted
+      - plot.adjustr_weighted
   - title: "Helper Functions"
     desc: >
       Various helper functions for examining a model or building sampling

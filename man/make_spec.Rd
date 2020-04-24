@@ -51,3 +51,14 @@ Takes a set of new sampling statements, which can be parametrized by other
 arguments, data frames, or lists, and creates an \code{adjustr_spec} object
 suitable for use in \code{\link{adjust_weights}}.
 }
+\examples{
+make_spec(eta ~ cauchy(0, 1))
+
+make_spec(eta ~ student_t(df, 0, 1), df=1:10)
+
+params = tidyr::crossing(df=1:10, infl=c(1, 1.5, 2))
+make_spec(eta ~ student_t(df, 0, 1),
+          y ~ normal(theta, infl*sigma),
+          params)
+
+}

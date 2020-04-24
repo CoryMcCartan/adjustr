@@ -93,7 +93,10 @@ implemented and operate on the underlying table of specification parameters." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../reference/">Functions</a>
+  <a href="../articles/index.html">Vignettes</a>
+</li>
+<li>
+  <a href="../reference/index.html">Functions</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -178,7 +181,7 @@ implemented and operate on the underlying table of specification parameters.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for adjustr_spec</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.preserve</span> <span class='kw'>=</span> <span class='no'>F</span>)
+<span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.preserve</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># S3 method for adjustr_spec</span>
 <span class='fu'>arrange</span>(<span class='no'>.data</span>, <span class='no'>...</span>)
@@ -190,7 +193,7 @@ implemented and operate on the underlying table of specification parameters.</p>
 <span class='fu'>select</span>(<span class='no'>.data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for adjustr_spec</span>
-<span class='fu'>slice</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.preserve</span> <span class='kw'>=</span> <span class='no'>F</span>)</pre>
+<span class='fu'>slice</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.preserve</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -210,6 +213,14 @@ implemented and operate on the underlying table of specification parameters.</p>
     </table>
 
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='no'>spec</span> <span class='kw'>=</span> <span class='fu'><a href='make_spec.html'>make_spec</a></span>(<span class='no'>eta</span> ~ <span class='fu'>student_t</span>(<span class='no'>df</span>, <span class='fl'>0</span>, <span class='fl'>1</span>), <span class='kw'>df</span><span class='kw'>=</span><span class='fl'>1</span>:<span class='fl'>10</span>)
+
+<span class='fu'>arrange</span>(<span class='no'>spec</span>, <span class='fu'>desc</span>(<span class='no'>df</span>))
+<span class='fu'>slice</span>(<span class='no'>spec</span>, <span class='fl'>4</span>:<span class='fl'>7</span>)
+<span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span>(<span class='no'>spec</span>, <span class='no'>df</span> <span class='kw'>==</span> <span class='fl'>2</span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -1,4 +1,6 @@
 Package: adjustr
+Encoding: UTF-8
+Type: Package
 Title: Stan Model Adjustments and Sensitivity Analyses using Importance Sampling
 Version: 0.0.0.9000
 Authors@R: person("Cory", "McCartan", email = "cmccartan@g.harvard.edu",
@@ -12,6 +14,7 @@ License: BSD_3_clause + file LICENSE
 Depends: R (>= 3.6.0)
 Imports:
     tibble,
+    tidyselect,
     dplyr,
     purrr,
     methods,
@@ -19,15 +22,18 @@ Imports:
     stats,
     rlang,
     rstan,
-    ggplot2,
     stringr,
     dparser,
+    ggplot2,
     loo
 Suggests:
-    tidyr,
     extraDistr,
+    tidyr,
     testthat,
-    covr
-Encoding: UTF-8
+    covr,
+    knitr,
+    rmarkdown
+URL: https://corymccartan.github.io/adjustr/
 LazyData: true
 RoxygenNote: 7.1.0
+VignetteBuilder: knitr

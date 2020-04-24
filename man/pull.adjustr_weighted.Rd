@@ -2,7 +2,7 @@
 % Please edit documentation in R/adjust_weights.R
 \name{pull.adjustr_weighted}
 \alias{pull.adjustr_weighted}
-\title{Extract Weights From an \code{adjustr_spec_weighted} Object}
+\title{Extract Weights From an \code{adjustr_weighted} Object}
 \usage{
 \method{pull}{adjustr_weighted}(.data, var = ".weights")
 }

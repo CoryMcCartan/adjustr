@@ -7,3 +7,4 @@
 *.bak
 
 .Rproj.user
+inst/doc

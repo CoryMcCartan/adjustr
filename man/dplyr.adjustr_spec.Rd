@@ -9,7 +9,7 @@
 \alias{slice.adjustr_spec}
 \title{\code{dplyr} Methods for \code{adjustr_spec} Objects}
 \usage{
-\method{filter}{adjustr_spec}(.data, ..., .preserve = F)
+\method{filter}{adjustr_spec}(.data, ..., .preserve = FALSE)
 
 \method{arrange}{adjustr_spec}(.data, ...)
 
@@ -17,7 +17,7 @@
 
 \method{select}{adjustr_spec}(.data, ...)
 
-\method{slice}{adjustr_spec}(.data, ..., .preserve = F)
+\method{slice}{adjustr_spec}(.data, ..., .preserve = FALSE)
 }
 \arguments{
 \item{.data}{the \code{adjustr_spec} object}
@@ -32,4 +32,13 @@ Core \code{\link[dplyr]{dplyr}} verbs which don't involve grouping
   \code{\link[dplyr]{mutate}}, \code{\link[dplyr]{select}},
   \code{\link[dplyr]{rename}}, and \code{\link[dplyr]{slice}}) are
 implemented and operate on the underlying table of specification parameters.
+}
+\examples{
+\dontrun{
+spec = make_spec(eta ~ student_t(df, 0, 1), df=1:10)
+
+arrange(spec, desc(df))
+slice(spec, 4:7)
+filter(spec, df == 2)
+}
 }

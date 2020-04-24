@@ -17,3 +17,11 @@ Prints a list of sampling statements extracted from the \code{model} block of
 a Stan program, with each labelled "parameter" or "data" depending on the
 type of variable being sampled.
 }
+\examples{
+\dontrun{
+extract_samp_stmts(eightschools_m)
+#> Sampling statements for model 2c8d1d8a30137533422c438f23b83428:
+#>   parameter   eta ~ std_normal()
+#>   data        y ~ normal(theta, sigma)
+}
+}

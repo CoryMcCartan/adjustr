@@ -5,20 +5,23 @@
 \alias{summarize.adjustr_weighted}
 \title{Summarize Posterior Distributions Under Alternative Model Specifications}
 \usage{
-\method{summarise}{adjustr_weighted}(.data, ..., .resampling = F, .model_data = NULL)
+\method{summarise}{adjustr_weighted}(.data, ..., .resampling = FALSE, .model_data = NULL)
 
-\method{summarize}{adjustr_weighted}(.data, ..., .resampling = F, .model_data = NULL)
+\method{summarize}{adjustr_weighted}(.data, ..., .resampling = FALSE, .model_data = NULL)
 }
 \arguments{
 \item{.data}{An \code{adjustr_weighted} object.}
 
 \item{...}{Name-value pairs of expressions. The name of each argument will be
-the name of a new variable, and the value will be computed for the
-posterior distribution of eight alternative specification. For example,
-a value of \code{mean(theta)} will compute the posterior mean of
-\code{theta} for each alternative specification.}
+  the name of a new variable, and the value will be computed for the
+  posterior distribution of eight alternative specification. For example,
+  a value of \code{mean(theta)} will compute the posterior mean of
+  \code{theta} for each alternative specification.
 
-\item{.resampling}{Wether to compute summary statistics by first resampling
+  The arguments in \code{...} are automatically quoted and evaluated in the
+  context of \code{.data}. They support unquoting and splicing.}
+
+\item{.resampling}{Whether to compute summary statistics by first resampling
 the data according to the weights. Defaults to \code{FALSE}, but will be
 used for any summary statistic that is not \code{mean}, \code{var} or
 \code{sd}.}
@@ -35,4 +38,21 @@ Uses weights computed in \code{\link{adjust_weights}} to compute posterior
 summary statistics. These statistics can be compared against their reference
 values to quantify the sensitivity of the model to aspects of its
 specification.
+}
+\examples{
+\dontrun{
+model_data = list(
+    J = 8,
+    y = c(28, 8, -3, 7, -1, 1, 18, 12),
+    sigma = c(15, 10, 16, 11, 9, 11, 10, 18)
+)
+
+spec = make_spec(eta ~ student_t(df, 0, 1), df=1:10)
+adjusted = adjust_weights(spec, eightschools_m)
+
+summarize(adjusted, mean(mu), var(mu))
+summarize(adjusted, diff_1 = mean(y[1] - theta[1]), .model_data=model_data)
+summarize(adjusted, quantile(tau, probs=c(0.05, 0.5, 0.95)))
+}
+
 }

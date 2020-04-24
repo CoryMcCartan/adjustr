@@ -85,3 +85,16 @@ test_that("Resampling-based summaries are computed correctly", {
     sum2 = summarize(obj, th=quantile(theta, 0.05))
     expect_equal(sum2$th, c(3,7))
 })
+
+
+test_that("Plotting function handles arguments correctly", {
+    obj = tibble(.weights=list(c(1,0,0), c(0,0,1)))
+    attr(obj, "draws") = list(theta=matrix(c(3,5,7), nrow=3, ncol=1))
+    attr(obj, "iter") = 3
+    class(obj) = c("adjustr_weighted", class(obj))
+
+    expect_is(plot(obj, 1, theta), "ggplot")
+    expect_is(plot(obj, 1, theta, only_mean=T), "ggplot")
+
+    expect_error(plot(obj, 1, theta, outer_level=0.4), "should be less than")
+})

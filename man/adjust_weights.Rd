@@ -5,7 +5,7 @@
 \title{Compute Pareto-smoothed Importance Weights for Alternative Model
 Specifications}
 \usage{
-adjust_weights(spec, object, data = NULL, keep_bad = F)
+adjust_weights(spec, object, data = NULL, keep_bad = FALSE)
 }
 \arguments{
 \item{spec}{An object of class \code{adjustr_spec}, probably produced by
@@ -39,4 +39,23 @@ A tibble, produced by converting the provided \code{specs} to a
 Given a set of new sampling statements, which can be parametrized by a
 data frame or list, compute Pareto-smoothed importance weights and attach
 them to the specification object, for further calculation and plotting.
+}
+\examples{
+\dontrun{
+model_data = list(
+    J = 8,
+    y = c(28, 8, -3, 7, -1, 1, 18, 12),
+    sigma = c(15, 10, 16, 11, 9, 11, 10, 18)
+)
+
+spec = make_spec(eta ~ student_t(df, 0, 1), df=1:10)
+adjust_weights(spec, eightschools_m)
+adjust_weights(spec, eightschools_m, keep_bad=TRUE)
+
+spec = make_spec(y ~ student_t(df, theta, sigma), df=1:10)
+adjust_weights(spec, eightschools_m, data=model_data)
+# will throw an error because `y` and `sigma` aren't provided
+adjust_weights(spec, eightschools_m)
+}
+
 }

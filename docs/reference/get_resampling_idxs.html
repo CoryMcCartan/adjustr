@@ -90,7 +90,10 @@ and resamples indices for use in later computation." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../reference/">Functions</a>
+  <a href="../articles/index.html">Vignettes</a>
+</li>
+<li>
+  <a href="../reference/index.html">Functions</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -202,6 +205,14 @@ is not guaranteed in these cases.</p></td>
 containing the sampled indices. If any weights are <code>NA</code>, the indices
 will also be <code>NA</code>.</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='no'>spec</span> <span class='kw'>=</span> <span class='fu'><a href='make_spec.html'>make_spec</a></span>(<span class='no'>eta</span> ~ <span class='fu'>student_t</span>(<span class='no'>df</span>, <span class='fl'>0</span>, <span class='fl'>1</span>), <span class='kw'>df</span><span class='kw'>=</span><span class='fl'>1</span>:<span class='fl'>10</span>)
+<span class='no'>adjusted</span> <span class='kw'>=</span> <span class='fu'><a href='adjust_weights.html'>adjust_weights</a></span>(<span class='no'>spec</span>, <span class='no'>eightschools_m</span>)
+
+<span class='fu'>get_resampling_idxs</span>(<span class='no'>adjusted</span>)
+<span class='fu'>get_resampling_idxs</span>(<span class='no'>adjusted</span>, <span class='kw'>frac</span><span class='kw'>=</span><span class='fl'>0.1</span>, <span class='kw'>replace</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

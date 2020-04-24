@@ -3,6 +3,7 @@
 S3method(arrange,adjustr_spec)
 S3method(as.data.frame,adjustr_spec)
 S3method(length,adjustr_spec)
+S3method(plot,adjustr_weighted)
 S3method(print,adjustr_spec)
 S3method(pull,adjustr_weighted)
 S3method(rename,adjustr_spec)

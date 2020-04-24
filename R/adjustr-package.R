@@ -16,6 +16,7 @@
 #'     \item \code{\link{make_spec}}
 #'     \item \code{\link{adjust_weights}}
 #'     \item \code{\link{summarize}}
+#'     \item \code{\link{plot}}
 #' }
 #'
 #' @importFrom methods is
@@ -35,6 +36,7 @@ pkg_env = new_environment()
     # create the Stan parser
     tryCatch(get_parser(), error = function(e) {})
 
-    utils::globalVariables(c("name", "pos", "value"))
+    utils::globalVariables(c("name", "pos", "value", ".y", ".y_ol", ".y_ou",
+                             ".y_il", ".y_iu", ".y_med"))
 }  # nocov end
 #> NULL

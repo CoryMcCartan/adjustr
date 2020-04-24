@@ -28,8 +28,25 @@
 #'   method. The returned object also includes the model sample draws, in the
 #'   \code{draws} attribute.
 #'
+#' @examples \dontrun{
+#' model_data = list(
+#'     J = 8,
+#'     y = c(28, 8, -3, 7, -1, 1, 18, 12),
+#'     sigma = c(15, 10, 16, 11, 9, 11, 10, 18)
+#' )
+#'
+#' spec = make_spec(eta ~ student_t(df, 0, 1), df=1:10)
+#' adjust_weights(spec, eightschools_m)
+#' adjust_weights(spec, eightschools_m, keep_bad=TRUE)
+#'
+#' spec = make_spec(y ~ student_t(df, theta, sigma), df=1:10)
+#' adjust_weights(spec, eightschools_m, data=model_data)
+#' # will throw an error because `y` and `sigma` aren't provided
+#' adjust_weights(spec, eightschools_m)
+#' }
+#'
 #' @export
-adjust_weights = function(spec, object, data=NULL, keep_bad=F) {
+adjust_weights = function(spec, object, data=NULL, keep_bad=FALSE) {
     # CHECK ARGUMENTS
     object = get_fit_obj(object)
     model_code = object@stanmodel@model_code
@@ -59,12 +76,12 @@ adjust_weights = function(spec, object, data=NULL, keep_bad=F) {
         psis_wgt = suppressWarnings(loo::psis(lratio, r_eff=r_eff))
         pareto_k = loo::pareto_k_values(psis_wgt)
         if (all(psis_wgt$log_weights == psis_wgt$log_weights[1])) {
-            warning("New specification equal to old specification.", call.=F)
+            warning("New specification equal to old specification.", call.=FALSE)
             pareto_k = -Inf
         }
 
         list(
-            weights = loo::weights.importance_sampling(psis_wgt, log=F),
+            weights = loo::weights.importance_sampling(psis_wgt, log=FALSE),
             pareto_k = pareto_k
         )
     })
@@ -84,7 +101,7 @@ adjust_weights = function(spec, object, data=NULL, keep_bad=F) {
 
 # Generic methods
 is.adjustr_weighted = function(x) inherits(x, "adjustr_weighted")
-#' Extract Weights From an \code{adjustr_spec_weighted} Object
+#' Extract Weights From an \code{adjustr_weighted} Object
 #'
 #' This function modifies the default behavior of \code{dplyr::pull} to extract
 #' the \code{.weights} column.
@@ -96,10 +113,11 @@ is.adjustr_weighted = function(x) inherits(x, "adjustr_weighted")
 #'
 #' @export
 pull.adjustr_weighted = function(.data, var=".weights") {
+    var = tidyselect::vars_pull(names(.data), !!enquo(var))
     if (nrow(.data) == 1 && var == ".weights") {
         .data$.weights[[1]]
     } else {
-        NextMethod(.data, var=var)
+        .data[[var]]
     }
 }
 
@@ -113,6 +131,12 @@ pull.adjustr_weighted = function(.data, var=".weights") {
 #'
 #' @return Invisbly returns a list of sampling formulas.
 #'
+#' @examples \dontrun{
+#' extract_samp_stmts(eightschools_m)
+#' #> Sampling statements for model 2c8d1d8a30137533422c438f23b83428:
+#' #>   parameter   eta ~ std_normal()
+#' #>   data        y ~ normal(theta, sigma)
+#' }
 #' @export
 extract_samp_stmts = function(object) {
     model_code = get_fit_obj(object)@stanmodel@model_code
