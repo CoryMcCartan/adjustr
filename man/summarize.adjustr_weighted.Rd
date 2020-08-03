@@ -18,6 +18,12 @@
   a value of \code{mean(theta)} will compute the posterior mean of
   \code{theta} for each alternative specification.
 
+  Also supported is the custom function \code{wasserstein}, which computes
+  the Wasserstein-p distance between the posterior distribution of the
+  provided expression under the new model and under the original model, with
+  \code{p=1} the default. Lower the \code{spacing} parameter from the
+  default of 0.005 to compute a finer (but slower) approximation.
+
   The arguments in \code{...} are automatically quoted and evaluated in the
   context of \code{.data}. They support unquoting and splicing.}
 
@@ -51,6 +57,7 @@ spec = make_spec(eta ~ student_t(df, 0, 1), df=1:10)
 adjusted = adjust_weights(spec, eightschools_m)
 
 summarize(adjusted, mean(mu), var(mu))
+summarize(adjusted, wasserstein(mu, p=2))
 summarize(adjusted, diff_1 = mean(y[1] - theta[1]), .model_data=model_data)
 summarize(adjusted, quantile(tau, probs=c(0.05, 0.5, 0.95)))
 }

@@ -26,7 +26,7 @@
 #'   frame, each entry in each column will be substituted into the corresponding
 #'   parameter in the sampling statements.
 #'
-#'   List arguments are coerced to data frame. They can either be lists of named
+#'   List arguments are coerced to data frames. They can either be lists of named
 #'   vectors, or lists of lists of single-element named vector.
 #'
 #'   The lengths of all parameter arguments must be consistent.  Named vectors

@@ -84,7 +84,7 @@ suitable for use in adjust_weights." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">adjustr</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -202,7 +202,7 @@ suitable for use in <code><a href='adjust_weights.html'>adjust_weights</a></code
   into the corresponding parameter in the sampling statements. For data
   frame, each entry in each column will be substituted into the corresponding
   parameter in the sampling statements.</p>
-<p>List arguments are coerced to data frame. They can either be lists of named
+<p>List arguments are coerced to data frames. They can either be lists of named
   vectors, or lists of lists of single-element named vector.</p>
 <p>The lengths of all parameter arguments must be consistent.  Named vectors
   can have length 1 or must have length equal to the number of rows in all
@@ -218,16 +218,16 @@ with two elements: <code>samp</code>, which is a list of sampling formulas, and
 <a href='dplyr.adjustr_spec.html'>dplyr verbs</a> which don't involve grouping
 (<code><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></code>,
 <code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></code>,
-<code><a href='https://dplyr.tidyverse.org/reference/select.html'>rename</a></code>, and <code><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></code>) are
+<code><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a></code>, and <code><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></code>) are
 supported and operate on the underlying table of specification parameters.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>make_spec</span>(<span class='no'>eta</span> ~ <span class='fu'>cauchy</span>(<span class='fl'>0</span>, <span class='fl'>1</span>))</div><div class='output co'>#&gt; Sampling specifications:
 #&gt; eta ~ cauchy(0, 1)
-#&gt; &lt;environment: 0x7fc7dbbb1418&gt;</div><div class='input'>
+#&gt; &lt;environment: 0x7f97fff72470&gt;</div><div class='input'>
 <span class='fu'>make_spec</span>(<span class='no'>eta</span> ~ <span class='fu'>student_t</span>(<span class='no'>df</span>, <span class='fl'>0</span>, <span class='fl'>1</span>), <span class='kw'>df</span><span class='kw'>=</span><span class='fl'>1</span>:<span class='fl'>10</span>)</div><div class='output co'>#&gt; Sampling specifications:
 #&gt; eta ~ student_t(df, 0, 1)
-#&gt; &lt;environment: 0x7fc7dbbb1418&gt;
+#&gt; &lt;environment: 0x7f97fff72470&gt;
 #&gt; 
 #&gt; Specification parameters:
 #&gt;  df
@@ -246,9 +246,9 @@ supported and operate on the underlying table of specification parameters.</p>
           <span class='no'>y</span> ~ <span class='fu'>normal</span>(<span class='no'>theta</span>, <span class='no'>infl</span>*<span class='no'>sigma</span>),
           <span class='no'>params</span>)</div><div class='output co'>#&gt; Sampling specifications:
 #&gt; eta ~ student_t(df, 0, 1)
-#&gt; &lt;environment: 0x7fc7dbbb1418&gt;
+#&gt; &lt;environment: 0x7f97fff72470&gt;
 #&gt; y ~ normal(theta, infl * sigma)
-#&gt; &lt;environment: 0x7fc7dbbb1418&gt;
+#&gt; &lt;environment: 0x7f97fff72470&gt;
 #&gt; 
 #&gt; Specification parameters:
 #&gt;  df infl

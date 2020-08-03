@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot Posterior Quantities of Interest Under Alternative Model Specifications — plot.adjustr_weighted • adjustr</title>
+<title>Plot Posterior Quantities of Interest Under Alternative Model Specifications — spec_plot • adjustr</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,9 @@
 
 
 
-<meta property="og:title" content="Plot Posterior Quantities of Interest Under Alternative Model Specifications — plot.adjustr_weighted" />
+<meta property="og:title" content="Plot Posterior Quantities of Interest Under Alternative Model Specifications — spec_plot" />
 <meta property="og:description" content="Uses weights computed in adjust_weights to plot posterior
-quantities of interest versus" />
+quantities of interest versus specification parameters" />
 
 
 
@@ -83,7 +83,7 @@ quantities of interest versus" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">adjustr</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -166,16 +166,23 @@ quantities of interest versus" />
     <div class="page-header">
     <h1>Plot Posterior Quantities of Interest Under Alternative Model Specifications</h1>
     
-    <div class="hidden name"><code>plot.adjustr_weighted.Rd</code></div>
+    <div class="hidden name"><code>spec_plot.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>Uses weights computed in <code><a href='adjust_weights.html'>adjust_weights</a></code> to plot posterior
-quantities of interest versus</p>
+quantities of interest versus specification parameters</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for adjustr_weighted</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='no'>by</span>, <span class='no'>post</span>, <span class='kw'>only_mean</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>ci_level</span> <span class='kw'>=</span> <span class='fl'>0.8</span>, <span class='kw'>outer_level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>spec_plot</span>(
+  <span class='no'>x</span>,
+  <span class='no'>by</span>,
+  <span class='no'>post</span>,
+  <span class='kw'>only_mean</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>ci_level</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
+  <span class='kw'>outer_level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -227,9 +234,9 @@ posterior draws.</p></td>
                  <span class='kw'>df</span><span class='kw'>=</span><span class='fl'>1</span>:<span class='fl'>10</span>, <span class='kw'>scale</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>2</span>, <span class='fl'>1</span>, -<span class='fl'>1</span>/<span class='fl'>9</span>))
 <span class='no'>adjusted</span> <span class='kw'>=</span> <span class='fu'><a href='adjust_weights.html'>adjust_weights</a></span>(<span class='no'>spec</span>, <span class='no'>eightschools_m</span>)
 
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>adjusted</span>, <span class='no'>df</span>, <span class='no'>theta</span>[<span class='fl'>1</span>])
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>adjusted</span>, <span class='no'>df</span>, <span class='no'>mu</span>, <span class='kw'>only_mean</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>adjusted</span>, <span class='no'>scale</span>, <span class='no'>tau</span>)
+<span class='fu'>spec_plot</span>(<span class='no'>adjusted</span>, <span class='no'>df</span>, <span class='no'>theta</span>[<span class='fl'>1</span>])
+<span class='fu'>spec_plot</span>(<span class='no'>adjusted</span>, <span class='no'>df</span>, <span class='no'>mu</span>, <span class='kw'>only_mean</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='fu'>spec_plot</span>(<span class='no'>adjusted</span>, <span class='no'>scale</span>, <span class='no'>tau</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

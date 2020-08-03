@@ -1,15 +1,9 @@
 context("Stan model parsing")
 
-
-test_that("Model parses and returns parsing table", {
-    code = eightschools_m@stanmodel@model_code
-    parsed_model = parse_model(code)
-    expect_equal(names(parsed_model), c("name", "value", "pos", "depth", "i"))
-})
-
-test_that("Bad model throws syntax error", {
-    code = paste(eightschools_m@stanmodel@model_code, "\ndata{\n}\n")
-    expect_error(parse_model(code), "syntax error")
+test_that("Empty model handled correctly", {
+    parsed = parse_model("")
+    expect_equal(length(parsed$vars), 0)
+    expect_equal(length(parsed$samps), 0)
 })
 
 test_that("Correct parsed variables", {
@@ -17,15 +11,16 @@ test_that("Correct parsed variables", {
                      tau="parameters", eta="parameters",
                      theta="transformed parameters")
     code = eightschools_m@stanmodel@model_code
-    parsed_model = parse_model(code)
-    expect_equal(get_variables(parsed_model), correct_vars)
+    parsed = parse_model(code)
+    expect_equal(parsed$vars, correct_vars)
 })
 
 test_that("Correct parsed sampling statements", {
-    correct_samp = list(eta ~ std_normal(), y ~ normal(theta, sigma))
+    correct_samp = list(eta ~ std_normal(), y ~ normal(theta, sigma),
+                        mu ~ uniform(-1e+100, 1e+100), tau ~ uniform(-1e+100, 1e+100))
     code = eightschools_m@stanmodel@model_code
-    parsed_model = parse_model(code)
-    expect_equal(get_sampling_stmts(parsed_model), correct_samp)
+    parsed = parse_model(code)
+    expect_equal(parsed$samp, correct_samp)
 })
 
 test_that("Provided sampling statements can be matched to model", {
@@ -41,7 +36,7 @@ test_that("Extra sampling statements not in model throw an error", {
     model_samp = list(eta ~ std_normal(), y ~ normal(theta, sigma))
     prov_samp = list(eta ~ exponential(5), x ~ normal(theta, sigma))
     expect_error(match_sampling_stmts(prov_samp, model_samp),
-                 "No matching sampling statement found for prior x ~ normal\\(theta, sigma\\)")
+                 "No matching sampling statement found for x ~ normal\\(theta, sigma\\)")
 })
 
 test_that("Variables are correctly extracted from sampling statements", {

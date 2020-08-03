@@ -18,15 +18,19 @@
 #'   posterior, and which as a result cannot be reliably estimated using
 #'   importance sampling (i.e., if the Pareto shape parameter is larger than
 #'   0.7), have their weights discarded.
+#' @param incl_orig When \code{TRUE}, include a row for the original
+#'   model specification, with all weights equal. Can facilitate comaprison
+#'   and plotting later.
 #'
 #' @return A tibble, produced by converting the provided \code{specs} to a
 #'   tibble (see \code{\link{as.data.frame.adjustr_spec}}), and adding columns
 #'   \code{.weights}, containing vectors of weights for each draw, and
 #'   \code{.pareto_k}, containing the diagnostic Pareto shape parameters. Values
 #'   greater than 0.7 indicate that importance sampling is not reliable.
-#'   Weights can be extracted with the \code{\link{pull.adjustr_weighted}}
-#'   method. The returned object also includes the model sample draws, in the
-#'   \code{draws} attribute.
+#'   If \code{incl_orig} is \code{TRUE}, a row is added for the original model
+#'   specification. Weights can be extracted with the
+#'   \code{\link{pull.adjustr_weighted}} method. The returned object also
+#'   includes the model sample draws, in the \code{draws} attribute.
 #'
 #' @examples \dontrun{
 #' model_data = list(
@@ -46,27 +50,25 @@
 #' }
 #'
 #' @export
-adjust_weights = function(spec, object, data=NULL, keep_bad=FALSE) {
+adjust_weights = function(spec, object, data=NULL, keep_bad=FALSE, incl_orig=TRUE) {
     # CHECK ARGUMENTS
     object = get_fit_obj(object)
     model_code = object@stanmodel@model_code
     stopifnot(is.adjustr_spec(spec))
 
-    parsed_model = parse_model(model_code)
-    parsed_vars = get_variables(parsed_model)
-    parsed_samp = get_sampling_stmts(parsed_model)
+    parsed = parse_model(model_code)
 
     # if no model data provided, we can only resample distributions of parameters
     if (is.null(data)) {
-        samp_vars = map_chr(parsed_samp, ~ as.character(f_lhs(.)))
-        prior_vars = parsed_vars[samp_vars] != "data"
-        parsed_samp = parsed_samp[prior_vars]
+        samp_vars = map_chr(parsed$samp, ~ as.character(f_lhs(.)))
+        prior_vars = parsed$vars[samp_vars] != "data"
+        parsed$samp = parsed$samp[prior_vars]
         data = list()
     }
 
-    matched_samp = match_sampling_stmts(spec$samp, parsed_samp)
-    original_lp = calc_original_lp(object, matched_samp, parsed_vars, data)
-    specs_lp = calc_specs_lp(object, spec$samp, parsed_vars, data, spec$params)
+    matched_samp = match_sampling_stmts(spec$samp, parsed$samp)
+    original_lp = calc_original_lp(object, matched_samp, parsed$vars, data)
+    specs_lp = calc_specs_lp(object, spec$samp, parsed$vars, data, spec$params)
 
     # compute weights
     wgts = map(specs_lp, function(spec_lp) {
@@ -95,6 +97,14 @@ adjust_weights = function(spec, object, data=NULL, keep_bad=FALSE) {
     attr(adjust_obj, "draws") = rstan::extract(object)
     attr(adjust_obj, "data") = data
     attr(adjust_obj, "iter") = object@sim$chains * (object@sim$iter - object@sim$warmup)
+    if (incl_orig) {
+        adjust_obj = bind_rows(adjust_obj, tibble(
+            .weights=list(rep(1, attr(adjust_obj, "iter"))),
+            .pareto_k = -Inf))
+        samp_cols = stringr::str_detect(names(adjust_obj), "\\.samp")
+        adjust_obj[nrow(adjust_obj), samp_cols] = "<original model>"
+    }
+
     adjust_obj
 }
 
@@ -141,19 +151,17 @@ pull.adjustr_weighted = function(.data, var=".weights") {
 extract_samp_stmts = function(object) {
     model_code = get_fit_obj(object)@stanmodel@model_code
 
-    parsed_model = parse_model(model_code)
-    parsed_vars = get_variables(parsed_model)
-    parsed_samp = get_sampling_stmts(parsed_model)
+    parsed = parse_model(model_code)
 
-    samp_vars = map_chr(parsed_samp, ~ as.character(f_lhs(.)))
+    samp_vars = map_chr(parsed$samp, ~ as.character(f_lhs(.)))
     type = map_chr(samp_vars, function(var) {
-        if (stringr::str_ends(parsed_vars[var], "data")) "data" else "parameter"
+        if (stringr::str_ends(parsed$vars[var], "data")) "data" else "parameter"
     })
     print_order = order(type, samp_vars, decreasing=c(T, F))
 
     cat(paste0("Sampling statements for model ", object@model_name, ":\n"))
-    purrr::walk(print_order, ~ cat(sprintf("  %-9s   %s\n", type[.], as.character(parsed_samp[.]))))
-    invisible(parsed_samp)
+    purrr::walk(print_order, ~ cat(sprintf("  %-9s   %s\n", type[.], as.character(parsed$samp[.]))))
+    invisible(parsed$samp)
 }
 
 # Check that the model object is correct, and extract its Stan code

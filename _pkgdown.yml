@@ -73,7 +73,7 @@ reference:
       - make_spec
       - adjust_weights
       - summarize.adjustr_weighted
-      - plot.adjustr_weighted
+      - spec_plot
   - title: "Helper Functions"
     desc: >
       Various helper functions for examining a model or building sampling

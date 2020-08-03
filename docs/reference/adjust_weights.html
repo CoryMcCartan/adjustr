@@ -86,7 +86,7 @@ them to the specification object, for further calculation and plotting." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">adjustr</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -179,7 +179,7 @@ data frame or list, compute Pareto-smoothed importance weights and attach
 them to the specification object, for further calculation and plotting.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>adjust_weights</span>(<span class='no'>spec</span>, <span class='no'>object</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>keep_bad</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>adjust_weights</span>(<span class='no'>spec</span>, <span class='no'>object</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>keep_bad</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>incl_orig</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -193,7 +193,7 @@ if any, by which these sampling statements are parametrized.</p></td>
     </tr>
     <tr>
       <th>object</th>
-      <td><p>A <code><a href='https://rdrr.io/pkg/rstan/man/stanfit-class.html'>stanfit</a></code> model object.</p></td>
+      <td><p>A <code><a href='https://mc-stan.org/rstan/reference/stanfit-class.html'>stanfit</a></code> model object.</p></td>
     </tr>
     <tr>
       <th>data</th>
@@ -209,6 +209,12 @@ posterior, and which as a result cannot be reliably estimated using
 importance sampling (i.e., if the Pareto shape parameter is larger than
 0.7), have their weights discarded.</p></td>
     </tr>
+    <tr>
+      <th>incl_orig</th>
+      <td><p>When <code>TRUE</code>, include a row for the original
+model specification, with all weights equal. Can facilitate comaprison
+and plotting later.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -218,9 +224,10 @@ importance sampling (i.e., if the Pareto shape parameter is larger than
   <code>.weights</code>, containing vectors of weights for each draw, and
   <code>.pareto_k</code>, containing the diagnostic Pareto shape parameters. Values
   greater than 0.7 indicate that importance sampling is not reliable.
-  Weights can be extracted with the <code><a href='pull.adjustr_weighted.html'>pull.adjustr_weighted</a></code>
-  method. The returned object also includes the model sample draws, in the
-  <code>draws</code> attribute.</p>
+  If <code>incl_orig</code> is <code>TRUE</code>, a row is added for the original model
+  specification. Weights can be extracted with the
+  <code><a href='pull.adjustr_weighted.html'>pull.adjustr_weighted</a></code> method. The returned object also
+  includes the model sample draws, in the <code>draws</code> attribute.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {

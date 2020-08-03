@@ -85,7 +85,7 @@ specification." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">adjustr</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -198,6 +198,11 @@ specification.</p>
   posterior distribution of eight alternative specification. For example,
   a value of <code><a href='https://rdrr.io/r/base/mean.html'>mean(theta)</a></code> will compute the posterior mean of
   <code>theta</code> for each alternative specification.</p>
+<p>Also supported is the custom function <code>wasserstein</code>, which computes
+  the Wasserstein-p distance between the posterior distribution of the
+  provided expression under the new model and under the original model, with
+  <code>p=1</code> the default. Lower the <code>spacing</code> parameter from the
+  default of 0.005 to compute a finer (but slower) approximation.</p>
 <p>The arguments in <code>...</code> are automatically quoted and evaluated in the
   context of <code>.data</code>. They support unquoting and splicing.</p></td>
     </tr>
@@ -232,6 +237,7 @@ used for any summary statistic that is not <code>mean</code>, <code>var</code> o
 <span class='no'>adjusted</span> <span class='kw'>=</span> <span class='fu'><a href='adjust_weights.html'>adjust_weights</a></span>(<span class='no'>spec</span>, <span class='no'>eightschools_m</span>)
 
 <span class='fu'>summarize</span>(<span class='no'>adjusted</span>, <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>mu</span>), <span class='fu'><a href='https://rdrr.io/r/stats/cor.html'>var</a></span>(<span class='no'>mu</span>))
+<span class='fu'>summarize</span>(<span class='no'>adjusted</span>, <span class='fu'>wasserstein</span>(<span class='no'>mu</span>, <span class='kw'>p</span><span class='kw'>=</span><span class='fl'>2</span>))
 <span class='fu'>summarize</span>(<span class='no'>adjusted</span>, <span class='kw'>diff_1</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>y</span>[<span class='fl'>1</span>] - <span class='no'>theta</span>[<span class='fl'>1</span>]), <span class='kw'>.model_data</span><span class='kw'>=</span><span class='no'>model_data</span>)
 <span class='fu'>summarize</span>(<span class='no'>adjusted</span>, <span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span>(<span class='no'>tau</span>, <span class='kw'>probs</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.05</span>, <span class='fl'>0.5</span>, <span class='fl'>0.95</span>)))
 }</div></pre>

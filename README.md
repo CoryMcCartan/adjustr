@@ -6,15 +6,21 @@
 [![Codecov test coverage](https://codecov.io/gh/CoryMcCartan/adjustr/branch/master/graph/badge.svg)](https://codecov.io/gh/CoryMcCartan/adjustr?branch=master)
 <!-- badges: end -->
 
-**adjustr** is an R package which provides functions to help assess the
-sensitivity of a Bayesian model (fitted with [Stan](https://mc-stan.org)) to the
-specification of its likelihood and priors. Users provide a series of alternate
-sampling specifications, and the package uses Pareto-smoothed importance
-sampling to estimate the posterior under each specification. The package also
-provides functions to summarize and plot how posterior quantities quantities
-change across specifications.
+Sensitivity analysis is a critical component of a good modeling workflow. Yet
+as the number and power of Bayesian computational tools has increased, the
+options for sensitivity analysis have remained largely the same: compute
+importance sampling weights manually, or fit a large number of similar models,
+dramatically increasing computation time. Neither option is satisfactory for
+most applied modeling.
 
-The package aims to provide simple interface that makes it as easy as possible
+**adjustr** is an R package which aims to make sensitivity analysis faster
+and easier, and works with Bayesian models fitted with [Stan](https://mc-stan.org). 
+Users provide a series of alternate sampling specifications, and the package
+uses Pareto-smoothed importance sampling to estimate the posterior under each
+specification. The package also provides functions to summarize and plot how
+posterior quantities quantities change across specifications.
+
+The package provides simple interface that makes it as easy as possible
 for modellers to try out various adjustments to their Stan models, without
 needing to write any specific Stan code or even recompile or rerun their model.
 
@@ -25,7 +31,21 @@ complex model templates, and cannot be used.
 
 ## Getting Started
 
-The tutorial [vignettes](https://corymccartan.github.io/adjustr/articles/index.html) 
+The basic __adjustr__ workflow is as follows:
+
+1. Use [`make_spec`](https://corymccartan.github.io/adjustr/reference/make_spec.html) 
+to specify the set of alternative model specifications you'd like to fit.
+
+2. Use [`adjust_weights`](https://corymccartan.github.io/adjustr/reference/adjust_weights.html) 
+to calculate importance sampling weights which approximate the posterior of each
+alternative specification.
+
+3. Use [`summarize`](https://corymccartan.github.io/adjustr/reference/summarize.adjustr_weighted.html) 
+and [`spec_plot`](https://corymccartan.github.io/adjustr/reference/spec_plot.html) 
+to examine posterior quantities of interest for each alternative specification,
+in order to assess the sensitivity of the underlying model.
+
+The tutorial [vignette](https://corymccartan.github.io/adjustr/articles/eight-schools.html) 
 walk through a full sensitivity analysis for the classic 8-schools example.
 Smaller examples are also included in the package 
 [documentation](https://corymccartan.github.io/adjustr/reference/index.html). 

@@ -32,7 +32,7 @@ test_that("Weights calculated correctly (normal/inflated)", {
     weights = as.numeric(loo::weights.importance_sampling(psis_wgt, log=F))
 
     spec = make_spec(y ~ normal(theta, 1.1*sigma))
-    obj = adjust_weights(spec, eightschools_m, pkg_env$model_d, keep_bad=T)
+    obj = adjust_weights(spec, eightschools_m, pkg_env$model_d, keep_bad=T, incl_orig=F)
 
     expect_s3_class(obj, "adjustr_weighted")
     expect_s3_class(obj, "tbl_df")
@@ -58,7 +58,7 @@ test_that("Weights calculated correctly (normal/student_t)", {
     weights = as.numeric(loo::weights.importance_sampling(psis_wgt, log=F))
 
     spec = make_spec(y ~ student_t(df, theta, sigma), df=5:6)
-    obj = adjust_weights(spec, eightschools_m, pkg_env$model_d, keep_bad=T)
+    obj = adjust_weights(spec, eightschools_m, pkg_env$model_d, keep_bad=T, incl_orig=F)
 
     expect_equal(weights, obj$.weights[[2]])
     expect_equal(pareto_k, obj$.pareto_k[2])
@@ -77,7 +77,7 @@ test_that("Weights calculated correctly (no data normal/student_t)", {
     weights = as.numeric(loo::weights.importance_sampling(psis_wgt, log=F))
 
     spec = make_spec(eta ~ student_t(4, 0, 1))
-    obj = adjust_weights(spec, eightschools_m, keep_bad=T)
+    obj = adjust_weights(spec, eightschools_m, keep_bad=T, incl_orig=F)
 
     expect_equal(weights, obj$.weights[[1]])
     expect_equal(pareto_k, obj$.pareto_k)
@@ -86,14 +86,14 @@ test_that("Weights calculated correctly (no data normal/student_t)", {
 
 test_that("Weights extracted correctly", {
     spec = make_spec(y ~ student_t(df, theta, sigma), df=5)
-    obj = adjust_weights(spec, eightschools_m, pkg_env$model_d, keep_bad=T)
+    obj = adjust_weights(spec, eightschools_m, pkg_env$model_d, keep_bad=T, incl_orig=F)
     pulled = pull(obj)
 
     expect_is(pulled, "numeric")
     expect_length(pulled, 20)
 
     spec2 = make_spec(y ~ student_t(df, theta, sigma), df=5:6)
-    obj = adjust_weights(spec2, eightschools_m, pkg_env$model_d, keep_bad=T)
+    obj = adjust_weights(spec2, eightschools_m, pkg_env$model_d, keep_bad=T, incl_orig=F)
     pulled = pull(obj)
 
     expect_is(pulled, "list")
@@ -104,6 +104,8 @@ test_that("Weights extracted correctly", {
 test_that("Sampling statements printed correctly", {
     expect_output(extract_samp_stmts(eightschools_m),
 "Sampling statements for model 2c8d1d8a30137533422c438f23b83428:
+  parameter   tau ~ uniform(-1e+100, 1e+100)
+  parameter   mu ~ uniform(-1e+100, 1e+100)
   parameter   eta ~ std_normal()
   data        y ~ normal(theta, sigma)", fixed=T)
 })

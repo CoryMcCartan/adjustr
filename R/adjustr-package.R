@@ -34,9 +34,9 @@ pkg_env = new_environment()
 
 .onLoad = function(libname, pkgname) {  # nocov start
     # create the Stan parser
-    tryCatch(get_parser(), error = function(e) {})
+    #tryCatch(get_parser(), error = function(e) {})
 
     utils::globalVariables(c("name", "pos", "value", ".y", ".y_ol", ".y_ou",
-                             ".y_il", ".y_iu", ".y_med"))
+                             ".y_il", ".y_iu", ".y_med", "quantile", "median"))
 }  # nocov end
 #> NULL

@@ -34,12 +34,23 @@ test_that("Weighted array functions compute correctly", {
     expect_equal(wtd_array_mean(y, wgt), wtd_mean)
     expect_equal(wtd_array_var(y, wgt), weighted.mean((y - wtd_mean)^2, wgt))
     expect_equal(wtd_array_sd(y, wgt), sqrt(weighted.mean((y - wtd_mean)^2, wgt)))
+    expect_equal(wtd_array_quantile(y, rep(1, 5), 0.2), 1)
+    expect_equal(wtd_array_median(y, rep(1, 5)), 2.5)
 })
 
 test_that("Empty call to `summarize` should change nothing", {
     obj = tibble(.weights=list(c(1,1,1), c(1,1,4)))
     class(obj) = c("adjustr_weighted", class(obj))
     expect_identical(summarize(obj), obj)
+})
+
+test_that("Non-summary call to `summarize` should throw error", {
+    obj = tibble(.weights=list(c(1,1,1), c(1,1,4)))
+    attr(obj, "draws") = list(theta=matrix(c(3,5,7,1,1,1), ncol=2))
+    attr(obj, "iter") = 3
+    class(obj) = c("adjustr_weighted", class(obj))
+
+    expect_error(summarize(obj, theta), "must summarize posterior draws")
 })
 
 test_that("Basic summaries are computed correctly", {
@@ -55,6 +66,10 @@ test_that("Basic summaries are computed correctly", {
     sum2 = summarize(obj, th = mean(theta))
     expect_is(sum2, "adjustr_weighted")
     expect_equal(sum2$th, list(c(5, 1), c(6, 1)))
+
+    sum3 = summarize(obj, W = wasserstein(theta[1]))
+    expect_is(sum3, "adjustr_weighted")
+    expect_equal(sum3$W[1], 0)
 
     expect_error(summarise.adjustr_weighted(as_tibble(obj)), "is not TRUE")
 })
@@ -82,19 +97,20 @@ test_that("Resampling-based summaries are computed correctly", {
     sum1 = summarize(obj, th=mean(theta), .resampling=T)
     expect_equal(sum1$th, c(3,7))
 
-    sum2 = summarize(obj, th=quantile(theta, 0.05))
+    sum2 = summarize(obj, th=quantile(theta, 0.05), .resampling=T)
     expect_equal(sum2$th, c(3,7))
 })
 
 
 test_that("Plotting function handles arguments correctly", {
-    obj = tibble(.weights=list(c(1,0,0), c(0,0,1)))
+    obj = tibble(.weights=list(c(1,0,0), c(0,0,1), c(1,1,1)),
+                 .samp=c("y ~ normal(0, 1)", "y ~ normal(0, 2)", "<original model>"))
     attr(obj, "draws") = list(theta=matrix(c(3,5,7), nrow=3, ncol=1))
     attr(obj, "iter") = 3
     class(obj) = c("adjustr_weighted", class(obj))
 
-    expect_is(plot(obj, 1, theta), "ggplot")
-    expect_is(plot(obj, 1, theta, only_mean=T), "ggplot")
+    expect_is(spec_plot(obj, 1, theta), "ggplot")
+    expect_is(spec_plot(obj, 1, theta, only_mean=T), "ggplot")
 
-    expect_error(plot(obj, 1, theta, outer_level=0.4), "should be less than")
+    expect_error(spec_plot(obj, 1, theta, outer_level=0.4), "should be less than")
 })

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot Posterior Quantities of Interest Under Alternative Model Specifications — plot.adjustr_weighted • adjustr</title>
+<title>Changelog • adjustr</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,7 @@
 
 
 
-<meta property="og:title" content="Plot Posterior Quantities of Interest Under Alternative Model Specifications — plot.adjustr_weighted" />
-<meta property="og:description" content="Uses weights computed in adjust_weights to plot posterior
-quantities of interest versus" />
+<meta property="og:title" content="Changelog" />
 
 
 
@@ -70,7 +68,7 @@ quantities of interest versus" />
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-topic">
+    <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -83,7 +81,7 @@ quantities of interest versus" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">adjustr</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -164,79 +162,26 @@ quantities of interest versus" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plot Posterior Quantities of Interest Under Alternative Model Specifications</h1>
-    
-    <div class="hidden name"><code>plot.adjustr_weighted.Rd</code></div>
+      <h1 data-toc-skip>Changelog <small></small></h1>
+      
     </div>
 
-    <div class="ref-description">
-    <p>Uses weights computed in <code><a href='adjust_weights.html'>adjust_weights</a></code> to plot posterior
-quantities of interest versus</p>
-    </div>
-
-    <pre class="usage"><span class='co'># S3 method for adjustr_weighted</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='no'>by</span>, <span class='no'>post</span>, <span class='kw'>only_mean</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>ci_level</span> <span class='kw'>=</span> <span class='fl'>0.8</span>, <span class='kw'>outer_level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='no'>...</span>)</pre>
-
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>An <code>adjustr_weighted</code> object.</p></td>
-    </tr>
-    <tr>
-      <th>by</th>
-      <td><p>The x-axis variable, which is usually one of the specification
-parameters. Can be set to <code>1</code> if there is only one specification.
-Automatically quoted and evaluated in the context of <code>x</code>.</p></td>
-    </tr>
-    <tr>
-      <th>post</th>
-      <td><p>The posterior quantity of interest, to be computed for each
-resampled draw of each specificaiton. Should evaluate to a single number
-for each draw. Automatically quoted and evaluated in the context of <code>x</code>.</p></td>
-    </tr>
-    <tr>
-      <th>only_mean</th>
-      <td><p>Whether to only plot the posterior mean. May be more stable.</p></td>
-    </tr>
-    <tr>
-      <th>ci_level</th>
-      <td><p>The inner credible interval to plot. Central
-100*ci_level<!-- % intervals are computed from the quantiles of the resampled -->
-posterior draws.</p></td>
-    </tr>
-    <tr>
-      <th>outer_level</th>
-      <td><p>The outer credible interval to plot.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Ignored.</p></td>
-    </tr>
-    </table>
-
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A <code><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></code> object which can be further
-  customized with the <strong>ggplot2</strong> package.</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>spec</span> <span class='kw'>=</span> <span class='fu'><a href='make_spec.html'>make_spec</a></span>(<span class='no'>eta</span> ~ <span class='fu'>student_t</span>(<span class='no'>df</span>, <span class='fl'>0</span>, <span class='no'>scale</span>),
-                 <span class='kw'>df</span><span class='kw'>=</span><span class='fl'>1</span>:<span class='fl'>10</span>, <span class='kw'>scale</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>2</span>, <span class='fl'>1</span>, -<span class='fl'>1</span>/<span class='fl'>9</span>))
-<span class='no'>adjusted</span> <span class='kw'>=</span> <span class='fu'><a href='adjust_weights.html'>adjust_weights</a></span>(<span class='no'>spec</span>, <span class='no'>eightschools_m</span>)
-
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>adjusted</span>, <span class='no'>df</span>, <span class='no'>theta</span>[<span class='fl'>1</span>])
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>adjusted</span>, <span class='no'>df</span>, <span class='no'>mu</span>, <span class='kw'>only_mean</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>adjusted</span>, <span class='no'>scale</span>, <span class='no'>tau</span>)
-}</div></pre>
+    <div id="adjustr-010" class="section level1">
+<h1 class="page-header" data-toc-text="0.1.0">
+<a href="#adjustr-010" class="anchor"></a>adjustr 0.1.0</h1>
+<ul>
+<li><p>Initial release.</p></li>
+<li><p>Basic workflow implemented: <code><a href="../reference/make_spec.html">make_spec()</a></code>, <code><a href="../reference/adjust_weights.html">adjust_weights()</a></code>, and <code>summarize()</code>/<code><a href="../reference/spec_plot.html">spec_plot()</a></code>.</p></li>
+</ul>
+</div>
   </div>
+
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
+
 </div>
 
 

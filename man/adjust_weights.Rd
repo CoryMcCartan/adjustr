@@ -5,7 +5,7 @@
 \title{Compute Pareto-smoothed Importance Weights for Alternative Model
 Specifications}
 \usage{
-adjust_weights(spec, object, data = NULL, keep_bad = FALSE)
+adjust_weights(spec, object, data = NULL, keep_bad = FALSE, incl_orig = TRUE)
 }
 \arguments{
 \item{spec}{An object of class \code{adjustr_spec}, probably produced by
@@ -24,6 +24,10 @@ alternate specifications which deviate too much from the original
 posterior, and which as a result cannot be reliably estimated using
 importance sampling (i.e., if the Pareto shape parameter is larger than
 0.7), have their weights discarded.}
+
+\item{incl_orig}{When \code{TRUE}, include a row for the original
+model specification, with all weights equal. Can facilitate comaprison
+and plotting later.}
 }
 \value{
 A tibble, produced by converting the provided \code{specs} to a
@@ -31,9 +35,10 @@ A tibble, produced by converting the provided \code{specs} to a
   \code{.weights}, containing vectors of weights for each draw, and
   \code{.pareto_k}, containing the diagnostic Pareto shape parameters. Values
   greater than 0.7 indicate that importance sampling is not reliable.
-  Weights can be extracted with the \code{\link{pull.adjustr_weighted}}
-  method. The returned object also includes the model sample draws, in the
-  \code{draws} attribute.
+  If \code{incl_orig} is \code{TRUE}, a row is added for the original model
+  specification. Weights can be extracted with the
+  \code{\link{pull.adjustr_weighted}} method. The returned object also
+  includes the model sample draws, in the \code{draws} attribute.
 }
 \description{
 Given a set of new sampling statements, which can be parametrized by a

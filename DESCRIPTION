@@ -2,12 +2,12 @@ Package: adjustr
 Encoding: UTF-8
 Type: Package
 Title: Stan Model Adjustments and Sensitivity Analyses using Importance Sampling
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: person("Cory", "McCartan", email = "cmccartan@g.harvard.edu",
   role = c("aut", "cre"))
 Description: Functions to help assess the sensitivity of a Bayesian model 
     (fitted using the rstan pakcage) to the specification of its likelihood and
-    priors.Users provide a series of alternate sampling specifications, and the 
+    priors. Users provide a series of alternate sampling specifications, and the 
     package uses Pareto-smoothed importance sampling to estimate posterior 
     quantities of interest under each specification.
 License: BSD_3_clause + file LICENSE
@@ -15,15 +15,14 @@ Depends: R (>= 3.6.0)
 Imports:
     tibble,
     tidyselect,
-    dplyr,
+    dplyr (>= 1.0.0),
     purrr,
+    stringr,
     methods,
     utils,
     stats,
     rlang,
     rstan,
-    stringr,
-    dparser,
     ggplot2,
     loo
 Suggests:
@@ -35,5 +34,5 @@ Suggests:
     rmarkdown
 URL: https://corymccartan.github.io/adjustr/
 LazyData: true
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 VignetteBuilder: knitr

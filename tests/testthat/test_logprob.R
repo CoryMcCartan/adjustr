@@ -24,10 +24,9 @@ test_that("Model parameter log probabilities are calculated correctly", {
 
 test_that("Data is assembled correctly", {
     code = eightschools_m@stanmodel@model_code
-    parsed_model = parse_model(code)
-    parsed_vars = get_variables(parsed_model)
+    parsed = parse_model(code)
     bd = get_base_data(eightschools_m, list(eta ~ student_t(df, 0, tau)),
-                       parsed_vars, list(df=1:2), "df")
+                       parsed$vars, list(df=1:2), "df")
 
     expect_length(bd, 1)
     expect_named(bd[[1]], c("eta", "tau"), ignore.order=T)
@@ -37,10 +36,9 @@ test_that("Data is assembled correctly", {
 
 test_that("MCMC draws are preferred over provided data", {
     code = eightschools_m@stanmodel@model_code
-    parsed_model = parse_model(code)
-    parsed_vars = get_variables(parsed_model)
+    parsed = parse_model(code)
     bd = get_base_data(eightschools_m, list(eta ~ student_t(2, 0, tau)),
-                       parsed_vars, list(tau=3))
+                       parsed$vars, list(tau=3))
 
     expect_length(bd, 1)
     expect_named(bd[[1]], c("eta", "tau"), ignore.order=T)
@@ -50,9 +48,8 @@ test_that("MCMC draws are preferred over provided data", {
 
 test_that("Parameter-less specification data is correctly assembled", {
     code = eightschools_m@stanmodel@model_code
-    parsed_model = parse_model(code)
-    parsed_vars = get_variables(parsed_model)
-    bd = get_base_data(eightschools_m, list(y ~ std_normal()), parsed_vars,
+    parsed = parse_model(code)
+    bd = get_base_data(eightschools_m, list(y ~ std_normal()), parsed$vars,
                        list(y=c(28,  8, -3,  7, -1,  1, 18, 12), J=8))
 
     expect_length(bd, 1)
@@ -63,34 +60,31 @@ test_that("Parameter-less specification data is correctly assembled", {
 
 test_that("Error thrown for missing data", {
     code = eightschools_m@stanmodel@model_code
-    parsed_model = parse_model(code)
-    parsed_vars = get_variables(parsed_model)
+    parsed = parse_model(code)
 
     expect_error(get_base_data(eightschools_m, list(eta ~ normal(gamma, sigma)),
-                               parsed_vars, list()), "sigma not found")
+                               parsed$vars, list()), "sigma not found")
     expect_error(get_base_data(eightschools_m, list(eta ~ normal(gamma, 2)),
-                               parsed_vars, list()), "gamma not found")
+                               parsed$vars, list()), "gamma not found")
 })
 
 test_that("Model log probability is correctly calculated", {
     code = eightschools_m@stanmodel@model_code
-    parsed_model = parse_model(code)
-    parsed_vars = get_variables(parsed_model)
+    parsed = parse_model(code)
     form = eta ~ normal(0, 1)
     draws = rstan::extract(eightschools_m, "eta", permuted=F)
     exp_lp =  2*apply(dnorm(draws, 0, 1, log=T), 1:2, sum)
-    lp = calc_original_lp(eightschools_m, list(form, form), parsed_vars, list())
+    lp = calc_original_lp(eightschools_m, list(form, form), parsed$vars, list())
     expect_equal(exp_lp, lp)
 })
 
 test_that("Alternate specifications log probabilities are correctly calculated", {
     code = eightschools_m@stanmodel@model_code
-    parsed_model = parse_model(code)
-    parsed_vars = get_variables(parsed_model)
+    parsed = parse_model(code)
     form = eta ~ normal(0, s)
     draws = rstan::extract(eightschools_m, "eta", permuted=F)
     exp_lp =  2*apply(dnorm(draws, 0, 1, log=T), 1:2, sum)
-    lp = calc_specs_lp(eightschools_m, list(form, form), parsed_vars, list(), list(list(s=1)))
+    lp = calc_specs_lp(eightschools_m, list(form, form), parsed$vars, list(), list(list(s=1)))
     expect_equal(exp_lp, lp[[1]])
 })
 
