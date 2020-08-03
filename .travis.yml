@@ -2,7 +2,7 @@ language: r
 cache: packages
 
 r:
-    - 4.0.2
+    - release
     - devel
 
 r_binary_packages:
