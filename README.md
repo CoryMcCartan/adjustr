@@ -46,7 +46,7 @@ to examine posterior quantities of interest for each alternative specification,
 in order to assess the sensitivity of the underlying model.
 
 The tutorial [vignette](https://corymccartan.github.io/adjustr/articles/eight-schools.html) 
-walk through a full sensitivity analysis for the classic 8-schools example.
+walks through a full sensitivity analysis for the classic 8-schools example.
 Smaller examples are also included in the package 
 [documentation](https://corymccartan.github.io/adjustr/reference/index.html). 
 
