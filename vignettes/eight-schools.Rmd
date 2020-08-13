@@ -129,7 +129,7 @@ of `mu` towards zero and made it less variable.
 
 ## Multiple Alternative Specifications
 What if instead we are concerned about our distributional assumption on the
-school treatment effects. We could probe this assumption by fitting a series of
+school treatment effects? We could probe this assumption by fitting a series of
 models where `eta` had a Student's *t* distribution, with varying degrees of
 freedom. 
 

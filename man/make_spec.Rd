@@ -26,11 +26,11 @@ make_spec(...)
 
   For named vector arguments, each entry of the vector will be substituted
   into the corresponding parameter in the sampling statements. For data
-  frame, each entry in each column will be substituted into the corresponding
+  frames, each entry in each column will be substituted into the corresponding
   parameter in the sampling statements.
 
   List arguments are coerced to data frames. They can either be lists of named
-  vectors, or lists of lists of single-element named vector.
+  vectors, or lists of lists of single-element named vectors.
 
   The lengths of all parameter arguments must be consistent.  Named vectors
   can have length 1 or must have length equal to the number of rows in all

@@ -187,7 +187,7 @@ them to the specification object, for further calculation and plotting.</p>
     <tr>
       <th>spec</th>
       <td><p>An object of class <code>adjustr_spec</code>, probably produced by
-<code><a href='make_spec.html'>make_spec</a></code>, containing the new sampling sampling statements
+<code>make_spec</code>, containing the new sampling sampling statements
 to replace their counterparts in the original Stan model, and the data,
 if any, by which these sampling statements are parametrized.</p></td>
     </tr>
@@ -220,13 +220,13 @@ and plotting later.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A tibble, produced by converting the provided <code>specs</code> to a
-  tibble (see <code><a href='as.data.frame.adjustr_spec.html'>as.data.frame.adjustr_spec</a></code>), and adding columns
+  tibble (see <code>as.data.frame.adjustr_spec</code>), and adding columns
   <code>.weights</code>, containing vectors of weights for each draw, and
   <code>.pareto_k</code>, containing the diagnostic Pareto shape parameters. Values
   greater than 0.7 indicate that importance sampling is not reliable.
   If <code>incl_orig</code> is <code>TRUE</code>, a row is added for the original model
   specification. Weights can be extracted with the
-  <code><a href='pull.adjustr_weighted.html'>pull.adjustr_weighted</a></code> method. The returned object also
+  <code>pull.adjustr_weighted</code> method. The returned object also
   includes the model sample draws, in the <code>draws</code> attribute.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -237,11 +237,11 @@ and plotting later.</p></td>
     <span class='kw'>sigma</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>15</span>, <span class='fl'>10</span>, <span class='fl'>16</span>, <span class='fl'>11</span>, <span class='fl'>9</span>, <span class='fl'>11</span>, <span class='fl'>10</span>, <span class='fl'>18</span>)
 )
 
-<span class='no'>spec</span> <span class='kw'>=</span> <span class='fu'><a href='make_spec.html'>make_spec</a></span>(<span class='no'>eta</span> ~ <span class='fu'>student_t</span>(<span class='no'>df</span>, <span class='fl'>0</span>, <span class='fl'>1</span>), <span class='kw'>df</span><span class='kw'>=</span><span class='fl'>1</span>:<span class='fl'>10</span>)
+<span class='no'>spec</span> <span class='kw'>=</span> <span class='fu'>make_spec</span>(<span class='no'>eta</span> ~ <span class='fu'>student_t</span>(<span class='no'>df</span>, <span class='fl'>0</span>, <span class='fl'>1</span>), <span class='kw'>df</span><span class='kw'>=</span><span class='fl'>1</span>:<span class='fl'>10</span>)
 <span class='fu'>adjust_weights</span>(<span class='no'>spec</span>, <span class='no'>eightschools_m</span>)
 <span class='fu'>adjust_weights</span>(<span class='no'>spec</span>, <span class='no'>eightschools_m</span>, <span class='kw'>keep_bad</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 
-<span class='no'>spec</span> <span class='kw'>=</span> <span class='fu'><a href='make_spec.html'>make_spec</a></span>(<span class='no'>y</span> ~ <span class='fu'>student_t</span>(<span class='no'>df</span>, <span class='no'>theta</span>, <span class='no'>sigma</span>), <span class='kw'>df</span><span class='kw'>=</span><span class='fl'>1</span>:<span class='fl'>10</span>)
+<span class='no'>spec</span> <span class='kw'>=</span> <span class='fu'>make_spec</span>(<span class='no'>y</span> ~ <span class='fu'>student_t</span>(<span class='no'>df</span>, <span class='no'>theta</span>, <span class='no'>sigma</span>), <span class='kw'>df</span><span class='kw'>=</span><span class='fl'>1</span>:<span class='fl'>10</span>)
 <span class='fu'>adjust_weights</span>(<span class='no'>spec</span>, <span class='no'>eightschools_m</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>model_data</span>)
 <span class='co'># will throw an error because `y` and `sigma` aren't provided</span>
 <span class='fu'>adjust_weights</span>(<span class='no'>spec</span>, <span class='no'>eightschools_m</span>)
