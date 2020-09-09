@@ -84,7 +84,7 @@ suitable for use in adjust_weights." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">adjustr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -95,6 +95,9 @@ suitable for use in adjust_weights." />
 </li>
 <li>
   <a href="../reference/index.html">Functions</a>
+</li>
+<li>
+  <a href="../news/index.html">News</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -166,14 +169,14 @@ suitable for use in adjust_weights." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Set Up Model Adjustment Specifications</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/CoryMcCartan/adjustr/blob/master/R/make_spec.R'><code>R/make_spec.R</code></a></small>
     <div class="hidden name"><code>make_spec.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>Takes a set of new sampling statements, which can be parametrized by other
 arguments, data frames, or lists, and creates an <code>adjustr_spec</code> object
-suitable for use in <code>adjust_weights</code>.</p>
+suitable for use in <code><a href='adjust_weights.html'>adjust_weights</a></code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>make_spec</span>(<span class='no'>...</span>)</pre>
@@ -215,19 +218,22 @@ suitable for use in <code>adjust_weights</code>.</p>
     <p>An object of class <code>adjustr_spec</code>, which is essentially a list
 with two elements: <code>samp</code>, which is a list of sampling formulas, and
 <code>params</code>, which is a list of lists of parameters. Core
-dplyr verbs which don't involve grouping
+<a href='dplyr.adjustr_spec.html'>dplyr verbs</a> which don't involve grouping
 (<code><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></code>,
 <code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></code>,
 <code><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a></code>, and <code><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></code>) are
 supported and operate on the underlying table of specification parameters.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='adjust_weights.html'>adjust_weights</a></code>, <code><a href='summarize.adjustr_weighted.html'>summarize.adjustr_weighted</a></code>, <code><a href='spec_plot.html'>spec_plot</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>make_spec</span>(<span class='no'>eta</span> ~ <span class='fu'>cauchy</span>(<span class='fl'>0</span>, <span class='fl'>1</span>))</div><div class='output co'>#&gt; Sampling specifications:
 #&gt; eta ~ cauchy(0, 1)
-#&gt; &lt;environment: 0x7faca2e1d8e0&gt;</div><div class='input'>
+#&gt; &lt;environment: 0x7fd9e2317790&gt;</div><div class='input'>
 <span class='fu'>make_spec</span>(<span class='no'>eta</span> ~ <span class='fu'>student_t</span>(<span class='no'>df</span>, <span class='fl'>0</span>, <span class='fl'>1</span>), <span class='kw'>df</span><span class='kw'>=</span><span class='fl'>1</span>:<span class='fl'>10</span>)</div><div class='output co'>#&gt; Sampling specifications:
 #&gt; eta ~ student_t(df, 0, 1)
-#&gt; &lt;environment: 0x7faca2e1d8e0&gt;
+#&gt; &lt;environment: 0x7fd9e2317790&gt;
 #&gt; 
 #&gt; Specification parameters:
 #&gt;  df
@@ -246,9 +252,9 @@ supported and operate on the underlying table of specification parameters.</p>
           <span class='no'>y</span> ~ <span class='fu'>normal</span>(<span class='no'>theta</span>, <span class='no'>infl</span>*<span class='no'>sigma</span>),
           <span class='no'>params</span>)</div><div class='output co'>#&gt; Sampling specifications:
 #&gt; eta ~ student_t(df, 0, 1)
-#&gt; &lt;environment: 0x7faca2e1d8e0&gt;
+#&gt; &lt;environment: 0x7fd9e2317790&gt;
 #&gt; y ~ normal(theta, infl * sigma)
-#&gt; &lt;environment: 0x7faca2e1d8e0&gt;
+#&gt; &lt;environment: 0x7fd9e2317790&gt;
 #&gt; 
 #&gt; Specification parameters:
 #&gt;  df infl

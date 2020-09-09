@@ -55,3 +55,6 @@ spec_plot(adjusted, scale, tau)
 }
 
 }
+\seealso{
+\code{\link{adjust_weights}}, \code{\link{summarize.adjustr_weighted}}
+}

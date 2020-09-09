@@ -62,3 +62,6 @@ make_spec(eta ~ student_t(df, 0, 1),
           params)
 
 }
+\seealso{
+\code{\link{adjust_weights}}, \code{\link{summarize.adjustr_weighted}}, \code{\link{spec_plot}}
+}

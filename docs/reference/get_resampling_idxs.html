@@ -83,7 +83,7 @@ and resamples indices for use in later computation." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">adjustr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -94,6 +94,9 @@ and resamples indices for use in later computation." />
 </li>
 <li>
   <a href="../reference/index.html">Functions</a>
+</li>
+<li>
+  <a href="../news/index.html">News</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -165,7 +168,7 @@ and resamples indices for use in later computation." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Get Importance Resampling Indices From Weights</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/CoryMcCartan/adjustr/blob/master/R/use_weights.R'><code>R/use_weights.R</code></a></small>
     <div class="hidden name"><code>get_resampling_idxs.Rd</code></div>
     </div>
 
@@ -207,8 +210,8 @@ will also be <code>NA</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>spec</span> <span class='kw'>=</span> <span class='fu'>make_spec</span>(<span class='no'>eta</span> ~ <span class='fu'>student_t</span>(<span class='no'>df</span>, <span class='fl'>0</span>, <span class='fl'>1</span>), <span class='kw'>df</span><span class='kw'>=</span><span class='fl'>1</span>:<span class='fl'>10</span>)
-<span class='no'>adjusted</span> <span class='kw'>=</span> <span class='fu'>adjust_weights</span>(<span class='no'>spec</span>, <span class='no'>eightschools_m</span>)
+<span class='no'>spec</span> <span class='kw'>=</span> <span class='fu'><a href='make_spec.html'>make_spec</a></span>(<span class='no'>eta</span> ~ <span class='fu'>student_t</span>(<span class='no'>df</span>, <span class='fl'>0</span>, <span class='fl'>1</span>), <span class='kw'>df</span><span class='kw'>=</span><span class='fl'>1</span>:<span class='fl'>10</span>)
+<span class='no'>adjusted</span> <span class='kw'>=</span> <span class='fu'><a href='adjust_weights.html'>adjust_weights</a></span>(<span class='no'>spec</span>, <span class='no'>eightschools_m</span>)
 
 <span class='fu'>get_resampling_idxs</span>(<span class='no'>adjusted</span>)
 <span class='fu'>get_resampling_idxs</span>(<span class='no'>adjusted</span>, <span class='kw'>frac</span><span class='kw'>=</span><span class='fl'>0.1</span>, <span class='kw'>replace</span><span class='kw'>=</span><span class='fl'>FALSE</span>)

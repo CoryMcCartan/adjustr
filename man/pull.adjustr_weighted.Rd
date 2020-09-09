@@ -4,7 +4,7 @@
 \alias{pull.adjustr_weighted}
 \title{Extract Weights From an \code{adjustr_weighted} Object}
 \usage{
-\method{pull}{adjustr_weighted}(.data, var = ".weights")
+\method{pull}{adjustr_weighted}(.data, var = ".weights", name = NULL, ...)
 }
 \arguments{
 \item{.data}{A table of data}
@@ -12,6 +12,10 @@
 \item{var}{A variable, as in \code{\link[dplyr]{pull}}. The default returns
 the \code{.weights} column, and if there is only one row, it returns the
 first element of that column}
+
+\item{name}{Ignored}
+
+\item{...}{Ignored}
 }
 \description{
 This function modifies the default behavior of \code{dplyr::pull} to extract

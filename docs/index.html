@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">adjustr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -49,6 +49,9 @@
 </li>
 <li>
   <a href="reference/index.html">Functions</a>
+</li>
+<li>
+  <a href="news/index.html">News</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -136,16 +139,44 @@
 <li><p>Use <a href="https://corymccartan.github.io/adjustr/reference/adjust_weights.html"><code>adjust_weights</code></a> to calculate importance sampling weights which approximate the posterior of each alternative specification.</p></li>
 <li><p>Use <a href="https://corymccartan.github.io/adjustr/reference/summarize.adjustr_weighted.html"><code>summarize</code></a> and <a href="https://corymccartan.github.io/adjustr/reference/spec_plot.html"><code>spec_plot</code></a> to examine posterior quantities of interest for each alternative specification, in order to assess the sensitivity of the underlying model.</p></li>
 </ol>
-<p>The tutorial <a href="https://corymccartan.github.io/adjustr/articles/eight-schools.html">vignette</a> walks through a full sensitivity analysis for the classic 8-schools example. Smaller examples are also included in the package <a href="https://corymccartan.github.io/adjustr/reference/index.html">documentation</a>.</p>
+<p>To illustrate, the package lets us do the following:</p>
+<div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="reference/extract_samp_stmts.html">extract_samp_stmts</a></span>(<span class="no">eightschools_m</span>)
+<span class="co">#&gt; Sampling statements for model 2c8d1d8a30137533422c438f23b83428:</span>
+<span class="co">#&gt;   parameter   eta ~ std_normal()</span>
+<span class="co">#&gt;   data        y ~ normal(theta, sigma)</span>
+
+<span class="fu"><a href="reference/make_spec.html">make_spec</a></span>(<span class="no">eta</span> ~ <span class="fu">student_t</span>(<span class="fl">0</span>, <span class="fl">1</span>, <span class="no">df</span>), <span class="kw">df</span><span class="kw">=</span><span class="fl">1</span>:<span class="fl">10</span>) <span class="kw">%&gt;%</span>
+    <span class="fu"><a href="reference/adjust_weights.html">adjust_weights</a></span>(<span class="no">eightschools_m</span>) <span class="kw">%&gt;%</span>
+    <span class="fu">summarize</span>(<span class="fu">wasserstein</span>(<span class="no">mu</span>))
+<span class="co">#&gt; # A tibble: 11 x 5</span>
+<span class="co">#&gt;       df .samp                     .weights      .pareto_k `wasserstein(mu)`</span>
+<span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;                     &lt;list&gt;            &lt;dbl&gt;             &lt;dbl&gt;</span>
+<span class="co">#&gt;  1     1 eta ~ student_t(df, 0, 1) &lt;dbl [1,000]&gt;     1.02              0.928</span>
+<span class="co">#&gt;  2     2 eta ~ student_t(df, 0, 1) &lt;dbl [1,000]&gt;     1.03              0.736</span>
+<span class="co">#&gt;  3     3 eta ~ student_t(df, 0, 1) &lt;dbl [1,000]&gt;     0.915             0.534</span>
+<span class="co">#&gt;  4     4 eta ~ student_t(df, 0, 1) &lt;dbl [1,000]&gt;     0.856             0.411</span>
+<span class="co">#&gt;  5     5 eta ~ student_t(df, 0, 1) &lt;dbl [1,000]&gt;     0.826             0.341</span>
+<span class="co">#&gt;  6     6 eta ~ student_t(df, 0, 1) &lt;dbl [1,000]&gt;     0.803             0.275</span>
+<span class="co">#&gt;  7     7 eta ~ student_t(df, 0, 1) &lt;dbl [1,000]&gt;     0.782             0.234</span>
+<span class="co">#&gt;  8     8 eta ~ student_t(df, 0, 1) &lt;dbl [1,000]&gt;     0.753             0.195</span>
+<span class="co">#&gt;  9     9 eta ~ student_t(df, 0, 1) &lt;dbl [1,000]&gt;     0.736             0.166</span>
+<span class="co">#&gt; 10    10 eta ~ student_t(df, 0, 1) &lt;dbl [1,000]&gt;     0.721             0.151</span>
+<span class="co">#&gt; 11    NA &lt;original model&gt;          &lt;dbl [1,000]&gt;  -Inf                 0</span></pre></div>
+<p>The tutorial <a href="https://corymccartan.github.io/adjustr/articles/eight-schools.html">vignette</a> walks through a full sensitivity analysis for this 8-schools example. Smaller examples are also included in the package <a href="https://corymccartan.github.io/adjustr/reference/index.html">documentation</a>.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>Install the latest version from <strong>GitHub</strong>:</p>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="kw">if</span> (!<span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="st">"devtools"</span>)) {
+<div class="sourceCode" id="cb2"><pre class="r"><span class="kw">if</span> (!<span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="st">"devtools"</span>)) {
   <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)
 }
 <span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"corymccartan/adjustr@*release"</span>)</pre></div>
+</div>
+<div id="references" class="section level2">
+<h2 class="hasAnchor">
+<a href="#references" class="anchor"></a>References</h2>
+<p>Vehtari, A., Simpson, D., Gelman, A., Yao, Y., &amp; Gabry, J. (2015). Pareto smoothed importance sampling. <em><a href="https://arxiv.org/abs/1507.02646">arXiv preprint arXiv:1507.02646</a></em>.</p>
 </div>
 </div>
   </div>
@@ -154,11 +185,11 @@
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
-<li>Report a bug at <br><a href="https://github.com/corymccartan/adjustr/issues/">https://​github.com/​corymccartan/​adjustr/​issues/​</a>
+<li>Browse source code at <br><a href="https://github.com/CoryMcCartan/adjustr/">https://​github.com/​CoryMcCartan/​adjustr/​</a>
+</li>
+<li>Report a bug at <br><a href="https://github.com/CoryMcCartan/adjustr/issues">https://​github.com/​CoryMcCartan/​adjustr/​issues</a>
 </li>
 <li>Ask a question at <br><a href="https://discourse.mc-stan.org/">https://​discourse.mc-stan.org/​</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/corymccartan/adjustr/">https://​github.com/​corymccartan/​adjustr/​</a>
 </li>
 </ul>
 </div>

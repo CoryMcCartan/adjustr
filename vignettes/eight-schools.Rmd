@@ -114,7 +114,8 @@ containing the importance weights. The last row of the table by default
 corresponds to the original model specification. The table also includes the
 diagnostic Pareto *k*-value. When this value exceeds 0.7, importance sampling is
 unreliable, and by default `adjust_weights` discards weights with a Pareto *k*
-above 0.7.
+above 0.7 (the respective rows in `adjusted` are kept, but the `weights` column 
+is set to `NA_real_`).
 ```{r}
 print(adjusted)
 ```
@@ -168,7 +169,7 @@ spec_plot(adjusted, df, theta[3])
 
 It appears that changing the distribution of `eta`/`theta` from normal to
 *t* has a small effect on posterior inferences (although, as noted above,
-these inferences are unreliable as _k_ > 0.7.
+these inferences are unreliable as _k_ > 0.7).
 
 By default, the function plots an inner 80\% credible interval and an outer
 95\% credible interval, but these can be changed by the user.

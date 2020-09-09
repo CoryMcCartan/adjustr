@@ -42,6 +42,8 @@
 #' \code{\link[dplyr]{rename}}, and \code{\link[dplyr]{slice}}) are
 #' supported and operate on the underlying table of specification parameters.
 #'
+#' @seealso \code{\link{adjust_weights}}, \code{\link{summarize.adjustr_weighted}}, \code{\link{spec_plot}}
+#'
 #' @examples
 #' make_spec(eta ~ cauchy(0, 1))
 #'

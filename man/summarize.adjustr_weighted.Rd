@@ -63,3 +63,6 @@ summarize(adjusted, quantile(tau, probs=c(0.05, 0.5, 0.95)))
 }
 
 }
+\seealso{
+\code{\link{adjust_weights}}, \code{\link{spec_plot}}
+}

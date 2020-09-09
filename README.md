@@ -45,8 +45,34 @@ and [`spec_plot`](https://corymccartan.github.io/adjustr/reference/spec_plot.htm
 to examine posterior quantities of interest for each alternative specification,
 in order to assess the sensitivity of the underlying model.
 
+To illustrate, the package lets us do the following:
+```r
+extract_samp_stmts(eightschools_m)
+#> Sampling statements for model 2c8d1d8a30137533422c438f23b83428:
+#>   parameter   eta ~ std_normal()
+#>   data        y ~ normal(theta, sigma)
+
+make_spec(eta ~ student_t(0, 1, df), df=1:10) %>%
+    adjust_weights(eightschools_m) %>%
+    summarize(wasserstein(mu)) 
+#> # A tibble: 11 x 5
+#>       df .samp                     .weights      .pareto_k `wasserstein(mu)`
+#>    <int> <chr>                     <list>            <dbl>             <dbl>
+#>  1     1 eta ~ student_t(df, 0, 1) <dbl [1,000]>     1.02              0.928
+#>  2     2 eta ~ student_t(df, 0, 1) <dbl [1,000]>     1.03              0.736
+#>  3     3 eta ~ student_t(df, 0, 1) <dbl [1,000]>     0.915             0.534
+#>  4     4 eta ~ student_t(df, 0, 1) <dbl [1,000]>     0.856             0.411
+#>  5     5 eta ~ student_t(df, 0, 1) <dbl [1,000]>     0.826             0.341
+#>  6     6 eta ~ student_t(df, 0, 1) <dbl [1,000]>     0.803             0.275
+#>  7     7 eta ~ student_t(df, 0, 1) <dbl [1,000]>     0.782             0.234
+#>  8     8 eta ~ student_t(df, 0, 1) <dbl [1,000]>     0.753             0.195
+#>  9     9 eta ~ student_t(df, 0, 1) <dbl [1,000]>     0.736             0.166
+#> 10    10 eta ~ student_t(df, 0, 1) <dbl [1,000]>     0.721             0.151
+#> 11    NA <original model>          <dbl [1,000]>  -Inf                 0
+```
+
 The tutorial [vignette](https://corymccartan.github.io/adjustr/articles/eight-schools.html) 
-walks through a full sensitivity analysis for the classic 8-schools example.
+walks through a full sensitivity analysis for this 8-schools example.
 Smaller examples are also included in the package 
 [documentation](https://corymccartan.github.io/adjustr/reference/index.html). 
 
@@ -60,3 +86,9 @@ if (!require("devtools")) {
 }
 devtools::install_github("corymccartan/adjustr@*release")
 ```
+
+## References
+
+Vehtari, A., Simpson, D., Gelman, A., Yao, Y., & Gabry, J. (2015). 
+Pareto smoothed importance sampling. 
+_[arXiv preprint arXiv:1507.02646](https://arxiv.org/abs/1507.02646)_.

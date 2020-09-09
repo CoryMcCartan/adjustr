@@ -75,6 +75,8 @@ get_resampling_idxs = function(x, frac=1, replace=T) {
 #' @return An \code{adjustr_weighted} object, wth the new columns specified in
 #' \code{...} added.
 #'
+#' @seealso \code{\link{adjust_weights}}, \code{\link{spec_plot}}
+#'
 #' @examples \dontrun{
 #' model_data = list(
 #'     J = 8,
@@ -226,6 +228,8 @@ funs_env = new_environment(list(
 #'
 #' @return A \code{\link[ggplot2]{ggplot}} object which can be further
 #'   customized with the \strong{ggplot2} package.
+#'
+#' @seealso \code{\link{adjust_weights}}, \code{\link{summarize.adjustr_weighted}}
 #'
 #' @examples \dontrun{
 #' spec = make_spec(eta ~ student_t(df, 0, scale),

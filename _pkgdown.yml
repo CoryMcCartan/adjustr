@@ -17,6 +17,8 @@ navbar:
       href: articles/index.html
     - text: "Functions"
       href: reference/index.html
+    - text: "News"
+      href: news/index.html
     - text: "Other Packages"
       menu:
         - text: "rstan"
@@ -55,12 +57,8 @@ home:
     interest under each specification. The package also provides functions to
     summarize and plot how these quantities change across specifications.
   links:
-  - text: Report a bug
-    href: https://github.com/corymccartan/adjustr/issues/
   - text: Ask a question
     href: https://discourse.mc-stan.org/
-  - text: Browse source code
-    href: https://github.com/corymccartan/adjustr/
 
 authors:
   Cory McCartan:

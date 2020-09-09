@@ -85,7 +85,7 @@ specification." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">adjustr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -96,6 +96,9 @@ specification." />
 </li>
 <li>
   <a href="../reference/index.html">Functions</a>
+</li>
+<li>
+  <a href="../news/index.html">News</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -167,12 +170,12 @@ specification." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Summarize Posterior Distributions Under Alternative Model Specifications</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/CoryMcCartan/adjustr/blob/master/R/use_weights.R'><code>R/use_weights.R</code></a></small>
     <div class="hidden name"><code>summarize.adjustr_weighted.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Uses weights computed in <code>adjust_weights</code> to compute posterior
+    <p>Uses weights computed in <code><a href='adjust_weights.html'>adjust_weights</a></code> to compute posterior
 summary statistics. These statistics can be compared against their reference
 values to quantify the sensitivity of the model to aspects of its
 specification.</p>
@@ -216,7 +219,7 @@ used for any summary statistic that is not <code>mean</code>, <code>var</code> o
     <tr>
       <th>.model_data</th>
       <td><p>Stan model data, if not provided in the earlier call to
-<code>adjust_weights</code>.</p></td>
+<code><a href='adjust_weights.html'>adjust_weights</a></code>.</p></td>
     </tr>
     </table>
 
@@ -224,6 +227,9 @@ used for any summary statistic that is not <code>mean</code>, <code>var</code> o
 
     <p>An <code>adjustr_weighted</code> object, wth the new columns specified in
 <code>...</code> added.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='adjust_weights.html'>adjust_weights</a></code>, <code><a href='spec_plot.html'>spec_plot</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
@@ -233,8 +239,8 @@ used for any summary statistic that is not <code>mean</code>, <code>var</code> o
     <span class='kw'>sigma</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>15</span>, <span class='fl'>10</span>, <span class='fl'>16</span>, <span class='fl'>11</span>, <span class='fl'>9</span>, <span class='fl'>11</span>, <span class='fl'>10</span>, <span class='fl'>18</span>)
 )
 
-<span class='no'>spec</span> <span class='kw'>=</span> <span class='fu'>make_spec</span>(<span class='no'>eta</span> ~ <span class='fu'>student_t</span>(<span class='no'>df</span>, <span class='fl'>0</span>, <span class='fl'>1</span>), <span class='kw'>df</span><span class='kw'>=</span><span class='fl'>1</span>:<span class='fl'>10</span>)
-<span class='no'>adjusted</span> <span class='kw'>=</span> <span class='fu'>adjust_weights</span>(<span class='no'>spec</span>, <span class='no'>eightschools_m</span>)
+<span class='no'>spec</span> <span class='kw'>=</span> <span class='fu'><a href='make_spec.html'>make_spec</a></span>(<span class='no'>eta</span> ~ <span class='fu'>student_t</span>(<span class='no'>df</span>, <span class='fl'>0</span>, <span class='fl'>1</span>), <span class='kw'>df</span><span class='kw'>=</span><span class='fl'>1</span>:<span class='fl'>10</span>)
+<span class='no'>adjusted</span> <span class='kw'>=</span> <span class='fu'><a href='adjust_weights.html'>adjust_weights</a></span>(<span class='no'>spec</span>, <span class='no'>eightschools_m</span>)
 
 <span class='fu'>summarize</span>(<span class='no'>adjusted</span>, <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>mu</span>), <span class='fu'><a href='https://rdrr.io/r/stats/cor.html'>var</a></span>(<span class='no'>mu</span>))
 <span class='fu'>summarize</span>(<span class='no'>adjusted</span>, <span class='fu'>wasserstein</span>(<span class='no'>mu</span>, <span class='kw'>p</span><span class='kw'>=</span><span class='fl'>2</span>))

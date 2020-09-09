@@ -23,7 +23,7 @@ variables.}
 alternate specifications which deviate too much from the original
 posterior, and which as a result cannot be reliably estimated using
 importance sampling (i.e., if the Pareto shape parameter is larger than
-0.7), have their weights discarded.}
+0.7), have their weights discarded—weights are set to \code{NA_real_}.}
 
 \item{incl_orig}{When \code{TRUE}, include a row for the original
 model specification, with all weights equal. Can facilitate comaprison
@@ -45,6 +45,17 @@ Given a set of new sampling statements, which can be parametrized by a
 data frame or list, compute Pareto-smoothed importance weights and attach
 them to the specification object, for further calculation and plotting.
 }
+\details{
+This function does the bulk of the sensitivity analysis work.  It operates
+by parsing the model code from the provided Stan object, extracting the
+parameters and their sampling statements.  It then uses R
+metaprogramming/tidy evaluation tools to flexibly evaluate the log density
+for each draw and each sampling statement, under the original and alternative
+specifications. From these, the function computes the overall importance
+weight for each draw and performs Pareto-smoothed importance sampling.  All
+of the work is performed in R, without recompiling or refitting the Stan
+model.
+}
 \examples{
 \dontrun{
 model_data = list(
@@ -63,4 +74,11 @@ adjust_weights(spec, eightschools_m, data=model_data)
 adjust_weights(spec, eightschools_m)
 }
 
+}
+\references{
+Vehtari, A., Simpson, D., Gelman, A., Yao, Y., & Gabry, J. (2015).
+Pareto smoothed importance sampling. \href{https://arxiv.org/abs/1507.02646}{arXiv preprint arXiv:1507.02646}.
+}
+\seealso{
+\code{\link{make_spec}}, \code{\link{summarize.adjustr_weighted}}, \code{\link{spec_plot}}
 }

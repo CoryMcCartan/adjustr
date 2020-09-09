@@ -83,7 +83,7 @@ the .weights column." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">adjustr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -94,6 +94,9 @@ the .weights column." />
 </li>
 <li>
   <a href="../reference/index.html">Functions</a>
+</li>
+<li>
+  <a href="../news/index.html">News</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -165,7 +168,7 @@ the .weights column." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Extract Weights From an <code>adjustr_weighted</code> Object</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/CoryMcCartan/adjustr/blob/master/R/adjust_weights.R'><code>R/adjust_weights.R</code></a></small>
     <div class="hidden name"><code>pull.adjustr_weighted.Rd</code></div>
     </div>
 
@@ -175,7 +178,7 @@ the <code>.weights</code> column.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for adjustr_weighted</span>
-<span class='fu'>pull</span>(<span class='no'>.data</span>, <span class='kw'>var</span> <span class='kw'>=</span> <span class='st'>".weights"</span>)</pre>
+<span class='fu'>pull</span>(<span class='no'>.data</span>, <span class='kw'>var</span> <span class='kw'>=</span> <span class='st'>".weights"</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -189,6 +192,14 @@ the <code>.weights</code> column.</p>
       <td><p>A variable, as in <code><a href='https://dplyr.tidyverse.org/reference/pull.html'>pull</a></code>. The default returns
 the <code>.weights</code> column, and if there is only one row, it returns the
 first element of that column</p></td>
+    </tr>
+    <tr>
+      <th>name</th>
+      <td><p>Ignored</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Ignored</p></td>
     </tr>
     </table>
 
