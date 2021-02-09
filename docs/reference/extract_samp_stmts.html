@@ -84,7 +84,7 @@ type of variable being sampled." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">adjustr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -139,19 +139,19 @@ type of variable being sampled." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/mcmc_stan">
-    <span class="fa fa-twitter"></span>
+    <span class="fas fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/CoryMcCartan/adjustr/">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
   </a>
 </li>
 <li>
   <a href="https://discourse.mc-stan.org/">
-    <span class="fa fa-users"></span>
+    <span class="fas fa-users"></span>
      
   </a>
 </li>
@@ -179,7 +179,7 @@ a Stan program, with each labelled "parameter" or "data" depending on the
 type of variable being sampled.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>extract_samp_stmts</span>(<span class='no'>object</span>)</pre>
+    <pre class="usage"><span class='fu'>extract_samp_stmts</span><span class='op'>(</span><span class='va'>object</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -195,12 +195,13 @@ type of variable being sampled.</p>
     <p>Invisbly returns a list of sampling formulas.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>extract_samp_stmts</span>(<span class='no'>eightschools_m</span>)
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>extract_samp_stmts</span><span class='op'>(</span><span class='va'>eightschools_m</span><span class='op'>)</span>
 <span class='co'>#&gt; Sampling statements for model 2c8d1d8a30137533422c438f23b83428:</span>
 <span class='co'>#&gt;   parameter   eta ~ std_normal()</span>
 <span class='co'>#&gt;   data        y ~ normal(theta, sigma)</span>
-}</div></pre>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -216,7 +217,7 @@ type of variable being sampled.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

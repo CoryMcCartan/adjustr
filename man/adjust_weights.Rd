@@ -13,7 +13,11 @@ adjust_weights(spec, object, data = NULL, keep_bad = FALSE, incl_orig = TRUE)
 to replace their counterparts in the original Stan model, and the data,
 if any, by which these sampling statements are parametrized.}
 
-\item{object}{A \code{\link[rstan]{stanfit}} model object.}
+\item{object}{A model object, either of type \code{\link[rstan]{stanfit}},
+\code{\link[rstanarm]{stanreg}}, \code{\link[brms]{brmsfit}}, or
+a list with two elements: \code{model} containing a
+\code{\link[cmdstanr]{CmdStanModel}}, and \code{fit} containing a
+\code{\link[cmdstanr]{CmdStanMCMC}} object.}
 
 \item{data}{The data that was used to fit the model in \code{object}.
 Required only if one of the new sampling specifications involves Stan data

@@ -84,7 +84,7 @@ suitable for use in adjust_weights." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">adjustr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -139,19 +139,19 @@ suitable for use in adjust_weights." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/mcmc_stan">
-    <span class="fa fa-twitter"></span>
+    <span class="fas fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/CoryMcCartan/adjustr/">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
   </a>
 </li>
 <li>
   <a href="https://discourse.mc-stan.org/">
-    <span class="fa fa-users"></span>
+    <span class="fas fa-users"></span>
      
   </a>
 </li>
@@ -179,7 +179,7 @@ arguments, data frames, or lists, and creates an <code>adjustr_spec</code> objec
 suitable for use in <code><a href='adjust_weights.html'>adjust_weights</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>make_spec</span>(<span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>make_spec</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -225,15 +225,17 @@ with two elements: <code>samp</code>, which is a list of sampling formulas, and
 supported and operate on the underlying table of specification parameters.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='adjust_weights.html'>adjust_weights</a></code>, <code><a href='summarize.adjustr_weighted.html'>summarize.adjustr_weighted</a></code>, <code><a href='spec_plot.html'>spec_plot</a></code></p></div>
+    <div class='dont-index'><p><code><a href='adjust_weights.html'>adjust_weights</a></code>, <code><a href='summarise.adjustr_weighted.html'>summarize.adjustr_weighted</a></code>, <code><a href='spec_plot.html'>spec_plot</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>make_spec</span>(<span class='no'>eta</span> ~ <span class='fu'>cauchy</span>(<span class='fl'>0</span>, <span class='fl'>1</span>))</div><div class='output co'>#&gt; Sampling specifications:
+    <pre class="examples"><div class='input'><span class='fu'>make_spec</span><span class='op'>(</span><span class='va'>eta</span> <span class='op'>~</span> <span class='fu'>cauchy</span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Sampling specifications:
 #&gt; eta ~ cauchy(0, 1)
-#&gt; &lt;environment: 0x7fd9e2317790&gt;</div><div class='input'>
-<span class='fu'>make_spec</span>(<span class='no'>eta</span> ~ <span class='fu'>student_t</span>(<span class='no'>df</span>, <span class='fl'>0</span>, <span class='fl'>1</span>), <span class='kw'>df</span><span class='kw'>=</span><span class='fl'>1</span>:<span class='fl'>10</span>)</div><div class='output co'>#&gt; Sampling specifications:
+#&gt; &lt;environment: 0x7f7f51ec5580&gt;</div><div class='input'>
+<span class='fu'>make_spec</span><span class='op'>(</span><span class='va'>eta</span> <span class='op'>~</span> <span class='fu'>student_t</span><span class='op'>(</span><span class='va'>df</span>, <span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span>, df<span class='op'>=</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Sampling specifications:
 #&gt; eta ~ student_t(df, 0, 1)
-#&gt; &lt;environment: 0x7fd9e2317790&gt;
+#&gt; &lt;environment: 0x7f7f51ec5580&gt;
 #&gt; 
 #&gt; Specification parameters:
 #&gt;  df
@@ -247,14 +249,15 @@ supported and operate on the underlying table of specification parameters.</p>
 #&gt;   8
 #&gt;   9
 #&gt;  10</div><div class='input'>
-<span class='no'>params</span> <span class='kw'>=</span> <span class='kw pkg'>tidyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://tidyr.tidyverse.org/reference/expand.html'>crossing</a></span>(<span class='kw'>df</span><span class='kw'>=</span><span class='fl'>1</span>:<span class='fl'>10</span>, <span class='kw'>infl</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1.5</span>, <span class='fl'>2</span>))
-<span class='fu'>make_spec</span>(<span class='no'>eta</span> ~ <span class='fu'>student_t</span>(<span class='no'>df</span>, <span class='fl'>0</span>, <span class='fl'>1</span>),
-          <span class='no'>y</span> ~ <span class='fu'>normal</span>(<span class='no'>theta</span>, <span class='no'>infl</span>*<span class='no'>sigma</span>),
-          <span class='no'>params</span>)</div><div class='output co'>#&gt; Sampling specifications:
+<span class='va'>params</span> <span class='op'>=</span> <span class='fu'>tidyr</span><span class='fu'>::</span><span class='fu'><a href='https://tidyr.tidyverse.org/reference/expand.html'>crossing</a></span><span class='op'>(</span>df<span class='op'>=</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, infl<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>1.5</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>make_spec</span><span class='op'>(</span><span class='va'>eta</span> <span class='op'>~</span> <span class='fu'>student_t</span><span class='op'>(</span><span class='va'>df</span>, <span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span>,
+          <span class='va'>y</span> <span class='op'>~</span> <span class='fu'>normal</span><span class='op'>(</span><span class='va'>theta</span>, <span class='va'>infl</span><span class='op'>*</span><span class='va'>sigma</span><span class='op'>)</span>,
+          <span class='va'>params</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Sampling specifications:
 #&gt; eta ~ student_t(df, 0, 1)
-#&gt; &lt;environment: 0x7fd9e2317790&gt;
+#&gt; &lt;environment: 0x7f7f51ec5580&gt;
 #&gt; y ~ normal(theta, infl * sigma)
-#&gt; &lt;environment: 0x7fd9e2317790&gt;
+#&gt; &lt;environment: 0x7f7f51ec5580&gt;
 #&gt; 
 #&gt; Specification parameters:
 #&gt;  df infl
@@ -290,7 +293,7 @@ supported and operate on the underlying table of specification parameters.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -19,7 +19,11 @@
 #'   \code{\link{make_spec}}, containing the new sampling sampling statements
 #'   to replace their counterparts in the original Stan model, and the data,
 #'   if any, by which these sampling statements are parametrized.
-#' @param object A \code{\link[rstan]{stanfit}} model object.
+#' @param object A model object, either of type \code{\link[rstan]{stanfit}},
+#'   \code{\link[rstanarm]{stanreg}}, \code{\link[brms]{brmsfit}}, or
+#'   a list with two elements: \code{model} containing a
+#'   \code{\link[cmdstanr]{CmdStanModel}}, and \code{fit} containing a
+#'   \code{\link[cmdstanr]{CmdStanMCMC}} object.
 #' @param data The data that was used to fit the model in \code{object}.
 #'   Required only if one of the new sampling specifications involves Stan data
 #'   variables.
@@ -71,14 +75,14 @@ adjust_weights = function(spec, object, data=NULL, keep_bad=FALSE, incl_orig=TRU
     if (is.null(data) & is(object, "brmsfit"))
         data = object$data
     object = get_fit_obj(object)
-    model_code = object@stanmodel@model_code
     stopifnot(is.adjustr_spec(spec))
 
-    parsed = parse_model(model_code)
+    parsed = parse_model(object@stanmodel@model_code)
 
     # if no model data provided, we can only resample distributions of parameters
     if (is.null(data)) {
-        samp_vars = map_chr(parsed$samp, ~ as.character(f_lhs(.)))
+        samp_vars = map(parsed$samp, ~ as.character(f_lhs(.))) %>%
+            purrr::as_vector()
         prior_vars = parsed$vars[samp_vars] != "data"
         parsed$samp = parsed$samp[prior_vars]
         data = list()
@@ -170,11 +174,11 @@ pull.adjustr_weighted = function(.data, var=".weights", name=NULL, ...) {
 #' @export
 extract_samp_stmts = function(object) {
     object = get_fit_obj(object)
-    model_code = object@stanmodel@model_code
 
-    parsed = parse_model(model_code)
+    parsed = parse_model(object@stanmodel@model_code)
 
-    samp_vars = map_chr(parsed$samp, ~ as.character(f_lhs(.)))
+    samp_vars = map(parsed$samp, ~ as.character(f_lhs(.))) %>%
+        purrr::as_vector()
     type = map_chr(samp_vars, function(var) {
         if (stringr::str_ends(parsed$vars[var], "data")) "data" else "parameter"
     })
@@ -185,7 +189,7 @@ extract_samp_stmts = function(object) {
     invisible(parsed$samp)
 }
 
-# Check that the model object is correct, and extract its Stan code
+# Check that the model object is correct, and put it into a convenient format
 get_fit_obj = function(object) {
     if (is(object, "stanfit")) {
         object
@@ -193,7 +197,13 @@ get_fit_obj = function(object) {
         object$stanfit
     } else if (is(object, "brmsfit")) {
         object$fit
+    } else if (is(object, "list") && all(c("fit", "model") %in% names(object))
+               && is(object$fit, "CmdStanMCMC") && is(object$model, "CmdStanModel")) {
+        out = rstan::read_stan_csv(object$fit$output_files())
+        out@stanmodel@model_code = paste0(object$model$code(), collapse="\n")
+        out
     } else {
-        stop("`object` must be of class `stanfit`, `stanreg`, or `brmsfit`.")
+        stop("`object` must be of class `stanfit`, `stanreg`, `brmsfit`, or ",
+             "a list with `CmdStanModel` and `CmdStanMCMC` objects.")
     }
 }

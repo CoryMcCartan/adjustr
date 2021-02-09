@@ -83,7 +83,7 @@ and resamples indices for use in later computation." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">adjustr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -138,19 +138,19 @@ and resamples indices for use in later computation." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/mcmc_stan">
-    <span class="fa fa-twitter"></span>
+    <span class="fas fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/CoryMcCartan/adjustr/">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
   </a>
 </li>
 <li>
   <a href="https://discourse.mc-stan.org/">
-    <span class="fa fa-users"></span>
+    <span class="fas fa-users"></span>
      
   </a>
 </li>
@@ -177,7 +177,7 @@ and resamples indices for use in later computation." />
 and resamples indices for use in later computation.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_resampling_idxs</span>(<span class='no'>x</span>, <span class='kw'>frac</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='no'>T</span>)</pre>
+    <pre class="usage"><span class='fu'>get_resampling_idxs</span><span class='op'>(</span><span class='va'>x</span>, frac <span class='op'>=</span> <span class='fl'>1</span>, replace <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -209,13 +209,15 @@ containing the sampled indices. If any weights are <code>NA</code>, the indices
 will also be <code>NA</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>spec</span> <span class='kw'>=</span> <span class='fu'><a href='make_spec.html'>make_spec</a></span>(<span class='no'>eta</span> ~ <span class='fu'>student_t</span>(<span class='no'>df</span>, <span class='fl'>0</span>, <span class='fl'>1</span>), <span class='kw'>df</span><span class='kw'>=</span><span class='fl'>1</span>:<span class='fl'>10</span>)
-<span class='no'>adjusted</span> <span class='kw'>=</span> <span class='fu'><a href='adjust_weights.html'>adjust_weights</a></span>(<span class='no'>spec</span>, <span class='no'>eightschools_m</span>)
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>spec</span> <span class='op'>=</span> <span class='fu'><a href='make_spec.html'>make_spec</a></span><span class='op'>(</span><span class='va'>eta</span> <span class='op'>~</span> <span class='fu'>student_t</span><span class='op'>(</span><span class='va'>df</span>, <span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span>, df<span class='op'>=</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span>
+<span class='va'>adjusted</span> <span class='op'>=</span> <span class='fu'><a href='adjust_weights.html'>adjust_weights</a></span><span class='op'>(</span><span class='va'>spec</span>, <span class='va'>eightschools_m</span><span class='op'>)</span>
 
-<span class='fu'>get_resampling_idxs</span>(<span class='no'>adjusted</span>)
-<span class='fu'>get_resampling_idxs</span>(<span class='no'>adjusted</span>, <span class='kw'>frac</span><span class='kw'>=</span><span class='fl'>0.1</span>, <span class='kw'>replace</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
-}</div></pre>
+<span class='fu'>get_resampling_idxs</span><span class='op'>(</span><span class='va'>adjusted</span><span class='op'>)</span>
+<span class='fu'>get_resampling_idxs</span><span class='op'>(</span><span class='va'>adjusted</span>, frac<span class='op'>=</span><span class='fl'>0.1</span>, replace<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -231,7 +233,7 @@ will also be <code>NA</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

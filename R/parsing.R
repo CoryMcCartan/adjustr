@@ -61,7 +61,8 @@ parse_model = function(model_code) {
     samps = flatten(samps)
 
     parameters = names(vars)[vars == "parameters"]
-    sampled_pars = map_chr(samps, ~ as.character(f_lhs(.)))
+    sampled_pars = map(samps, ~ as.character(f_lhs(.))) %>%
+        purrr::as_vector()
     uniform_pars = setdiff(parameters, sampled_pars)
     uniform_samp = paste0(uniform_pars, " ~ uniform(-1e100, 1e100)")
     uniform_samp = map(uniform_samp, ~ stats::as.formula(., env=empty_env()))
@@ -73,8 +74,10 @@ parse_model = function(model_code) {
 # Take a list of provided sampling formulas and return a matching list of
 # sampling statements from a reference list
 match_sampling_stmts = function(new_samp, ref_samp) {
-    ref_vars = map_chr(ref_samp, ~ as.character(f_lhs(.)))
-    new_vars = map_chr(new_samp, ~ as.character(f_lhs(.)))
+    ref_vars = map(ref_samp, ~ as.character(f_lhs(.))) %>%
+        purrr::as_vector()
+    new_vars = map(new_samp, ~ as.character(f_lhs(.))) %>%
+        purrr::as_vector()
     indices = match(new_vars, ref_vars)
     # check that every prior was matched
     if (any(is.na(indices))) {

@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">adjustr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -92,19 +92,19 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://twitter.com/mcmc_stan">
-    <span class="fa fa-twitter"></span>
+    <span class="fas fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/CoryMcCartan/adjustr/">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
   </a>
 </li>
 <li>
   <a href="https://discourse.mc-stan.org/">
-    <span class="fa fa-users"></span>
+    <span class="fas fa-users"></span>
      
   </a>
 </li>
@@ -118,7 +118,7 @@
 
       
 
-      </header><script src="eight-schools_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="eight-schools_files/header-attrs-2.6/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Sensitivity Analysis of a Simple Hierarchical Model</h1>
@@ -136,11 +136,12 @@
 <a href="#introduction" class="anchor"></a>Introduction</h2>
 <p>This vignette walks through the process of performing sensitivity analysis using the <code>adjustr</code> package for the classic introductory hierarchical model: the “eight schools” meta-analysis from Chapter 5 of <span class="citation">Gelman et al. (2013)</span>.</p>
 <p>We begin by specifying and fitting the model, which should be familiar to most users of Stan.</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rstan</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">adjustr</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://mc-stan.org/rstan">rstan</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://corymccartan.github.io/adjustr/">adjustr</a></span><span class="op">)</span>
 
-<span class="no">model_code</span> <span class="kw">=</span> <span class="st">"
+<span class="va">model_code</span> <span class="op">=</span> <span class="st">"
 data {
     int&lt;lower=0&gt; J;         // number of schools
     real y[J];              // estimated treatment effects
@@ -159,15 +160,16 @@ model {
     y ~ normal(theta, sigma);
 }"</span>
 
-<span class="no">model_d</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">J</span> <span class="kw">=</span> <span class="fl">8</span>,
-               <span class="kw">y</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">28</span>,  <span class="fl">8</span>, -<span class="fl">3</span>,  <span class="fl">7</span>, -<span class="fl">1</span>,  <span class="fl">1</span>, <span class="fl">18</span>, <span class="fl">12</span>),
-               <span class="kw">sigma</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">15</span>, <span class="fl">10</span>, <span class="fl">16</span>, <span class="fl">11</span>,  <span class="fl">9</span>, <span class="fl">11</span>, <span class="fl">10</span>, <span class="fl">18</span>))
-<span class="no">eightschools_m</span> <span class="kw">=</span> <span class="fu"><a href="https://mc-stan.org/rstan/reference/stan.html">stan</a></span>(<span class="kw">model_code</span><span class="kw">=</span><span class="no">model_code</span>, <span class="kw">chains</span><span class="kw">=</span><span class="fl">2</span>, <span class="kw">data</span><span class="kw">=</span><span class="no">model_d</span>,
-                      <span class="kw">warmup</span><span class="kw">=</span><span class="fl">500</span>, <span class="kw">iter</span><span class="kw">=</span><span class="fl">1000</span>)</pre></body></html></div>
+<span class="va">model_d</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>J <span class="op">=</span> <span class="fl">8</span>,
+               y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">28</span>,  <span class="fl">8</span>, <span class="op">-</span><span class="fl">3</span>,  <span class="fl">7</span>, <span class="op">-</span><span class="fl">1</span>,  <span class="fl">1</span>, <span class="fl">18</span>, <span class="fl">12</span><span class="op">)</span>,
+               sigma <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">15</span>, <span class="fl">10</span>, <span class="fl">16</span>, <span class="fl">11</span>,  <span class="fl">9</span>, <span class="fl">11</span>, <span class="fl">10</span>, <span class="fl">18</span><span class="op">)</span><span class="op">)</span>
+<span class="va">eightschools_m</span> <span class="op">=</span> <span class="fu"><a href="https://mc-stan.org/rstan/reference/stan.html">stan</a></span><span class="op">(</span>model_code<span class="op">=</span><span class="va">model_code</span>, chains<span class="op">=</span><span class="fl">2</span>, data<span class="op">=</span><span class="va">model_d</span>,
+                      warmup<span class="op">=</span><span class="fl">500</span>, iter<span class="op">=</span><span class="fl">1000</span><span class="op">)</span></code></pre></div>
 <p>We plot the original estimates for each of the eight schools.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">eightschools_m</span>, <span class="kw">pars</span><span class="kw">=</span><span class="st">"theta"</span>)
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">eightschools_m</span>, pars<span class="op">=</span><span class="st">"theta"</span><span class="op">)</span>
 <span class="co">#&gt; ci_level: 0.8 (80% intervals)</span>
-<span class="co">#&gt; outer_level: 0.95 (95% intervals)</span></pre></body></html></div>
+<span class="co">#&gt; outer_level: 0.95 (95% intervals)</span></code></pre></div>
 <p><img src="eight-schools_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
 <p>The model partially pools information, pulling the school-level treatment effects towards the overall mean.</p>
 <p>It is natural to wonder how much these estimates depend on certain aspects of our model. The individual and school treatment effects are assumed to follow a normal distribution, and we have used a uniform prior on the population parameters <code>mu</code> and <code>tau</code>.</p>
@@ -182,27 +184,31 @@ model {
 <h2 class="hasAnchor">
 <a href="#basic-workflow-example" class="anchor"></a>Basic Workflow Example</h2>
 <p>First suppose we want to examine the effect of our choice of uniform prior on <code>mu</code> and <code>tau</code>. We begin by specifying an alternative model in which these parameters have more informative priors. This just requires passing the <code>make_spec</code> function the new sampling statements we’d like to use. These replace any in the original model (<code>mu</code> and <code>tau</code> have implicit improper uniform priors, since the original model does not have any sampling statements for them).</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">spec</span> <span class="kw">=</span> <span class="fu"><a href="../reference/make_spec.html">make_spec</a></span>(<span class="no">mu</span> ~ <span class="fu">normal</span>(<span class="fl">0</span>, <span class="fl">20</span>), <span class="no">tau</span> ~ <span class="fu">exponential</span>(<span class="fl">5</span>))
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">spec</span>)
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">spec</span> <span class="op">=</span> <span class="fu"><a href="../reference/make_spec.html">make_spec</a></span><span class="op">(</span><span class="va">mu</span> <span class="op">~</span> <span class="fu">normal</span><span class="op">(</span><span class="fl">0</span>, <span class="fl">20</span><span class="op">)</span>, <span class="va">tau</span> <span class="op">~</span> <span class="fu">exponential</span><span class="op">(</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">spec</span><span class="op">)</span>
 <span class="co">#&gt; Sampling specifications:</span>
 <span class="co">#&gt; mu ~ normal(0, 20)</span>
-<span class="co">#&gt; tau ~ exponential(5)</span></pre></body></html></div>
+<span class="co">#&gt; tau ~ exponential(5)</span></code></pre></div>
 <p>Then we compute importance sampling weights to approximate the posterior under this alternative model.</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">adjusted</span> <span class="kw">=</span> <span class="fu"><a href="../reference/adjust_weights.html">adjust_weights</a></span>(<span class="no">spec</span>, <span class="no">eightschools_m</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">adjusted</span> <span class="op">=</span> <span class="fu"><a href="../reference/adjust_weights.html">adjust_weights</a></span><span class="op">(</span><span class="va">spec</span>, <span class="va">eightschools_m</span><span class="op">)</span></code></pre></div>
 <p>The <code>adjust_weights</code> function returns a data frame containing a summary of the alternative model and a list-column named <code>.weights</code> containing the importance weights. The last row of the table by default corresponds to the original model specification. The table also includes the diagnostic Pareto <em>k</em>-value. When this value exceeds 0.7, importance sampling is unreliable, and by default <code>adjust_weights</code> discards weights with a Pareto <em>k</em> above 0.7 (the respective rows in <code>adjusted</code> are kept, but the <code>weights</code> column is set to <code>NA_real_</code>).</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">adjusted</span>)
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">adjusted</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 2 x 4</span>
 <span class="co">#&gt;   .samp_1            .samp_2              .weights      .pareto_k</span>
 <span class="co">#&gt;   &lt;chr&gt;              &lt;chr&gt;                &lt;list&gt;            &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 mu ~ normal(0, 20) tau ~ exponential(5) &lt;dbl [1,000]&gt;     0.569</span>
-<span class="co">#&gt; 2 &lt;original model&gt;   &lt;original model&gt;     &lt;dbl [1,000]&gt;  -Inf</span></pre></body></html></div>
+<span class="co">#&gt; 2 &lt;original model&gt;   &lt;original model&gt;     &lt;dbl [1,000]&gt;  -Inf</span></code></pre></div>
 <p>Finally, we can examine how these alternative priors have changed our posterior inference. We use <code>summarize</code> to calculate these under the alternative model.</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="no">adjusted</span>, <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">mu</span>), <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span>(<span class="no">mu</span>))
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span><span class="va">adjusted</span>, <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">mu</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">mu</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 2 x 6</span>
 <span class="co">#&gt;   .samp_1          .samp_2            .weights    .pareto_k `mean(mu)` `var(mu)`</span>
 <span class="co">#&gt;   &lt;chr&gt;            &lt;chr&gt;              &lt;list&gt;          &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 mu ~ normal(0, … tau ~ exponential… &lt;dbl [1,00…     0.569       7.93      23.7</span>
-<span class="co">#&gt; 2 &lt;original model&gt; &lt;original model&gt;   &lt;dbl [1,00…  -Inf           7.98      26.7</span></pre></body></html></div>
+<span class="co">#&gt; 2 &lt;original model&gt; &lt;original model&gt;   &lt;dbl [1,00…  -Inf           7.98      26.7</span></code></pre></div>
 <p>We see that the more informative priors have pulled the posterior distribution of <code>mu</code> towards zero and made it less variable.</p>
 </div>
 <div id="multiple-alternative-specifications" class="section level2">
@@ -210,8 +216,9 @@ model {
 <a href="#multiple-alternative-specifications" class="anchor"></a>Multiple Alternative Specifications</h2>
 <p>What if instead we are concerned about our distributional assumption on the school treatment effects? We could probe this assumption by fitting a series of models where <code>eta</code> had a Student’s <em>t</em> distribution, with varying degrees of freedom.</p>
 <p>The <code>make_spec</code> function handles this easily.</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">spec</span> <span class="kw">=</span> <span class="fu"><a href="../reference/make_spec.html">make_spec</a></span>(<span class="no">eta</span> ~ <span class="fu">student_t</span>(<span class="no">df</span>, <span class="fl">0</span>, <span class="fl">1</span>), <span class="kw">df</span><span class="kw">=</span><span class="fl">1</span>:<span class="fl">10</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">spec</span>)
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">spec</span> <span class="op">=</span> <span class="fu"><a href="../reference/make_spec.html">make_spec</a></span><span class="op">(</span><span class="va">eta</span> <span class="op">~</span> <span class="fu">student_t</span><span class="op">(</span><span class="va">df</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, df<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">spec</span><span class="op">)</span>
 <span class="co">#&gt; Sampling specifications:</span>
 <span class="co">#&gt; eta ~ student_t(df, 0, 1)</span>
 <span class="co">#&gt; </span>
@@ -226,12 +233,14 @@ model {
 <span class="co">#&gt;   7</span>
 <span class="co">#&gt;   8</span>
 <span class="co">#&gt;   9</span>
-<span class="co">#&gt;  10</span></pre></body></html></div>
+<span class="co">#&gt;  10</span></code></pre></div>
 <p>Notice how we have parameterized the alternative sampling statement with a variable <code>df</code>, and then provided the values <code>df</code> takes in another argument to <code>make_spec</code>.</p>
 <p>As before, we compute importance sampling weights to approximate the posterior under these alternative models. Here, for the purposes of illustration, we are using <code>keep_bad=T</code> to compute weights even when the Pareto <em>k</em> diagnostic value is above 0.7. In practice, the alternative models should be completely re-fit in Stan.</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">adjusted</span> <span class="kw">=</span> <span class="fu"><a href="../reference/adjust_weights.html">adjust_weights</a></span>(<span class="no">spec</span>, <span class="no">eightschools_m</span>, <span class="kw">keep_bad</span><span class="kw">=</span><span class="no">T</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">adjusted</span> <span class="op">=</span> <span class="fu"><a href="../reference/adjust_weights.html">adjust_weights</a></span><span class="op">(</span><span class="va">spec</span>, <span class="va">eightschools_m</span>, keep_bad<span class="op">=</span><span class="cn">T</span><span class="op">)</span></code></pre></div>
 <p>Now, <code>adjusted</code> has ten rows, one for each alternative model.</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">adjusted</span>)
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">adjusted</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 11 x 4</span>
 <span class="co">#&gt;       df .samp                     .weights      .pareto_k</span>
 <span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;                     &lt;list&gt;            &lt;dbl&gt;</span>
@@ -245,16 +254,19 @@ model {
 <span class="co">#&gt;  8     8 eta ~ student_t(df, 0, 1) &lt;dbl [1,000]&gt;     0.753</span>
 <span class="co">#&gt;  9     9 eta ~ student_t(df, 0, 1) &lt;dbl [1,000]&gt;     0.736</span>
 <span class="co">#&gt; 10    10 eta ~ student_t(df, 0, 1) &lt;dbl [1,000]&gt;     0.721</span>
-<span class="co">#&gt; 11    NA &lt;original model&gt;          &lt;dbl [1,000]&gt;  -Inf</span></pre></body></html></div>
+<span class="co">#&gt; 11    NA &lt;original model&gt;          &lt;dbl [1,000]&gt;  -Inf</span></code></pre></div>
 <p>To examine the impact of these model changes, we can plot the posterior for a quantity of interest versus the degrees of freedom for the <em>t</em> distribution. The package provides the <code>spec_plot</code> function which takes an x-axis specification parameter and a y-axis posterior quantity (which must evaluate to a single number per posterior draw). The dashed line shows the posterior median under the original model.</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="../reference/spec_plot.html">spec_plot</a></span>(<span class="no">adjusted</span>, <span class="no">df</span>, <span class="no">mu</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/spec_plot.html">spec_plot</a></span><span class="op">(</span><span class="va">adjusted</span>, <span class="va">df</span>, <span class="va">mu</span><span class="op">)</span></code></pre></div>
 <p><img src="eight-schools_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="../reference/spec_plot.html">spec_plot</a></span>(<span class="no">adjusted</span>, <span class="no">df</span>, <span class="no">theta</span>[<span class="fl">3</span>])</pre></body></html></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/spec_plot.html">spec_plot</a></span><span class="op">(</span><span class="va">adjusted</span>, <span class="va">df</span>, <span class="va">theta</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <p><img src="eight-schools_files/figure-html/unnamed-chunk-12-2.png" width="700"></p>
 <p>It appears that changing the distribution of <code>eta</code>/<code>theta</code> from normal to <em>t</em> has a small effect on posterior inferences (although, as noted above, these inferences are unreliable as <em>k</em> &gt; 0.7).</p>
 <p>By default, the function plots an inner 80% credible interval and an outer 95% credible interval, but these can be changed by the user.</p>
 <p>We can also measure the distance between the new and original posterior marginals by using the special <code>wasserstein()</code> function available in <code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize()</a></code>:</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="no">adjusted</span>, <span class="fu">wasserstein</span>(<span class="no">mu</span>))
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span><span class="va">adjusted</span>, <span class="fu">wasserstein</span><span class="op">(</span><span class="va">mu</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 11 x 5</span>
 <span class="co">#&gt;       df .samp                     .weights      .pareto_k `wasserstein(mu)`</span>
 <span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;                     &lt;list&gt;            &lt;dbl&gt;             &lt;dbl&gt;</span>
@@ -268,13 +280,13 @@ model {
 <span class="co">#&gt;  8     8 eta ~ student_t(df, 0, 1) &lt;dbl [1,000]&gt;     0.753             0.195</span>
 <span class="co">#&gt;  9     9 eta ~ student_t(df, 0, 1) &lt;dbl [1,000]&gt;     0.736             0.166</span>
 <span class="co">#&gt; 10    10 eta ~ student_t(df, 0, 1) &lt;dbl [1,000]&gt;     0.721             0.151</span>
-<span class="co">#&gt; 11    NA &lt;original model&gt;          &lt;dbl [1,000]&gt;  -Inf                 0</span></pre></body></html></div>
+<span class="co">#&gt; 11    NA &lt;original model&gt;          &lt;dbl [1,000]&gt;  -Inf                 0</span></code></pre></div>
 <p>As we would expect, the 1-Wasserstein distance decreases as the degrees of freedom increase. In general, we can compute the <em>p</em>-Wasserstein distance by passing an extra <code>p</code> parameter to <code>wasserstein()</code>.</p>
 <div id="section" class="section level3 unnumbered">
-<h3></h3>
-<div id="refs" class="references">
-<div id="ref-bda3">
-<p>Gelman, Andrew, J. B. Carlin, Hal S. Stern, David B. Dunson, Aki Vehtari, and Donald B. Rubin. 2013. <em>Bayesian Data Analysis</em>. 3rd ed. London: CRC Press.</p>
+<h3 class="unnumbered"></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-bda3" class="csl-entry">
+Gelman, Andrew, J. B. Carlin, Hal S. Stern, David B. Dunson, Aki Vehtari, and Donald B. Rubin. 2013. <em>Bayesian Data Analysis</em>. 3rd ed. London: CRC Press.
 </div>
 </div>
 </div>
@@ -296,7 +308,7 @@ model {
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

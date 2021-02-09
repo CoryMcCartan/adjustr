@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title><code>dplyr</code> Methods for <code>adjustr_spec</code> Objects — dplyr.adjustr_spec • adjustr</title>
+<title>dplyr Methods for adjustr_spec Objects — dplyr.adjustr_spec • adjustr</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="<code>dplyr</code> Methods for <code>adjustr_spec</code> Objects — dplyr.adjustr_spec" />
+<meta property="og:title" content="dplyr Methods for adjustr_spec Objects — dplyr.adjustr_spec" />
 <meta property="og:description" content="Core dplyr verbs which don't involve grouping
  (filter, arrange,
   mutate, select,
@@ -86,7 +86,7 @@ implemented and operate on the underlying table of specification parameters." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">adjustr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -141,19 +141,19 @@ implemented and operate on the underlying table of specification parameters." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/mcmc_stan">
-    <span class="fa fa-twitter"></span>
+    <span class="fas fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/CoryMcCartan/adjustr/">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
   </a>
 </li>
 <li>
   <a href="https://discourse.mc-stan.org/">
-    <span class="fa fa-users"></span>
+    <span class="fas fa-users"></span>
      
   </a>
 </li>
@@ -184,19 +184,19 @@ implemented and operate on the underlying table of specification parameters.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for adjustr_spec</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.preserve</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .preserve <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
 <span class='co'># S3 method for adjustr_spec</span>
-<span class='fu'>arrange</span>(<span class='no'>.data</span>, <span class='no'>...</span>)
+<span class='fu'>arrange</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for adjustr_spec</span>
-<span class='fu'>rename</span>(<span class='no'>.data</span>, <span class='no'>...</span>)
+<span class='fu'>rename</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for adjustr_spec</span>
-<span class='fu'>select</span>(<span class='no'>.data</span>, <span class='no'>...</span>)
+<span class='fu'>select</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for adjustr_spec</span>
-<span class='fu'>slice</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.preserve</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+<span class='fu'>slice</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .preserve <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -217,13 +217,14 @@ implemented and operate on the underlying table of specification parameters.</p>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>spec</span> <span class='kw'>=</span> <span class='fu'><a href='make_spec.html'>make_spec</a></span>(<span class='no'>eta</span> ~ <span class='fu'>student_t</span>(<span class='no'>df</span>, <span class='fl'>0</span>, <span class='fl'>1</span>), <span class='kw'>df</span><span class='kw'>=</span><span class='fl'>1</span>:<span class='fl'>10</span>)
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>spec</span> <span class='op'>=</span> <span class='fu'><a href='make_spec.html'>make_spec</a></span><span class='op'>(</span><span class='va'>eta</span> <span class='op'>~</span> <span class='fu'>student_t</span><span class='op'>(</span><span class='va'>df</span>, <span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span>, df<span class='op'>=</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span>
 
-<span class='fu'>arrange</span>(<span class='no'>spec</span>, <span class='fu'>desc</span>(<span class='no'>df</span>))
-<span class='fu'>slice</span>(<span class='no'>spec</span>, <span class='fl'>4</span>:<span class='fl'>7</span>)
-<span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span>(<span class='no'>spec</span>, <span class='no'>df</span> <span class='kw'>==</span> <span class='fl'>2</span>)
-}</div></pre>
+<span class='fu'>arrange</span><span class='op'>(</span><span class='va'>spec</span>, <span class='fu'>desc</span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>slice</span><span class='op'>(</span><span class='va'>spec</span>, <span class='fl'>4</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>spec</span>, <span class='va'>df</span> <span class='op'>==</span> <span class='fl'>2</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -239,7 +240,7 @@ implemented and operate on the underlying table of specification parameters.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

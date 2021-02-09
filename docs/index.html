@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">adjustr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -93,19 +93,19 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://twitter.com/mcmc_stan">
-    <span class="fa fa-twitter"></span>
+    <span class="fas fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/CoryMcCartan/adjustr/">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
   </a>
 </li>
 <li>
   <a href="https://discourse.mc-stan.org/">
-    <span class="fa fa-users"></span>
+    <span class="fas fa-users"></span>
      
   </a>
 </li>
@@ -140,14 +140,15 @@
 <li><p>Use <a href="https://corymccartan.github.io/adjustr/reference/summarize.adjustr_weighted.html"><code>summarize</code></a> and <a href="https://corymccartan.github.io/adjustr/reference/spec_plot.html"><code>spec_plot</code></a> to examine posterior quantities of interest for each alternative specification, in order to assess the sensitivity of the underlying model.</p></li>
 </ol>
 <p>To illustrate, the package lets us do the following:</p>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="reference/extract_samp_stmts.html">extract_samp_stmts</a></span>(<span class="no">eightschools_m</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/extract_samp_stmts.html">extract_samp_stmts</a></span><span class="op">(</span><span class="va">eightschools_m</span><span class="op">)</span>
 <span class="co">#&gt; Sampling statements for model 2c8d1d8a30137533422c438f23b83428:</span>
 <span class="co">#&gt;   parameter   eta ~ std_normal()</span>
 <span class="co">#&gt;   data        y ~ normal(theta, sigma)</span>
 
-<span class="fu"><a href="reference/make_spec.html">make_spec</a></span>(<span class="no">eta</span> ~ <span class="fu">student_t</span>(<span class="fl">0</span>, <span class="fl">1</span>, <span class="no">df</span>), <span class="kw">df</span><span class="kw">=</span><span class="fl">1</span>:<span class="fl">10</span>) <span class="kw">%&gt;%</span>
-    <span class="fu"><a href="reference/adjust_weights.html">adjust_weights</a></span>(<span class="no">eightschools_m</span>) <span class="kw">%&gt;%</span>
-    <span class="fu">summarize</span>(<span class="fu">wasserstein</span>(<span class="no">mu</span>))
+<span class="fu"><a href="reference/make_spec.html">make_spec</a></span><span class="op">(</span><span class="va">eta</span> <span class="op">~</span> <span class="fu">student_t</span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="va">df</span><span class="op">)</span>, df<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="reference/adjust_weights.html">adjust_weights</a></span><span class="op">(</span><span class="va">eightschools_m</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">summarize</span><span class="op">(</span><span class="fu">wasserstein</span><span class="op">(</span><span class="va">mu</span><span class="op">)</span><span class="op">)</span> 
 <span class="co">#&gt; # A tibble: 11 x 5</span>
 <span class="co">#&gt;       df .samp                     .weights      .pareto_k `wasserstein(mu)`</span>
 <span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;                     &lt;list&gt;            &lt;dbl&gt;             &lt;dbl&gt;</span>
@@ -161,17 +162,18 @@
 <span class="co">#&gt;  8     8 eta ~ student_t(df, 0, 1) &lt;dbl [1,000]&gt;     0.753             0.195</span>
 <span class="co">#&gt;  9     9 eta ~ student_t(df, 0, 1) &lt;dbl [1,000]&gt;     0.736             0.166</span>
 <span class="co">#&gt; 10    10 eta ~ student_t(df, 0, 1) &lt;dbl [1,000]&gt;     0.721             0.151</span>
-<span class="co">#&gt; 11    NA &lt;original model&gt;          &lt;dbl [1,000]&gt;  -Inf                 0</span></pre></div>
+<span class="co">#&gt; 11    NA &lt;original model&gt;          &lt;dbl [1,000]&gt;  -Inf                 0</span></code></pre></div>
 <p>The tutorial <a href="https://corymccartan.github.io/adjustr/articles/eight-schools.html">vignette</a> walks through a full sensitivity analysis for this 8-schools example. Smaller examples are also included in the package <a href="https://corymccartan.github.io/adjustr/reference/index.html">documentation</a>.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>Install the latest version from <strong>GitHub</strong>:</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="kw">if</span> (!<span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="st">"devtools"</span>)) {
-  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)
-}
-<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"corymccartan/adjustr@*release"</span>)</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="st"><a href="https://devtools.r-lib.org/">"devtools"</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
+<span class="op">}</span>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"corymccartan/adjustr@*release"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="references" class="section level2">
 <h2 class="hasAnchor">
@@ -226,7 +228,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
