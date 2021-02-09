@@ -1,3 +1,10 @@
+# adjustr 0.1.2
+
+* Add support for `cmdstanr` objects by passing a list containing the fit and the model object.
+
+* Fix bug in parsing code that caused an error with some `target +=` model statements.
+
+
 # adjustr 0.1.1
 
 * Improved documentation and additional references.

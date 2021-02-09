@@ -3,7 +3,7 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   eight-schools: eight-schools.html
-last_built: 2021-02-09T02:22Z
+last_built: 2021-02-09T02:26Z
 urls:
   reference: https://corymccartan.github.io/adjustr//reference
   article: https://corymccartan.github.io/adjustr//articles
