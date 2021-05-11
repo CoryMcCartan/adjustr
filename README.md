@@ -4,6 +4,7 @@
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![Travis build status](https://travis-ci.org/CoryMcCartan/adjustr.svg?branch=master)](https://travis-ci.org/CoryMcCartan/adjustr)
 [![Codecov test coverage](https://codecov.io/gh/CoryMcCartan/adjustr/branch/master/graph/badge.svg)](https://codecov.io/gh/CoryMcCartan/adjustr?branch=master)
+[![R-CMD-check](https://github.com/CoryMcCartan/adjustr/workflows/R-CMD-check/badge.svg)](https://github.com/CoryMcCartan/adjustr/actions)
 <!-- badges: end -->
 
 Sensitivity analysis is a critical component of a good modeling workflow. Yet

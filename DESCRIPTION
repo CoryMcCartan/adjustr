@@ -10,7 +10,7 @@ Description: Functions to help assess the sensitivity of a Bayesian model
     priors. Users provide a series of alternate sampling specifications, and the 
     package uses Pareto-smoothed importance sampling to estimate posterior 
     quantities of interest under each specification.
-License: BSD_3_clause + file LICENSE
+License: MIT + file LICENSE
 Depends: R (>= 3.6.0),
     dplyr (>= 1.0.0)
 Imports:
