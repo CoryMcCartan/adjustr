@@ -1,7 +1,7 @@
 ---
 title: "Sensitivity Analysis of a Simple Hierarchical Model"
 output: rmarkdown::html_vignette
-bibliography: eight-schools.bib
+bibliography: adjustr.bib
 vignette: >
   %\VignetteIndexEntry{Sensitivity Analysis of a Simple Hierarchical Model}
   %\VignetteEngine{knitr::rmarkdown}
