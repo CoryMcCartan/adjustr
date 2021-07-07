@@ -20,8 +20,8 @@
 #'   to replace their counterparts in the original Stan model, and the data,
 #'   if any, by which these sampling statements are parametrized.
 #' @param object A model object, either of type \code{\link[rstan]{stanfit}},
-#'   \code{\link[rstanarm]{stanreg}}, \code{\link[brms]{brmsfit}}, or
-#'   a list with two elements: \code{model} containing a
+#'   \code{\link[rstanarm:stanreg-objects]{stanreg}}, \code{\link[brms]{brmsfit}},
+#'   or a list with two elements: \code{model} containing a
 #'   \code{\link[cmdstanr]{CmdStanModel}}, and \code{fit} containing a
 #'   \code{\link[cmdstanr]{CmdStanMCMC}} object.
 #' @param data The data that was used to fit the model in \code{object}.
@@ -33,7 +33,7 @@
 #'   importance sampling (i.e., if the Pareto shape parameter is larger than
 #'   0.7), have their weights discarded—weights are set to \code{NA_real_}.
 #' @param incl_orig When \code{TRUE}, include a row for the original
-#'   model specification, with all weights equal. Can facilitate comaprison
+#'   model specification, with all weights equal. Can facilitate comparison
 #'   and plotting later.
 #'
 #' @return A tibble, produced by converting the provided \code{specs} to a
