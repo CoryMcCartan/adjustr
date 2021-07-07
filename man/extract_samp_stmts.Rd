@@ -10,7 +10,7 @@ extract_samp_stmts(object)
 \item{object}{A \code{\link[rstan]{stanfit}} model object.}
 }
 \value{
-Invisbly returns a list of sampling formulas.
+Invisibly returns a list of sampling formulas.
 }
 \description{
 Prints a list of sampling statements extracted from the \code{model} block of

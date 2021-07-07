@@ -17,9 +17,9 @@
 #'   Arithmetic expressions of parameters are also allowed, but care must be
 #'   taken with multivariate parameter arguments.  Since specifications are
 #'   passed as formulas, R's arithmetic operators are used, not Stan's. As a
-#'   result, matrix and elementwise multiplcation in Stan sampling statments may
+#'   result, matrix and elementwise multipilcation in Stan sampling statements may
 #'   not be interpreted correctly. Moving these computations out of sampling
-#'   statements and into a local variables will ensure correct results.
+#'   statements and into local variables will ensure correct results.
 #'
 #'   For named vector arguments, each entry of the vector will be substituted
 #'   into the corresponding parameter in the sampling statements. For data

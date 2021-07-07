@@ -22,7 +22,7 @@ parameters. Can be set to \code{1} if there is only one specification.
 Automatically quoted and evaluated in the context of \code{x}.}
 
 \item{post}{The posterior quantity of interest, to be computed for each
-resampled draw of each specificaiton. Should evaluate to a single number
+resampled draw of each specification. Should evaluate to a single number
 for each draw. Automatically quoted and evaluated in the context of \code{x}.}
 
 \item{only_mean}{Whether to only plot the posterior mean. May be more stable.}

@@ -163,7 +163,7 @@ pull.adjustr_weighted = function(.data, var=".weights", name=NULL, ...) {
 #'
 #' @param object A \code{\link[rstan]{stanfit}} model object.
 #'
-#' @return Invisbly returns a list of sampling formulas.
+#' @return Invisibly returns a list of sampling formulas.
 #'
 #' @examples \dontrun{
 #' extract_samp_stmts(eightschools_m)

@@ -6,7 +6,7 @@ Version: 0.1.2
 Authors@R: person("Cory", "McCartan", email = "cmccartan@g.harvard.edu",
   role = c("aut", "cre"))
 Description: Functions to help assess the sensitivity of a Bayesian model 
-    (fitted using the rstan pakcage) to the specification of its likelihood and
+    (fitted using the rstan package) to the specification of its likelihood and
     priors. Users provide a series of alternate sampling specifications, and the 
     package uses Pareto-smoothed importance sampling to estimate posterior 
     quantities of interest under each specification.

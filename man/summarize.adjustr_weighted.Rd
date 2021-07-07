@@ -36,7 +36,7 @@ used for any summary statistic that is not \code{mean}, \code{var} or
 \code{\link{adjust_weights}}.}
 }
 \value{
-An \code{adjustr_weighted} object, wth the new columns specified in
+An \code{adjustr_weighted} object, with the new columns specified in
 \code{...} added.
 }
 \description{
