@@ -7,7 +7,7 @@ re_stmt = paste0("(int|real|(?:unit_|row_)?vector|(?:positive_)?ordered|simplex"
 re_block = "((?:transformed )?data|(?:transformed )?parameters|model|generated quantities)"
 re_samp = paste0("(", identifier, " ?~[^~{}]+)")
 re_samp2 = paste0("target ?\\+= ?(", identifier, ")_lp[md]f\\((",
-                  identifier, ")(?:| ?[|]? ?(.+))\\)")
+                  identifier, "(?:\\[[a-zA-Z0-9_]*\\])?)", "(?:| ?[|] ?(.+))\\)")
 
 # Extract variable name from variable declaration, or return NA if no declaration
 get_variables = function(statement) {
@@ -20,7 +20,10 @@ get_sampling = function(statement) {
     samps2 = stringr::str_match(statement, re_samp2)#[,,3]
     samps2_rearr = paste0(samps2[,3], " ~ ", samps2[,2], "(", coalesce(samps2[,4], ""), ")")
     stmts = c(samps[!is.na(samps)], samps2_rearr[!is.na(samps2[,1])])
-    map(stmts, ~ stats::as.formula(., env=empty_env()))
+    make_form = purrr::possibly(function(stmt) {
+        stats::as.formula(stmt, env=empty_env())
+    }, NULL)
+    purrr::compact(map(stmts, make_form))
 }
 
 # Parse Stan `model_code` into a list with two elements: `vars` named
@@ -62,7 +65,7 @@ parse_model = function(model_code) {
 
     parameters = names(vars)[vars == "parameters"]
     sampled_pars = map(samps, ~ as.character(f_lhs(.))) %>%
-        purrr::as_vector()
+        purrr::flatten()
     uniform_pars = setdiff(parameters, sampled_pars)
     uniform_samp = paste0(uniform_pars, " ~ uniform(-1e100, 1e100)")
     uniform_samp = map(uniform_samp, ~ stats::as.formula(., env=empty_env()))

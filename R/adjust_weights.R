@@ -177,9 +177,9 @@ extract_samp_stmts = function(object) {
 
     parsed = parse_model(object@stanmodel@model_code)
 
-    samp_vars = map(parsed$samp, ~ as.character(f_lhs(.))) %>%
-        purrr::as_vector()
-    type = map_chr(samp_vars, function(var) {
+    samp_vars = map_chr(parsed$samp, ~ rlang::expr_text(f_lhs(.)))
+    samp_var_names = stringr::str_replace(samp_vars, "\\[.+\\]", "")
+    type = map_chr(samp_var_names, function(var) {
         if (stringr::str_ends(parsed$vars[var], "data")) "data" else "parameter"
     })
     print_order = order(type, samp_vars, decreasing=c(T, F))

@@ -83,7 +83,6 @@ calc_specs_lp = function(object, samps, parsed_vars, data, specs) {
 
 
 # Mapping of Stan distribution names to R functions
-# Grab even more distributions from `extraDistr` if avaialable
  distrs = list(
     bernoulli = function(x, p, ...) dbinom(x, 1, p, ...),
     bernoulli_logit = function(x, p, ...) dbinom(x, 1, plogis(p), ...),
@@ -107,23 +106,26 @@ calc_specs_lp = function(object, samps, parsed_vars, data, specs) {
     beta_proportion = function(x, mu, k, ...) dbeta(x, mu*k, (1-mu)*k, ...),
     uniform = dunif
 )
-if (requireNamespace("extraDistr", quietly=T)) {
-    distrs = append(distrs, list(
-        beta_binomial = extraDistr::dbbinom,
-        categorical = extraDistr::dcat,
-        gumbel = extraDistr::dgumbel,
-        inv_chi_square = extraDistr::dinvchisq,
-        scaled_inv_chi_square = extraDistr::dinvchisq,
-        inv_gamma = extraDistr::dinvgamma,
-        frechet = function(x, lambda, sigma, ...)
-            extraDistr::dfrechet(x, lambda, sigma=sigma, ...),
-        rayleigh = extraDistr::drayleigh,
-        pareto = extraDistr::dpareto
-    ))
-} else {
-    message("`extraDistr` package not found. Install to access more ",
-            "distributions, like inverse chi-square and beta-binomial.")
+# Grab even more distributions from `extraDistr` if available (called from .onLoad())
+distrs_onload = function() {
+    if (requireNamespace("extraDistr", quietly=T)) {
+        distrs <<- append(distrs, list(
+            beta_binomial = extraDistr::dbbinom,
+            categorical = extraDistr::dcat,
+            gumbel = extraDistr::dgumbel,
+            inv_chi_square = extraDistr::dinvchisq,
+            scaled_inv_chi_square = extraDistr::dinvchisq,
+            inv_gamma = extraDistr::dinvgamma,
+            frechet = function(x, lambda, sigma, ...)
+                extraDistr::dfrechet(x, lambda, sigma=sigma, ...),
+            rayleigh = extraDistr::drayleigh,
+            pareto = extraDistr::dpareto
+        ))
+    } else {
+        message("`extraDistr` package not found. Install to access more ",
+                "distributions, like inverse chi-square and beta-binomial.")
+    }
+    # Turn mapping into an environment suitable for metaprogramming,
+    # and turn each density into its curried form (see `make_dens` above)
+    distr_env <<- new_environment(purrr::map(distrs, make_dens))
 }
-# Turn mapping into an environment suitable for metaprogramming,
-# and turn each density into its curried form (see `make_dens` above)
-distr_env = new_environment(purrr::map(distrs, make_dens))

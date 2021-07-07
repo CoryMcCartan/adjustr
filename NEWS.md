@@ -1,3 +1,5 @@
+# adjustr 0.1.3
+
 # adjustr 0.1.2
 
 * Add support for `cmdstanr` objects by passing a list containing the fit and the model object.
