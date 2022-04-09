@@ -18,7 +18,7 @@ and easier, and works with Bayesian models fitted with [Stan](https://mc-stan.or
 Users provide a series of alternate sampling specifications, and the package
 uses Pareto-smoothed importance sampling to estimate the posterior under each
 specification. The package also provides functions to summarize and plot how
-posterior quantities quantities change across specifications.
+posterior quantities change across specifications.
 
 The package provides simple interface that makes it as easy as possible
 for modellers to try out various adjustments to their Stan models, without
