@@ -54,7 +54,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="articles/index.html">Vignettes</a>
+  <a href="articles/adjustr.html">Get Started</a>
 </li>
 <li>
   <a href="reference/index.html">Functions</a>
@@ -137,8 +137,8 @@
 <!-- badges: start -->
 
 <p>Sensitivity analysis is a critical component of a good modeling workflow. Yet as the number and power of Bayesian computational tools has increased, the options for sensitivity analysis have remained largely the same: compute importance sampling weights manually, or fit a large number of similar models, dramatically increasing computation time. Neither option is satisfactory for most applied modeling.</p>
-<p><strong>adjustr</strong> is an R package which aims to make sensitivity analysis faster and easier, and works with Bayesian models fitted with <a href="https://mc-stan.org" class="external-link">Stan</a>. Users provide a series of alternate sampling specifications, and the package uses Pareto-smoothed importance sampling to estimate the posterior under each specification. The package also provides functions to summarize and plot how posterior quantities quantities change across specifications.</p>
-<p>The package provides simple interface that makes it as easy as possible for modellers to try out various adjustments to their Stan models, without needing to write any specific Stan code or even recompile or rerun their model.</p>
+<p><strong>adjustr</strong> is an R package which aims to make sensitivity analysis faster and easier, and works with Bayesian models fitted with <a href="https://mc-stan.org" class="external-link">Stan</a>. Users provide a series of alternate sampling specifications, and the package uses Pareto-smoothed importance sampling to estimate the posterior under each specification. The package also provides functions to summarize and plot how posterior quantities change across specifications.</p>
+<p>The package provides simple interface that makes it as easy as possible for researchers to try out various adjustments to their Stan models, without needing to write any specific Stan code or even recompile or rerun their model.</p>
 <p>The package works by parsing Stan model code, so everything works best if the model was written by the user. Models made using <strong>brms</strong> may in principle be used as well. Models made using <strong>rstanarm</strong> are constructed using more complex model templates, and cannot be used.</p>
 <div class="section level2">
 <h2 id="getting-started">Getting Started<a class="anchor" aria-label="anchor" href="#getting-started"></a>

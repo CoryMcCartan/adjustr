@@ -53,7 +53,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../articles/index.html">Vignettes</a>
+  <a href="../articles/adjustr.html">Get Started</a>
 </li>
 <li>
   <a href="../reference/index.html">Functions</a>
@@ -287,12 +287,12 @@ with a variable <code>df</code>, and then provided the values
 <code>df</code> takes in another argument to <code>make_spec</code>.</p>
 <p>As before, we compute importance sampling weights to approximate the
 posterior under these alternative models. Here, for the purposes of
-illustration, we are using <code>keep_bad=T</code> to compute weights
+illustration, we are using <code>keep_bad=TRUE</code> to compute weights
 even when the Pareto <em>k</em> diagnostic value is above 0.7. In
 practice, the alternative models should be completely re-fit in
 Stan.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">adjusted</span> <span class="op">=</span> <span class="fu"><a href="../reference/adjust_weights.html">adjust_weights</a></span><span class="op">(</span><span class="va">spec</span>, <span class="va">eightschools_m</span>, keep_bad<span class="op">=</span><span class="cn">T</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">adjusted</span> <span class="op">=</span> <span class="fu"><a href="../reference/adjust_weights.html">adjust_weights</a></span><span class="op">(</span><span class="va">spec</span>, <span class="va">eightschools_m</span>, keep_bad<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>Now, <code>adjusted</code> has ten rows, one for each alternative
 model.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
