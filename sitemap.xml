@@ -1,39 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://corymccartan.github.io/adjustr//index.html</loc>
+    <loc>https://corymccartan.github.io/adjustr/404.html</loc>
   </url>
   <url>
-    <loc>https://corymccartan.github.io/adjustr//reference/adjust_weights.html</loc>
+    <loc>https://corymccartan.github.io/adjustr/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>https://corymccartan.github.io/adjustr//reference/adjustr.html</loc>
+    <loc>https://corymccartan.github.io/adjustr/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://corymccartan.github.io/adjustr//reference/as.data.frame.adjustr_spec.html</loc>
+    <loc>https://corymccartan.github.io/adjustr/articles/adjustr.html</loc>
   </url>
   <url>
-    <loc>https://corymccartan.github.io/adjustr//reference/dplyr.adjustr_spec.html</loc>
+    <loc>https://corymccartan.github.io/adjustr/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://corymccartan.github.io/adjustr//reference/extract_samp_stmts.html</loc>
+    <loc>https://corymccartan.github.io/adjustr/authors.html</loc>
   </url>
   <url>
-    <loc>https://corymccartan.github.io/adjustr//reference/get_resampling_idxs.html</loc>
+    <loc>https://corymccartan.github.io/adjustr/index.html</loc>
   </url>
   <url>
-    <loc>https://corymccartan.github.io/adjustr//reference/make_spec.html</loc>
+    <loc>https://corymccartan.github.io/adjustr/news/index.html</loc>
   </url>
   <url>
-    <loc>https://corymccartan.github.io/adjustr//reference/pull.adjustr_weighted.html</loc>
+    <loc>https://corymccartan.github.io/adjustr/reference/adjust_weights.html</loc>
   </url>
   <url>
-    <loc>https://corymccartan.github.io/adjustr//reference/spec_plot.html</loc>
+    <loc>https://corymccartan.github.io/adjustr/reference/adjustr.html</loc>
   </url>
   <url>
-    <loc>https://corymccartan.github.io/adjustr//reference/summarize.adjustr_weighted.html</loc>
+    <loc>https://corymccartan.github.io/adjustr/reference/as.data.frame.adjustr_spec.html</loc>
   </url>
   <url>
-    <loc>https://corymccartan.github.io/adjustr//articles/adjustr.html</loc>
+    <loc>https://corymccartan.github.io/adjustr/reference/dplyr.adjustr_spec.html</loc>
+  </url>
+  <url>
+    <loc>https://corymccartan.github.io/adjustr/reference/extract_samp_stmts.html</loc>
+  </url>
+  <url>
+    <loc>https://corymccartan.github.io/adjustr/reference/get_resampling_idxs.html</loc>
+  </url>
+  <url>
+    <loc>https://corymccartan.github.io/adjustr/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://corymccartan.github.io/adjustr/reference/make_spec.html</loc>
+  </url>
+  <url>
+    <loc>https://corymccartan.github.io/adjustr/reference/pull.adjustr_weighted.html</loc>
+  </url>
+  <url>
+    <loc>https://corymccartan.github.io/adjustr/reference/spec_plot.html</loc>
+  </url>
+  <url>
+    <loc>https://corymccartan.github.io/adjustr/reference/summarize.adjustr_weighted.html</loc>
   </url>
 </urlset>
