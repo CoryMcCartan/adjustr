@@ -82,3 +82,4 @@ reference:
       - dplyr.adjustr_spec
       - get_resampling_idxs
       - pull.adjustr_weighted
+      - adjustr-package

@@ -24,7 +24,7 @@
 #' @import dplyr
 #'
 #' @docType package
-#' @name adjustr
+#' @name adjustr-package
 NULL
 
 # internal; to store shared package objects
