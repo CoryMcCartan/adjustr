@@ -4,7 +4,7 @@
 \alias{get_resampling_idxs}
 \title{Get Importance Resampling Indices From Weights}
 \usage{
-get_resampling_idxs(x, frac = 1, replace = T)
+get_resampling_idxs(x, frac = 1, replace = TRUE)
 }
 \arguments{
 \item{x}{A vector of weights, a list of weight vectors, or a data frame of

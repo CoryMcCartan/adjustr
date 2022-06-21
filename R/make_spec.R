@@ -56,14 +56,14 @@
 #'
 #' @export
 make_spec = function(...) {
-    args = dots_list(..., .check_assign=T)
+    args = dots_list(..., .check_assign=TRUE)
 
     spec_samp = purrr::keep(args, is_formula)
     if (length(spec_samp) == 0) warning("No sampling statements provided.")
     spec_params = purrr::imap(args, function(value, name) {
         if (!is.numeric(name) && name != "") { # named arguments are preserved as is
             list2(!!name := value)
-        } else if (is(value, "data.frame")) {
+        } else if (is.data.frame(value)) {
             as.list(value)
         } else if (is_list(value)) {
             if (is_list(value[[1]])) {
@@ -112,7 +112,7 @@ print.adjustr_spec = function(x, ...) {
     if (length(x$params[[1]]) > 0) {
         cat("\nSpecification parameters:\n")
         df = as.data.frame(do.call(rbind, x$params))
-        print(df, row.names=F, max=15*ncol(df))
+        print(df, row.names=FALSE, max=15*ncol(df))
     }
 }
 #' @export

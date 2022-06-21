@@ -14,17 +14,14 @@ License: MIT + file LICENSE
 Depends: R (>= 3.6.0),
     dplyr (>= 1.0.0)
 Imports:
+    rlang,
     tidyselect,
     purrr,
     stringr,
-    methods,
-    utils,
-    stats,
     rstan,
-    rlang,
-    ggplot2,
     loo
 Suggests:
+    ggplot2,
     extraDistr,
     tidyr,
     testthat,
@@ -34,5 +31,5 @@ Suggests:
 URL: https://corymccartan.github.io/adjustr/
 BugReports: https://github.com/CoryMcCartan/adjustr/issues
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.0
 VignetteBuilder: knitr

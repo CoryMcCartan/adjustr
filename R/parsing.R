@@ -49,7 +49,7 @@ parse_model = function(model_code) {
     })
     names(blocks) = block_names
 
-    statements = map(blocks, ~ stringr::str_split(., "; ?", simplify=T)[1,])
+    statements = map(blocks, ~ stringr::str_split(., "; ?", simplify=TRUE)[1,])
 
     vars = map(statements, get_variables)
     vars = purrr::flatten_chr(purrr::imap(vars, function(name, block) {
@@ -103,7 +103,7 @@ get_stmt_vars = function(stmt) {
     rhs_vars = call_args(f_rhs(stmt)) %>%
         get_ast %>%
         unlist %>%
-        purrr::discard(~ is(., "numeric")) %>%
+        purrr::discard(is.numeric) %>%
         as.character %>%
         purrr::discard(~ . %in% c("`+`", "`-`", "`*`", "`/`", "`^`", "`%*%`", "`%%`"))
     c(as.character(f_lhs(stmt)), rhs_vars)

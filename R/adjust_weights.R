@@ -72,7 +72,7 @@
 #' @export
 adjust_weights = function(spec, object, data=NULL, keep_bad=FALSE, incl_orig=TRUE) {
     # CHECK ARGUMENTS
-    if (is.null(data) & is(object, "brmsfit"))
+    if (is.null(data) & inherits(object, "brmsfit"))
         data = object$data
     object = get_fit_obj(object)
     stopifnot(is.adjustr_spec(spec))
@@ -182,7 +182,7 @@ extract_samp_stmts = function(object) {
     type = map_chr(samp_var_names, function(var) {
         if (stringr::str_ends(parsed$vars[var], "data")) "data" else "parameter"
     })
-    print_order = order(type, samp_vars, decreasing=c(T, F))
+    print_order = order(type, samp_vars, decreasing=c(TRUE, FALSE), method="radix")
 
     cat(paste0("Sampling statements for model ", object@model_name, ":\n"))
     purrr::walk(print_order, ~ cat(sprintf("  %-9s   %s\n", type[.], as.character(parsed$samp[.]))))
@@ -191,14 +191,14 @@ extract_samp_stmts = function(object) {
 
 # Check that the model object is correct, and put it into a convenient format
 get_fit_obj = function(object) {
-    if (is(object, "stanfit")) {
+    if (inherits(object, "stanfit")) {
         object
-    } else if (is(object, "stanreg")) {
+    } else if (inherits(object, "stanreg")) {
         object$stanfit
-    } else if (is(object, "brmsfit")) {
+    } else if (inherits(object, "brmsfit")) {
         object$fit
-    } else if (is(object, "list") && all(c("fit", "model") %in% names(object))
-               && is(object$fit, "CmdStanMCMC") && is(object$model, "CmdStanModel")) {
+    } else if (inherits(object, "list") && all(c("fit", "model") %in% names(object))
+               && inherits(object$fit, "CmdStanMCMC") && inherits(object$model, "CmdStanModel")) {
         out = rstan::read_stan_csv(object$fit$output_files())
         out@stanmodel@model_code = paste0(object$model$code(), collapse="\n")
         out

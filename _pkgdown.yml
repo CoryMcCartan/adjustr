@@ -13,8 +13,8 @@ template:
 navbar:
   title: "adjustr"
   left:
-    - text: "Vignettes"
-      href: articles/index.html
+    - text: "Get Started"
+      href: articles/adjustr.html
     - text: "Functions"
       href: reference/index.html
     - text: "News"

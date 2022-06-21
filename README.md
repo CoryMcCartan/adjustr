@@ -1,4 +1,4 @@
-# adjustr
+# adjustr <a href="https://corymccartan.github.io/adjustr/"><img src="man/figures/logo.png" align="right" height="138" /></a>
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
@@ -21,7 +21,7 @@ specification. The package also provides functions to summarize and plot how
 posterior quantities quantities change across specifications.
 
 The package provides simple interface that makes it as easy as possible
-for modellers to try out various adjustments to their Stan models, without
+for researchers to try out various adjustments to their Stan models, without
 needing to write any specific Stan code or even recompile or rerun their model.
 
 The package works by parsing Stan model code, so everything works best if the

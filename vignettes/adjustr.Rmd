@@ -3,7 +3,7 @@ title: "Sensitivity Analysis of a Simple Hierarchical Model"
 output: rmarkdown::html_vignette
 bibliography: adjustr.bib
 vignette: >
-  %\VignetteIndexEntry{Sensitivity Analysis of a Simple Hierarchical Model}
+  %\VignetteIndexEntry{adjustr}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -102,7 +102,7 @@ print(spec)
 Then we compute importance sampling weights to approximate the posterior under
 this alternative model.
 ```{r include=F}
-adjusted = adjust_weights(spec, eightschools_m, keep_bad=T)
+adjusted = adjust_weights(spec, eightschools_m, keep_bad=TRUE)
 ```
 ```{r eval=F}
 adjusted = adjust_weights(spec, eightschools_m)
@@ -145,11 +145,11 @@ to `make_spec`.
 
 As before, we compute importance sampling weights to approximate the posterior
 under these alternative models. Here, for the purposes of illustration,
-we are using `keep_bad=T` to compute weights even when the Pareto _k_ diagnostic
+we are using `keep_bad=TRUE` to compute weights even when the Pareto _k_ diagnostic
 value is above 0.7. In practice, the alternative models should be completely
 re-fit in Stan.
 ```{r}
-adjusted = adjust_weights(spec, eightschools_m, keep_bad=T)
+adjusted = adjust_weights(spec, eightschools_m, keep_bad=TRUE)
 ```
 Now, `adjusted` has ten rows, one for each alternative model.
 ```{r}

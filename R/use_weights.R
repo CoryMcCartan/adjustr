@@ -26,16 +26,16 @@
 #' }
 #'
 #' @export
-get_resampling_idxs = function(x, frac=1, replace=T) {
+get_resampling_idxs = function(x, frac=1, replace=TRUE) {
     if (frac < 0) stop("`frac` parameter must be nonnegative")
     get_idxs = function(w) {
         if (all(is.na(w))) return(NA_integer_)
         sample.int(length(w), size=round(frac*length(w)), replace=replace, prob=w)
     }
 
-    if (is(x, "list")) {
+    if (inherits(x, "list")) {
         map(x, get_idxs)
-    } else if (is(x, "adjustr_weighted")) {
+    } else if (inherits(x, "adjustr_weighted")) {
         x$.idxs = map(x$.weights, get_idxs)
         x
     } else {
@@ -139,7 +139,7 @@ summarise.adjustr_weighted = function(.data, ..., .resampling=FALSE, .model_data
             })
         } else {
             n_idx = max(min(5*iter, 20e3), iter)
-            idxs = map(.data$.weights, ~ sample.int(iter, n_idx, replace=T, prob=.))
+            idxs = map(.data$.weights, ~ sample.int(iter, n_idx, replace=TRUE, prob=.))
             new_col = map(idxs, function(idx) {
                 comp = as.array(computed[idx,])
                 if (length(dim(comp)) == 1) dim(comp) = c(dim(comp), 1)
@@ -181,7 +181,7 @@ quantile.weighted.ecdf = function(f, q) {
 weighted.wasserstein = function(samp, wgt, p=1, spacing=0.005) {
     f = weighted.ecdf(samp, wgt)
     q = seq(0, 1, spacing)
-    W = mean(abs(stats::quantile(samp, q, names=F, type=4) - quantile.weighted.ecdf(f, q))^p)
+    W = mean(abs(stats::quantile(samp, q, names=FALSE, type=4) - quantile.weighted.ecdf(f, q))^p)
     if (W < .Machine$double.eps) 0 else W^(1/p)
 }
 
@@ -250,14 +250,14 @@ spec_plot = function(x, by, post, only_mean=FALSE, ci_level=0.8,
     if (ci_level > outer_level) stop("`ci_level` should be less than `outer_level`")
 
     post = enexpr(post)
-    orig_row = filter(x, across(starts_with(".samp"), ~ . == "<original model>"))
+    orig_row = filter(x, if_any(starts_with(".samp"), ~ . == "<original model>"))
     if (!only_mean) {
         outer = (1 - outer_level) / 2
         inner = (1 - ci_level) / 2
         q_probs = c(outer, inner, 0.5, 1-inner, 1-outer)
         sum_arg = quo(quantile(!!post, probs = !!q_probs))
 
-        filter(x, across(starts_with(".samp"), ~ . != "<original model>")) %>%
+        filter(x, if_any(starts_with(".samp"), ~ . != "<original model>")) %>%
             summarise.adjustr_weighted(.y = !!sum_arg) %>%
             rowwise() %>%
             mutate(.y_ol = .y[1],
@@ -265,28 +265,28 @@ spec_plot = function(x, by, post, only_mean=FALSE, ci_level=0.8,
                    .y_med = .y[3],
                    .y_iu = .y[4],
                    .y_ou = .y[5]) %>%
-        ggplot(aes({{ by }}, .y_med)) +
-            geom_ribbon(aes(ymin=.y_ol, ymax=.y_ou), alpha=0.4) +
-            geom_ribbon(aes(ymin=.y_il, ymax=.y_iu), alpha=0.5) +
+        ggplot2::ggplot(ggplot2::aes({{ by }}, .y_med)) +
+            ggplot2::geom_ribbon(ggplot2::aes(ymin=.y_ol, ymax=.y_ou), alpha=0.4) +
+            ggplot2::geom_ribbon(ggplot2::aes(ymin=.y_il, ymax=.y_iu), alpha=0.5) +
             { if (nrow(orig_row) == 1)
-                geom_hline(yintercept=summarise.adjustr_weighted(orig_row, .y = median(!!post))$`.y`,
+                ggplot2::geom_hline(yintercept=summarise.adjustr_weighted(orig_row, .y = median(!!post))$`.y`,
                            lty="dashed")
             } +
-            geom_line() +
-            geom_point(size=3) +
-            theme_minimal() +
-            labs(y = expr_name(post))
+            ggplot2::geom_line() +
+            ggplot2::geom_point(size=3) +
+            ggplot2::theme_minimal() +
+            ggplot2::labs(y = expr_name(post))
     } else {
-        filter(x, across(starts_with(".samp"), ~ . != "<original model>")) %>%
+        filter(x, if_any(starts_with(".samp"), ~ . != "<original model>")) %>%
             summarise.adjustr_weighted(.y = mean(!!post)) %>%
-        ggplot(aes({{ by }}, .y)) +
+        ggplot2::ggplot(ggplot2::aes({{ by }}, .y)) +
             { if (nrow(orig_row) == 1)
-                geom_hline(yintercept=summarise.adjustr_weighted(orig_row, .y = mean(!!post))$`.y`,
+                ggplot2::geom_hline(yintercept=summarise.adjustr_weighted(orig_row, .y = mean(!!post))$`.y`,
                            lty="dashed")
             } +
-            geom_line() +
-            geom_point(size=3) +
-            theme_minimal() +
-            labs(y = expr_name(post))
+            ggplot2::geom_line() +
+            ggplot2::geom_point(size=3) +
+            ggplot2::theme_minimal() +
+            ggplot2::labs(y = expr_name(post))
     }
 }

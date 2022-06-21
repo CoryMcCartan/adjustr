@@ -15,7 +15,7 @@ test_that("Resampling indices can be made from a list", {
 
 test_that("Resampling indices can be made from an adjustr_weighted object", {
     spec = make_spec(eta ~ student_t(7, 0, 1))
-    obj = adjust_weights(spec, eightschools_m, keep_bad=T)
+    obj = adjust_weights(spec, eightschools_m, keep_bad=TRUE)
     obj = get_resampling_idxs(obj)
     expect_is(obj$.idxs, "list")
     expect_length(obj$.idxs[[1]], 20)
@@ -94,10 +94,10 @@ test_that("Resampling-based summaries are computed correctly", {
     attr(obj, "iter") = 3
     class(obj) = c("adjustr_weighted", class(obj))
 
-    sum1 = summarize(obj, th=mean(theta), .resampling=T)
+    sum1 = summarize(obj, th=mean(theta), .resampling=TRUE)
     expect_equal(sum1$th, c(3,7))
 
-    sum2 = summarize(obj, th=quantile(theta, 0.05), .resampling=T)
+    sum2 = summarize(obj, th=quantile(theta, 0.05), .resampling=TRUE)
     expect_equal(sum2$th, c(3,7))
 })
 
@@ -110,7 +110,7 @@ test_that("Plotting function handles arguments correctly", {
     class(obj) = c("adjustr_weighted", class(obj))
 
     expect_is(spec_plot(obj, 1, theta), "ggplot")
-    expect_is(spec_plot(obj, 1, theta, only_mean=T), "ggplot")
+    expect_is(spec_plot(obj, 1, theta, only_mean=TRUE), "ggplot")
 
     expect_error(spec_plot(obj, 1, theta, outer_level=0.4), "should be less than")
 })

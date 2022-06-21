@@ -4,7 +4,7 @@
 make_dens = function(f) {
     function(x) {
         function(...) {
-            f(x, ..., log=T)
+            f(x, ..., log=TRUE)
         }
     }
 }
@@ -108,7 +108,7 @@ calc_specs_lp = function(object, samps, parsed_vars, data, specs) {
 )
 # Grab even more distributions from `extraDistr` if available (called from .onLoad())
 distrs_onload = function() {
-    if (requireNamespace("extraDistr", quietly=T)) {
+    if (requireNamespace("extraDistr", quietly=TRUE)) {
         distrs <<- append(distrs, list(
             beta_binomial = extraDistr::dbbinom,
             categorical = extraDistr::dcat,

@@ -19,11 +19,9 @@
 #'     \item \code{\link{plot}}
 #' }
 #'
-#' @importFrom methods is
 #' @import rlang
 #' @importFrom purrr map_chr map map2
 #' @import dplyr
-#' @import ggplot2
 #'
 #' @docType package
 #' @name adjustr
