@@ -81,7 +81,7 @@ adjust_weights = function(spec, object, data=NULL, keep_bad=FALSE, incl_orig=TRU
 
     # if no model data provided, we can only resample distributions of parameters
     if (is.null(data)) {
-        samp_vars = map(parsed$samp, ~ as.character(f_lhs(.))) %>%
+        samp_vars = map(parsed$samp, ~ deparse(f_lhs(.))) %>%
             purrr::as_vector()
         prior_vars = parsed$vars[samp_vars] != "data"
         parsed$samp = parsed$samp[prior_vars]
