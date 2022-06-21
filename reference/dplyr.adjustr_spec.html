@@ -117,19 +117,19 @@ implemented and operate on the underlying table of specification parameters.</p>
 
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="co"># S3 method for adjustr_spec</span>
-<span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .preserve <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .preserve <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
 <span class="co"># S3 method for adjustr_spec</span>
-<span class="fu">arrange</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span><span class="op">)</span>
+<span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span><span class="op">)</span>
 
 <span class="co"># S3 method for adjustr_spec</span>
-<span class="fu">rename</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span><span class="op">)</span>
+<span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span><span class="op">)</span>
 
 <span class="co"># S3 method for adjustr_spec</span>
-<span class="fu">select</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span><span class="op">)</span>
+<span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span><span class="op">)</span>
 
 <span class="co"># S3 method for adjustr_spec</span>
-<span class="fu">slice</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .preserve <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .preserve <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -147,9 +147,9 @@ implemented and operate on the underlying table of specification parameters.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="va">spec</span> <span class="op">=</span> <span class="fu"><a href="make_spec.html">make_spec</a></span><span class="op">(</span><span class="va">eta</span> <span class="op">~</span> <span class="fu">student_t</span><span class="op">(</span><span class="va">df</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, df<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="fu">arrange</span><span class="op">(</span><span class="va">spec</span>, <span class="fu">desc</span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">slice</span><span class="op">(</span><span class="va">spec</span>, <span class="fl">4</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">spec</span>, <span class="va">df</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">spec</span>, <span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="va">spec</span>, <span class="fl">4</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">spec</span>, <span class="va">df</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
     </div>
