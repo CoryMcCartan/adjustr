@@ -4,6 +4,7 @@
 ^dp_.*\.so$
 ^_pkgdown\.yml$
 ^docs$
+^explore$
 ^pkgdown$
 ^codecov\.yml$
 ^\.travis\.yml$

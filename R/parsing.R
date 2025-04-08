@@ -4,9 +4,9 @@ re_stmt = paste0("(int|real|(?:unit_|row_)?vector|(?:positive_)?ordered|simplex"
     "|(?:cov_|corr_)?matrix|cholesky_factor(?:_corr|_cov)?)(?:<.+>)?(?:\\[.+\\])?",
     " (", identifier, ")(?:\\[.+\\])? ?=?")
 #re_block = paste0(block_names, " ?\\{ ?(.+) ?\\} ?", block_names, "")
-re_block = "((?:transformed )?data|(?:transformed )?parameters|model|generated quantities)"
+re_block = "((?:transformed )?data|(?:transformed )?parameters|model|generated quantities) \\{"
 re_samp = paste0("(", identifier, " ?~[^~{}]+)")
-re_samp2 = paste0("target ?\\+= ?(", identifier, ")_lp[md]f\\((",
+re_samp2 = paste0("target ?\\+= ?(", identifier, ")_l[u]?p[md]f\\((",
                   identifier, "(?:\\[[a-zA-Z0-9_]*\\])?)", "(?:| ?[|] ?(.+))\\)")
 
 # Extract variable name from variable declaration, or return NA if no declaration
@@ -34,15 +34,15 @@ parse_model = function(model_code) {
     clean_code = stringr::str_replace_all(model_code, "//.*", "") %>%
         stringr::str_replace_all("/\\*[^*]*\\*+(?:[^/*][^*]*\\*+)*/", "") %>%
         stringr::str_replace_all("\\n", " ") %>%
-        stringr::str_replace_all("\\s\\s+", " ")
+        stringr::str_squish()
 
-    block_names = stringr::str_extract_all(clean_code, re_block)[[1]]
+    block_names = stringr::str_match_all(clean_code, re_block)[[1]][, 2]
     if (length(block_names)==0) return(list(vars=character(0), samps=list()))
 
     block_locs = rbind(stringr::str_locate_all(clean_code, re_block)[[1]],
                        c(nchar(clean_code), NA))
-    blocks = map(1:length(block_names), function(i) {
-        block = stringr::str_sub(clean_code, block_locs[i,2]+1, block_locs[i+1,1])
+    blocks = map(seq_along(block_names), function(i) {
+        block = stringr::str_sub(clean_code, block_locs[i,2], block_locs[i+1,1])
         start = stringr::str_locate_all(block, stringr::fixed("{"))[[1]][1,1] + 1
         end = utils::tail(stringr::str_locate_all(block, stringr::fixed("}"))[[1]][,1], 1) - 1
         stringr::str_trim(stringr::str_sub(block, start+1, end-1))
