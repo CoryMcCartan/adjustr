@@ -66,11 +66,9 @@ which can be further customized with the **ggplot2** package.
 ## Examples
 
 ``` r
-# \donttest{
 spec = make_spec(eta ~ student_t(df, 0, 1), df=4:10)
 adjusted = adjust_weights(spec, eightschools_m, keep_bad=TRUE)
 
 spec_plot(adjusted, df, mu, only_mean=TRUE)
 
-# }
 ```

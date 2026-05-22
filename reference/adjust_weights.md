@@ -88,7 +88,6 @@ Research*, 25(72), 1–58.
 ## Examples
 
 ``` r
-# \donttest{
 spec = make_spec(eta ~ student_t(df, 0, 1), df=4:10)
 adjust_weights(spec, eightschools_m, keep_bad=TRUE)
 #> Loading required namespace: rstan
@@ -103,5 +102,4 @@ adjust_weights(spec, eightschools_m, keep_bad=TRUE)
 #> 6     9 eta ~ student_t(df, 0, 1) <dbl [20]>       Inf
 #> 7    10 eta ~ student_t(df, 0, 1) <dbl [20]>       Inf
 #> 8    NA <original model>          <dbl [20]>      -Inf
-# }
 ```

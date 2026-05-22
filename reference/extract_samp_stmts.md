@@ -24,7 +24,6 @@ Invisibly returns a list of sampling formulas.
 ## Examples
 
 ``` r
-# \donttest{
 extract_samp_stmts(eightschools_m)
 #> Sampling statements for model 2c8d1d8a30137533422c438f23b83428:
 #>   parameter   eta ~ std_normal()
@@ -34,5 +33,4 @@ extract_samp_stmts(eightschools_m)
 #> Sampling statements for model 2c8d1d8a30137533422c438f23b83428:
 #>   parameter   eta ~ std_normal()
 #>   data        y ~ normal(theta, sigma)
-# }
 ```

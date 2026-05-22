@@ -63,7 +63,6 @@ added.
 ## Examples
 
 ``` r
-# \donttest{
 spec = make_spec(eta ~ student_t(df, 0, 1), df=4:10)
 adjusted = adjust_weights(spec, eightschools_m, keep_bad=TRUE)
 
@@ -79,5 +78,4 @@ summarize(adjusted, mean(mu), var(mu))
 #> 6     9 eta ~ student_t(df, 0, 1) <dbl [20]>       Inf       7.38      16.0
 #> 7    10 eta ~ student_t(df, 0, 1) <dbl [20]>       Inf       7.38      16.1
 #> 8    NA <original model>          <dbl [20]>      -Inf       7.27      17.1
-# }
 ```

@@ -84,12 +84,12 @@ parameters.
 make_spec(eta ~ cauchy(0, 1))
 #> Sampling specifications:
 #> eta ~ cauchy(0, 1)
-#> <environment: 0x55873de21b60>
+#> <environment: 0x55ebb1b51c80>
 
 make_spec(eta ~ student_t(df, 0, 1), df=1:10)
 #> Sampling specifications:
 #> eta ~ student_t(df, 0, 1)
-#> <environment: 0x55873de21b60>
+#> <environment: 0x55ebb1b51c80>
 #> 
 #> Specification parameters:
 #>  df
@@ -110,9 +110,9 @@ make_spec(eta ~ student_t(df, 0, 1),
           params)
 #> Sampling specifications:
 #> eta ~ student_t(df, 0, 1)
-#> <environment: 0x55873de21b60>
+#> <environment: 0x55ebb1b51c80>
 #> y ~ normal(theta, infl * sigma)
-#> <environment: 0x55873de21b60>
+#> <environment: 0x55ebb1b51c80>
 #> 
 #> Specification parameters:
 #>  df infl
