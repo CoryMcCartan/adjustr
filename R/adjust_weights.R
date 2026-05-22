@@ -20,7 +20,7 @@
 #'   to replace their counterparts in the original Stan model, and the data,
 #'   if any, by which these sampling statements are parametrized.
 #' @param object A model object, either of type \code{\link[rstan]{stanfit}},
-#'   \code{\link[rstanarm:stanreg-objects]{stanreg}}, \code{\link[brms]{brmsfit}},
+#'   \code{stanreg} (from \pkg{rstanarm}), \code{brmsfit} (from \pkg{brms}),
 #'   or a list with two elements: \code{model} containing a
 #'   \code{CmdStanModel}, and \code{fit} containing a
 #'   \code{CmdStanMCMC} object (both from the \pkg{cmdstanr} package).
