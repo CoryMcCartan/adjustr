@@ -122,7 +122,7 @@ distrs_onload = function() {
             pareto = extraDistr::dpareto
         ))
     } else {
-        message("`extraDistr` package not found. Install to access more ",
+        packageStartupMessage("`extraDistr` package not found. Install to access more ",
                 "distributions, like inverse chi-square and beta-binomial.")
     }
     # Turn mapping into an environment suitable for metaprogramming,

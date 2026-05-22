@@ -47,8 +47,10 @@
 #'   includes the model sample draws, in the \code{draws} attribute.
 #'
 #' @references
-#' Vehtari, A., Simpson, D., Gelman, A., Yao, Y., & Gabry, J. (2015).
-#' Pareto smoothed importance sampling. \href{https://arxiv.org/abs/1507.02646}{arXiv preprint arXiv:1507.02646}.
+#' Vehtari, A., Simpson, D., Gelman, A., Yao, Y., & Gabry, J. (2024).
+#' Pareto smoothed importance sampling.
+#' \emph{Journal of Machine Learning Research}, 25(72), 1-58.
+#' \url{https://jmlr.org/papers/v25/19-556.html}
 #'
 #' @seealso \code{\link{make_spec}}, \code{\link{summarize.adjustr_weighted}}, \code{\link{spec_plot}}
 #'
@@ -144,6 +146,9 @@ is.adjustr_weighted = function(x) inherits(x, "adjustr_weighted")
 #'   first element of that column
 #' @param name Ignored
 #' @param ... Ignored
+#'
+#' @return A numeric vector of weights (if a single row) or a list of numeric
+#'   vectors.
 #'
 #' @export
 pull.adjustr_weighted = function(.data, var=".weights", name=NULL, ...) {

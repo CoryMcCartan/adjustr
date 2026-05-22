@@ -13,3 +13,6 @@ Meta
 docs
 /doc/
 /Meta/
+.claude/
+CLAUDE.md
+MEMORY.md

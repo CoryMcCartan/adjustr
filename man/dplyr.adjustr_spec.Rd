@@ -26,6 +26,9 @@
 
 \item{.preserve}{as in \code{filter} and \code{slice}}
 }
+\value{
+A modified \code{adjustr_spec} object.
+}
 \description{
 Core \code{\link[dplyr]{dplyr}} verbs which don't involve grouping
  (\code{\link[dplyr]{filter}}, \code{\link[dplyr]{arrange}},
@@ -34,11 +37,9 @@ Core \code{\link[dplyr]{dplyr}} verbs which don't involve grouping
 implemented and operate on the underlying table of specification parameters.
 }
 \examples{
-\dontrun{
 spec = make_spec(eta ~ student_t(df, 0, 1), df=1:10)
 
 arrange(spec, desc(df))
 slice(spec, 4:7)
-filter(spec, df == 2)
-}
+
 }

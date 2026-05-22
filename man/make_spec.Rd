@@ -2,39 +2,20 @@
 % Please edit documentation in R/make_spec.R
 \name{make_spec}
 \alias{make_spec}
+\alias{print.adjustr_spec}
+\alias{length.adjustr_spec}
 \title{Set Up Model Adjustment Specifications}
 \usage{
 make_spec(...)
+
+\method{print}{adjustr_spec}(x, ...)
+
+\method{length}{adjustr_spec}(x)
 }
 \arguments{
-\item{...}{Model specification. Each argument can either be a formula,
-  a named vector, data frames, or lists.
+\item{...}{Ignored.}
 
-  Formula arguments provide new sampling statements to replace their
-  counterparts in the original Stan model. All such formulas must be of the
-  form \code{variable ~ distribution(parameters)}, where \code{variable} and
-  \code{parameters} are Stan data variables or parameters, or are provided by
-  other arguments to this function (see below), and where \code{distribution}
-  matches one of the univariate
-  \href{https://mc-stan.org/docs/2_22/functions-reference/conventions-for-probability-functions.html}{Stan distributions}.
-  Arithmetic expressions of parameters are also allowed, but care must be
-  taken with multivariate parameter arguments.  Since specifications are
-  passed as formulas, R's arithmetic operators are used, not Stan's. As a
-  result, matrix and elementwise multipilcation in Stan sampling statements may
-  not be interpreted correctly. Moving these computations out of sampling
-  statements and into local variables will ensure correct results.
-
-  For named vector arguments, each entry of the vector will be substituted
-  into the corresponding parameter in the sampling statements. For data
-  frames, each entry in each column will be substituted into the corresponding
-  parameter in the sampling statements.
-
-  List arguments are coerced to data frames. They can either be lists of named
-  vectors, or lists of lists of single-element named vectors.
-
-  The lengths of all parameter arguments must be consistent.  Named vectors
-  can have length 1 or must have length equal to the number of rows in all
-  data frame arguments and the length of list arguments.}
+\item{x}{An \code{adjustr_spec} object.}
 }
 \value{
 An object of class \code{adjustr_spec}, which is essentially a list
@@ -45,6 +26,10 @@ with two elements: \code{samp}, which is a list of sampling formulas, and
 \code{\link[dplyr]{mutate}}, \code{\link[dplyr]{select}},
 \code{\link[dplyr]{rename}}, and \code{\link[dplyr]{slice}}) are
 supported and operate on the underlying table of specification parameters.
+
+Invisibly returns \code{x}.
+
+The number of specifications.
 }
 \description{
 Takes a set of new sampling statements, which can be parametrized by other

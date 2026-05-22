@@ -2,14 +2,16 @@ Package: adjustr
 Encoding: UTF-8
 Type: Package
 Title: Stan Model Adjustments and Sensitivity Analyses using Importance Sampling
-Version: 0.1.2
-Authors@R: person("Cory", "McCartan", email = "cmccartan@g.harvard.edu",
-  role = c("aut", "cre"))
-Description: Functions to help assess the sensitivity of a Bayesian model 
-    (fitted using the rstan package) to the specification of its likelihood and
-    priors. Users provide a series of alternate sampling specifications, and the 
-    package uses Pareto-smoothed importance sampling to estimate posterior 
-    quantities of interest under each specification.
+Version: 0.2.0
+Authors@R: person("Cory", "McCartan", email = "mccartan@psu.edu",
+  role = c("aut", "cre", "cph"))
+Description: Assess the sensitivity of a Bayesian model (fitted using 'Stan'
+    via 'rstan', 'brms', or 'cmdstanr') to the specification of its likelihood
+    and priors. Users provide a series of alternate sampling specifications, and
+    the package uses Pareto-smoothed importance sampling (PSIS) to estimate
+    posterior quantities of interest under each specification, without needing
+    to refit the model. Methods are based on Vehtari, Simpson, Gelman, Yao,
+    and Gabry (2024) <arXiv:1507.02646>.
 License: MIT + file LICENSE
 Depends: R (>= 3.6.0),
     dplyr (>= 1.0.0)
@@ -28,8 +30,8 @@ Suggests:
     covr,
     knitr,
     rmarkdown
-URL: https://corymccartan.github.io/adjustr/
+URL: https://corymccartan.com/adjustr/
 BugReports: https://github.com/CoryMcCartan/adjustr/issues
 LazyData: true
-RoxygenNote: 7.2.0
 VignetteBuilder: knitr
+Config/roxygen2/version: 8.0.0

@@ -1,4 +1,17 @@
-# adjustr 0.1.3
+# adjustr 0.2.0
+
+* First CRAN submission.
+
+* Replaced fragile regex-based Stan model parser with a robust token-based
+  parser. Supports modern Stan syntax including the `array[]` declaration
+  style, new constrained types (`sum_to_zero_vector`, etc.), and `target +=`
+  statements with `_lupdf`/`_lupmf` suffixes.
+
+* Expanded test suite from 108 to 197 tests, covering parsing, log probability
+  calculations, specification creation, weight computation, and summary
+  functions.
+
+* Updated GitHub Actions CI workflows to use current `r-lib/actions` v2.
 
 # adjustr 0.1.2
 

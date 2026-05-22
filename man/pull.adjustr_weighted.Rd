@@ -17,6 +17,10 @@ first element of that column}
 
 \item{...}{Ignored}
 }
+\value{
+A numeric vector of weights (if a single row) or a list of numeric
+  vectors.
+}
 \description{
 This function modifies the default behavior of \code{dplyr::pull} to extract
 the \code{.weights} column.

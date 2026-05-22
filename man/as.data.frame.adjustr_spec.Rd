@@ -11,6 +11,11 @@
 
 \item{...}{additional arguments to underlying method}
 }
+\value{
+A data frame with one row per specification and columns for each
+  parameter, plus \code{.samp} (or \code{.samp_1}, \code{.samp_2}, ...)
+  columns containing the sampling statement formulas.
+}
 \description{
 Returns the data frame of specification parameters, with added columns of
 the form \code{.samp_1}, \code{.samp_2}, ... for each sampling statement

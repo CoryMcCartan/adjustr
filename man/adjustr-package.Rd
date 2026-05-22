@@ -2,27 +2,29 @@
 % Please edit documentation in R/adjustr-package.R
 \docType{package}
 \name{adjustr-package}
+\alias{adjustr}
 \alias{adjustr-package}
-\title{adjustr: Stan Model Adjustments and Sensitivity Analyses using Importance
-Sampling}
+\title{adjustr: Stan Model Adjustments and Sensitivity Analyses using Importance Sampling}
 \description{
-Functions to help assess the sensitivity of a Bayesian model to the
-specification of its likelihood and priors, estimated using the rstan
-package. Users provide a series of alternate sampling specifications, and the
-package uses Pareto-smoothed importance sampling to estimate posterior
-quantities of interest under each specification.
-}
-\details{
-See the list of key functions and the example below.
-Full package documentation available at \url{https://corymccartan.github.io/adjustr/}.
-}
-\section{Key Functions}{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
+Assess the sensitivity of a Bayesian model (fitted using 'Stan' via 'rstan', 'brms', or 'cmdstanr') to the specification of its likelihood and priors. Users provide a series of alternate sampling specifications, and the package uses Pareto-smoothed importance sampling (PSIS) to estimate posterior quantities of interest under each specification, without needing to refit the model. Methods are based on Vehtari, Simpson, Gelman, Yao, and Gabry (2024) \doi{10.48550/arXiv.1507.02646}.
+}
+\seealso{
+Useful links:
 \itemize{
-    \item \code{\link{make_spec}}
-    \item \code{\link{adjust_weights}}
-    \item \code{\link{summarize}}
-    \item \code{\link{plot}}
-}
+  \item \url{https://corymccartan.com/adjustr/}
+  \item Report bugs at \url{https://github.com/CoryMcCartan/adjustr/issues}
 }
 
+}
+\author{
+\strong{Maintainer}: Cory McCartan \email{cmccartan@g.harvard.edu} [copyright holder]
+
+Authors:
+\itemize{
+  \item Cory McCartan \email{cmccartan@g.harvard.edu} [copyright holder]
+}
+
+}
+\keyword{internal}

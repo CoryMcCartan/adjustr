@@ -105,6 +105,10 @@ make_spec = function(...) {
 
 # GENERIC FUNCTIONS for `adjustr_spec`
 is.adjustr_spec = function(x) inherits(x, "adjustr_spec")
+#' @param x An \code{adjustr_spec} object.
+#' @param ... Ignored.
+#' @return Invisibly returns \code{x}.
+#' @rdname make_spec
 #' @export
 print.adjustr_spec = function(x, ...) {
     cat("Sampling specifications:\n")
@@ -114,7 +118,11 @@ print.adjustr_spec = function(x, ...) {
         df = as.data.frame(do.call(rbind, x$params))
         print(df, row.names=FALSE, max=15*ncol(df))
     }
+    invisible(x)
 }
+#' @param x An \code{adjustr_spec} object.
+#' @return The number of specifications.
+#' @rdname make_spec
 #' @export
 length.adjustr_spec = function(x) length(x$params)
 
@@ -126,6 +134,10 @@ length.adjustr_spec = function(x) length(x$params)
 #'
 #' @param x the \code{adjustr_spec} object
 #' @param ... additional arguments to underlying method
+#'
+#' @return A data frame with one row per specification and columns for each
+#'   parameter, plus \code{.samp} (or \code{.samp_1}, \code{.samp_2}, ...)
+#'   columns containing the sampling statement formulas.
 #'
 #' @export
 as.data.frame.adjustr_spec = function(x, ...) {
@@ -164,13 +176,14 @@ as.data.frame.adjustr_spec = function(x, ...) {
 #' @param .preserve as in \code{filter} and \code{slice}
 #' @name dplyr.adjustr_spec
 #'
-#' @examples \dontrun{
+#' @return A modified \code{adjustr_spec} object.
+#'
+#' @examples
 #' spec = make_spec(eta ~ student_t(df, 0, 1), df=1:10)
 #'
 #' arrange(spec, desc(df))
 #' slice(spec, 4:7)
-#' filter(spec, df == 2)
-#' }
+#'
 NULL
 # dplyr generics
 dplyr_handler = function(dplyr_func, x, ...) {
