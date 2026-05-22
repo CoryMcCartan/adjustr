@@ -88,4 +88,40 @@ test_that("Alternate specifications log probabilities are correctly calculated",
     expect_equal(exp_lp, lp[[1]])
 })
 
+test_that("Multiple alternate specs produce correct number of results", {
+    code = eightschools_m@stanmodel@model_code
+    parsed = parse_model(code)
+    form = eta ~ normal(0, s)
+    specs = list(list(s = 1), list(s = 2), list(s = 3))
+    lps = calc_specs_lp(eightschools_m, list(form), parsed$vars, list(), specs)
+    expect_length(lps, 3)
+    # All should be matrices of the same dimension
+    expect_true(all(vapply(lps, function(x) identical(dim(x), dim(lps[[1]])), logical(1))))
+})
+
+test_that("Log probabilities for different distributions are finite", {
+    draws = matrix(runif(10, 0.1, 5), ncol = 1)
+    # Exponential
+    lp_exp = calc_lp(y ~ exponential(1), list(y = draws))
+    expect_true(all(is.finite(lp_exp)))
+    expect_equal(lp_exp, matrix(dexp(draws, 1, log = TRUE), ncol = 1))
+
+    # Gamma
+    lp_gamma = calc_lp(y ~ gamma(2, 1), list(y = draws))
+    expect_true(all(is.finite(lp_gamma)))
+    expect_equal(lp_gamma, matrix(dgamma(draws, shape = 2, rate = 1, log = TRUE), ncol = 1))
+
+    # Beta (values in (0,1))
+    draws01 = matrix(runif(10, 0.01, 0.99), ncol = 1)
+    lp_beta = calc_lp(y ~ beta(2, 3), list(y = draws01))
+    expect_true(all(is.finite(lp_beta)))
+    expect_equal(lp_beta, matrix(dbeta(draws01, 2, 3, log = TRUE), ncol = 1))
+})
+
+test_that("Unsupported distribution throws error", {
+    draws = matrix(1:5, ncol = 1)
+    expect_error(calc_lp(y ~ fake_distribution(1), list(y = draws)),
+                 "not supported")
+})
+
 

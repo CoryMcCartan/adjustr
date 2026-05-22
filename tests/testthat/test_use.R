@@ -102,6 +102,87 @@ test_that("Resampling-based summaries are computed correctly", {
 })
 
 
+test_that("Weighted ECDF is computed correctly", {
+    samp = 1:5
+    wgt = rep(1, 5)
+    f = weighted.ecdf(samp, wgt)
+    expect_s3_class(f, "weighted.ecdf")
+    expect_equal(f(0), 0)
+    expect_equal(f(5), 1)
+    expect_equal(f(3), 0.6)
+})
+
+test_that("Weighted ECDF with non-uniform weights", {
+    samp = c(1, 2, 3)
+    wgt = c(0.5, 0.25, 0.25)
+    f = weighted.ecdf(samp, wgt)
+    expect_equal(f(1), 0.5)
+    expect_equal(f(3), 1)
+})
+
+test_that("Weighted ECDF quantile function at boundaries", {
+    samp = 1:5
+    f = weighted.ecdf(samp, rep(1, 5))
+    expect_equal(quantile.weighted.ecdf(f, 0), 1)
+    expect_equal(quantile.weighted.ecdf(f, 1), 5)
+})
+
+test_that("Wasserstein distance is zero for identical distributions", {
+    samp = rnorm(100)
+    w = weighted.wasserstein(samp, rep(1, 100), p = 1)
+    expect_equal(w, 0)
+})
+
+test_that("Wasserstein distance is positive for different distributions", {
+    set.seed(42)
+    samp = rnorm(200)
+    # weights that shift the distribution
+    wgt = exp(samp)
+    w = weighted.wasserstein(samp, wgt, p = 1)
+    expect_gt(w, 0)
+})
+
+test_that("summarize computes multiple statistics at once", {
+    obj = tibble(.weights = list(c(1, 1, 1), c(1, 1, 4)))
+    attr(obj, "draws") = list(theta = matrix(c(3, 5, 7, 1, 1, 1), ncol = 2))
+    attr(obj, "iter") = 3
+    class(obj) = c("adjustr_weighted", class(obj))
+
+    result = summarize(obj, m = mean(theta[1]), s = sd(theta[1]))
+    expect_true("m" %in% names(result))
+    expect_true("s" %in% names(result))
+    expect_equal(result$m, c(5, 6))
+})
+
+test_that("summarize with var works correctly", {
+    obj = tibble(.weights = list(c(1, 0, 0), c(0, 0, 1)))
+    attr(obj, "draws") = list(theta = matrix(c(3, 5, 7), nrow = 3, ncol = 1))
+    attr(obj, "iter") = 3
+    class(obj) = c("adjustr_weighted", class(obj))
+
+    result = summarize(obj, v = var(theta))
+    # With all weight on one draw, variance should be 0
+    expect_equal(result$v, c(0, 0))
+})
+
+test_that("summarize with median triggers resampling", {
+    n = 1000
+    vals = seq(1, 10, length.out = n)
+    obj = tibble(.weights = list(
+        c(rep(1, n/2), rep(0, n/2)),  # all weight on first half (median ~ 2.75)
+        c(rep(0, n/2), rep(1, n/2))   # all weight on second half (median ~ 7.75)
+    ))
+    attr(obj, "draws") = list(theta = matrix(vals, nrow = n, ncol = 1))
+    attr(obj, "iter") = n
+    class(obj) = c("adjustr_weighted", class(obj))
+
+    result = summarize(obj, m = median(theta))
+    # true medians are 2.75 and 7.75; tolerance of 1.0 gives
+    # essentially zero false positive rate with n=1000
+    expect_lt(abs(result$m[1] - 2.75), 1.0)
+    expect_lt(abs(result$m[2] - 7.75), 1.0)
+})
+
 test_that("Plotting function handles arguments correctly", {
     obj = tibble(.weights=list(c(1,0,0), c(0,0,1), c(1,1,1)),
                  .samp=c("y ~ normal(0, 1)", "y ~ normal(0, 2)", "<original model>"))

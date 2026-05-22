@@ -61,3 +61,60 @@ test_that("Specifications generics work correctly", {
     expect_is(as.data.frame(spec2), "data.frame")
     expect_is(as.data.frame(make_spec(y ~ normal(), x ~ normal())), "data.frame")
 })
+
+test_that("Specifications with multiple parameters have correct structure", {
+    spec = make_spec(eta ~ student_t(df, 0, scale), df = 1:3, scale = c(1, 2, 3))
+    expect_length(spec, 3)
+    expect_equal(spec$params[[1]]$df, 1)
+    expect_equal(spec$params[[1]]$scale, 1)
+    expect_equal(spec$params[[3]]$df, 3)
+    expect_equal(spec$params[[3]]$scale, 3)
+})
+
+test_that("Specifications with crossing parameters via data frame", {
+    params = tidyr::crossing(df = 1:3, scale = c(1, 2))
+    spec = make_spec(eta ~ student_t(df, 0, scale), params)
+    expect_length(spec, 6)
+    expect_length(spec$samp, 1)
+})
+
+test_that("Specifications with multiple sampling statements", {
+    spec = make_spec(eta ~ student_t(df, 0, 1),
+                     y ~ normal(theta, infl * sigma),
+                     df = 1:3, infl = c(1, 1.5, 2))
+    expect_length(spec$samp, 2)
+    expect_length(spec, 3)
+})
+
+test_that("as.data.frame for single vs multiple sampling statements", {
+    spec1 = make_spec(y ~ normal(0, s), s = 1:3)
+    df1 = as.data.frame(spec1)
+    expect_true(".samp" %in% names(df1))
+    expect_false(".samp_1" %in% names(df1))
+
+    spec2 = make_spec(y ~ normal(0, s), x ~ normal(0, 1), s = 1:3)
+    df2 = as.data.frame(spec2)
+    expect_true(".samp_1" %in% names(df2))
+    expect_true(".samp_2" %in% names(df2))
+    expect_false(".samp" %in% names(df2))
+})
+
+test_that("Specifications with no parameters convert to data frame", {
+    spec = make_spec(y ~ normal(0, 1))
+    df = as.data.frame(spec)
+    expect_is(df, "data.frame")
+    expect_equal(nrow(df), 1)
+})
+
+test_that("slice preserves adjustr_spec class", {
+    spec = make_spec(eta ~ student_t(df, 0, 1), df = 1:10)
+    sliced = slice(spec, 3:5)
+    expect_true(is.adjustr_spec(sliced))
+    expect_length(sliced, 3)
+    expect_equal(sliced$params[[1]]$df, 3)
+})
+
+test_that("NAs in parameters throw error", {
+    expect_error(make_spec(y ~ normal(0, s), s = c(1, NA, 3)),
+                 "NAs found")
+})

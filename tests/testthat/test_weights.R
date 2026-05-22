@@ -122,3 +122,42 @@ test_that("Fit objects extracted correctly", {
     class(obj) = "list"
     expect_error(get_fit_obj(obj), "must be of class")
 })
+
+test_that("adjust_weights includes original model row by default", {
+    spec = make_spec(eta ~ student_t(4, 0, 1))
+    obj = adjust_weights(spec, eightschools_m, keep_bad = TRUE, incl_orig = TRUE)
+    expect_true(any(obj$.samp == "<original model>"))
+    expect_equal(obj$.pareto_k[nrow(obj)], -Inf)
+    # Original model weights should all be 1
+    orig_wgts = obj$.weights[[nrow(obj)]]
+    expect_true(all(orig_wgts == 1))
+})
+
+test_that("adjust_weights without original model row", {
+    spec = make_spec(eta ~ student_t(4, 0, 1))
+    obj = adjust_weights(spec, eightschools_m, keep_bad = TRUE, incl_orig = FALSE)
+    expect_false(any(obj$.samp == "<original model>", na.rm = TRUE))
+    expect_equal(nrow(obj), 1)
+})
+
+test_that("adjust_weights with multiple specifications", {
+    spec = make_spec(eta ~ student_t(df, 0, 1), df = c(3, 5, 7))
+    obj = adjust_weights(spec, eightschools_m, keep_bad = TRUE, incl_orig = FALSE)
+    expect_equal(nrow(obj), 3)
+    expect_length(obj$.weights, 3)
+    expect_length(obj$.pareto_k, 3)
+    # Each weight vector should have the right length
+    expect_true(all(vapply(obj$.weights, length, 0L) == attr(obj, "iter")))
+})
+
+test_that("adjust_weights preserves spec parameters in output", {
+    spec = make_spec(eta ~ student_t(df, 0, 1), df = c(3, 5, 7))
+    obj = adjust_weights(spec, eightschools_m, keep_bad = TRUE, incl_orig = FALSE)
+    expect_true("df" %in% names(obj))
+    expect_equal(obj$df, c(3, 5, 7))
+})
+
+test_that("adjust_weights errors when data needed but not provided", {
+    spec = make_spec(y ~ normal(theta, sigma))
+    expect_error(adjust_weights(spec, eightschools_m))
+})
