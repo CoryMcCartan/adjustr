@@ -23,7 +23,7 @@ calc_lp = function(samp, vars_data) {
         stop("Distribution ", as.character(samp)[3], " not supported.")
     # plug in LHS, then RHS values. eval_tidy will throw error if no matches found
     distr = distr(eval_tidy(f_lhs(samp), vars_data))
-    params = map(call_args(f_rhs(samp)), eval_tidy, vars_data)
+    params = lapply(call_args(f_rhs(samp)), eval_tidy, vars_data)
 
     apply(exec(distr, !!!params), 1:2, sum)
 }
@@ -39,26 +39,25 @@ get_base_data = function(object, samps, parsed_vars, data, extra_names=NULL) {
         x = as.array(x)
         new_dim = c(iter, chains)
         new_x = array(rep(0, prod(new_dim)), dim=new_dim)
-        apply(new_x, 1:2, function(y) x) %>%
-            aperm(c(length(dim(x)) + 1:2, 1:length(dim(x))))
+        aperm(apply(new_x, 1:2, function(y) x),
+              c(length(dim(x)) + 1:2, 1:length(dim(x))))
     }
 
-    map(samps, function(samp) {
+    lapply(samps, function(samp) {
         vars = get_stmt_vars(samp)
         # vars stored in MCMC draws
         vars_inmodel = intersect(vars, names(parsed_vars))
-        vars_indraws = vars_inmodel[!stringr::str_ends(parsed_vars[vars_inmodel], "data")]
-        vars_indata = vars_inmodel[stringr::str_ends(parsed_vars[vars_inmodel], "data")]
+        vars_indraws = vars_inmodel[!endsWith(parsed_vars[vars_inmodel], "data")]
+        vars_indata = vars_inmodel[endsWith(parsed_vars[vars_inmodel], "data")]
         # check data vars provided
         found = vars_indata %in% names(data)
         if (!all(found)) stop(paste(vars_indata[!found], collapse=", "), " not found")
         # combine draws and data
-        base_data = append(
-            map(vars_indraws, ~ rstan::extract(object, ., permuted=FALSE)) %>%
-                set_names(vars_indraws),
-            map(vars_indata, ~ reshape_data(data[[.]])) %>%
-                set_names(vars_indata),
-        )
+        draws_list = lapply(vars_indraws, function(v) rstan::extract(object, v, permuted=FALSE))
+        names(draws_list) = vars_indraws
+        data_list = lapply(vars_indata, function(v) reshape_data(data[[v]]))
+        names(data_list) = vars_indata
+        base_data = append(draws_list, data_list)
         # check all data found
         found = vars %in% c(names(base_data), extra_names)
         if (!all(found)) stop(paste(vars[!found], collapse=", "), " not found")
@@ -71,7 +70,7 @@ get_base_data = function(object, samps, parsed_vars, data, extra_names=NULL) {
 calc_original_lp = function(object, samps, parsed_vars, data) {
     # figure out what data we need and calculate and sum lp
     base_data = get_base_data(object, samps, parsed_vars, data)
-    purrr::reduce(map2(samps, base_data, calc_lp), `+`)
+    Reduce(`+`, Map(calc_lp, samps, base_data))
 }
 
 # Given a `samps` list of samp formula, compute the total log probability for
@@ -79,8 +78,8 @@ calc_original_lp = function(object, samps, parsed_vars, data) {
 # in `specs`
 calc_specs_lp = function(object, samps, parsed_vars, data, specs) {
     base_data = get_base_data(object, samps, parsed_vars, data, names(specs[[1]]))
-    map(specs, function(spec) {
-        purrr::reduce(map2(samps, base_data, ~ calc_lp(.x, append(.y, spec))), `+`)
+    lapply(specs, function(spec) {
+        Reduce(`+`, Map(function(s, bd) calc_lp(s, append(bd, spec)), samps, base_data))
     })
 }
 
@@ -132,5 +131,5 @@ distrs_onload = function() {
     }
     # Turn mapping into an environment suitable for metaprogramming,
     # and turn each density into its curried form (see `make_dens` above)
-    distr_env <<- new_environment(purrr::map(distrs, make_dens))
+    distr_env <<- new_environment(lapply(distrs, make_dens))
 }

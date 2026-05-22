@@ -19,4 +19,4 @@ examples and tests.  The model was fit with 2 chains of 1000 iterations
 \examples{
 extract_samp_stmts(eightschools_m)
 }
-\keyword{datasets}
+\keyword{internal}

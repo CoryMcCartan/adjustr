@@ -2,7 +2,6 @@
 "_PACKAGE"
 
 #' @import rlang
-#' @importFrom purrr map_chr map map2
 #' @import dplyr
 NULL
 

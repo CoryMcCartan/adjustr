@@ -38,30 +38,27 @@ TOKEN_RE = paste0("(", TOKEN_TYPES, ")", collapse="|")
 # Tokenize Stan code into a data frame with columns: type, value
 tokenize_stan = function(code) {
     # Strip comments
-    code = stringr::str_replace_all(code, "//[^\n]*", "")
-    code = stringr::str_replace_all(code, "/\\*[^*]*\\*+(?:[^/*][^*]*\\*+)*/", "")
+    code = gsub("//[^\n]*", "", code)
+    code = gsub("/\\*[^*]*\\*+(?:[^/*][^*]*\\*+)*/", "", code, perl=TRUE)
 
     # Find all tokens
-    matches = stringr::str_match_all(code, TOKEN_RE)[[1]]
-    if (nrow(matches) == 0) {
+    matches = regmatches(code, gregexpr(TOKEN_RE, code, perl=TRUE))[[1]]
+    if (length(matches) == 0) {
         return(data.frame(type = character(0), value = character(0),
                           stringsAsFactors = FALSE))
     }
-
-    values = matches[, 1]
-    # Determine type by which capture group matched
-    type_cols = matches[, -1, drop = FALSE]
-    type_idx = apply(type_cols, 1, function(row) which(!is.na(row))[1])
+    # Match each token against each type pattern to determine its type
+    type_idx = vapply(matches, function(m) {
+        for (i in seq_along(TOKEN_TYPES)) {
+            if (grepl(paste0("^", TOKEN_TYPES[i], "$"), m, perl=TRUE)) return(i)
+        }
+        NA_integer_
+    }, integer(1))
     types = names(TOKEN_TYPES)[type_idx]
-
-    # Reclassify: block keywords vs other keywords vs type keywords vs identifiers
-    # Block keywords that were captured as KEYWORD or IDENTIFIER need reclassification
-    # The regex priority handles this: BLOCK_KW is first, so "data" matches BLOCK_KW
-    # But single words like "model" might match KEYWORD if preceded by another token
-    # We rely on regex ordering: BLOCK_KW > KEYWORD > TYPE_KW > IDENTIFIER
+    values = matches
 
     # Normalize whitespace in block keywords
-    values = stringr::str_replace_all(values, "\\s+", " ")
+    values = gsub("\\s+", " ", values)
 
     data.frame(type = types, value = values, stringsAsFactors = FALSE)
 }
@@ -418,7 +415,7 @@ find_comma_in_tokens = function(tokens) {
 
 # Extract base variable name from an expression like "y[n]" or "Y[n, m]"
 extract_base_var = function(expr_str) {
-    stringr::str_extract(expr_str, "^[a-zA-Z_][a-zA-Z0-9_]*")
+    regmatches(expr_str, regexpr("^[a-zA-Z_][a-zA-Z0-9_]*", expr_str))
 }
 
 # Convert Stan expression tokens to an R-compatible expression string.
@@ -492,10 +489,10 @@ parse_model = function(model_code) {
 
     # Add implicit uniform priors for parameters without sampling statements
     parameters = names(vars)[vars == "parameters"]
-    sampled_pars = purrr::map_chr(samps, ~ deparse(rlang::f_lhs(.)))
+    sampled_pars = vapply(samps, function(s) deparse(rlang::f_lhs(s)), "")
     uniform_pars = setdiff(parameters, sampled_pars)
     if (length(uniform_pars) > 0) {
-        uniform_samp = purrr::map(uniform_pars, function(p) {
+        uniform_samp = lapply(uniform_pars, function(p) {
             stats::as.formula(paste0(p, " ~ uniform(-1e100, 1e100)"),
                               env = rlang::empty_env())
         })
@@ -510,8 +507,8 @@ parse_model = function(model_code) {
 # Take a list of provided sampling formulas and return a matching list of
 # sampling statements from a reference list
 match_sampling_stmts = function(new_samp, ref_samp) {
-    ref_vars = purrr::map_chr(ref_samp, ~ deparse(rlang::f_lhs(.)))
-    new_vars = purrr::map_chr(new_samp, ~ deparse(rlang::f_lhs(.)))
+    ref_vars = vapply(ref_samp, function(s) deparse(rlang::f_lhs(s)), "")
+    new_vars = vapply(new_samp, function(s) deparse(rlang::f_lhs(s)), "")
     indices = match(new_vars, ref_vars)
     # check that every prior was matched
     if (any(is.na(indices))) {
@@ -526,16 +523,19 @@ match_sampling_stmts = function(new_samp, ref_samp) {
 # Extract a list of variables from a sampling statement
 # R versions of mathematical operators must be used
 get_stmt_vars = function(stmt) {
-    get_ast = function(x) purrr::map_if(as.list(x), rlang::is_call, get_ast)
+    get_ast = function(x) {
+        xl = as.list(x)
+        lapply(xl, function(el) if (rlang::is_call(el)) get_ast(el) else el)
+    }
     if (!rlang::is_call(rlang::f_rhs(stmt)))
         stop("Sampling statment ", format(stmt),
              " does not contain a distribution on the right-hand side.")
     # pull out variables from RHS
-    rhs_vars = rlang::call_args(rlang::f_rhs(stmt)) %>%
-        get_ast %>%
-        unlist %>%
-        purrr::discard(is.numeric) %>%
-        as.character %>%
-        purrr::discard(~ . %in% c("`+`", "`-`", "`*`", "`/`", "`^`", "`%*%`", "`%%`"))
+    ops = c("`+`", "`-`", "`*`", "`/`", "`^`", "`%*%`", "`%%`")
+    rhs_vars = rlang::call_args(rlang::f_rhs(stmt))
+    rhs_vars = unlist(get_ast(rhs_vars))
+    rhs_vars = rhs_vars[!vapply(rhs_vars, is.numeric, logical(1))]
+    rhs_vars = as.character(rhs_vars)
+    rhs_vars = rhs_vars[!rhs_vars %in% ops]
     c(deparse(rlang::f_lhs(stmt)), rhs_vars)
 }

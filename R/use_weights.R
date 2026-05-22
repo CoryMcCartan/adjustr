@@ -34,9 +34,9 @@ get_resampling_idxs = function(x, frac=1, replace=TRUE) {
     }
 
     if (inherits(x, "list")) {
-        map(x, get_idxs)
+        lapply(x, get_idxs)
     } else if (inherits(x, "adjustr_weighted")) {
-        x$.idxs = map(x$.weights, get_idxs)
+        x$.idxs = lapply(x$.weights, get_idxs)
         x
     } else {
         get_idxs(x)
@@ -97,7 +97,7 @@ summarise.adjustr_weighted = function(.data, ..., .resampling=FALSE, .model_data
     }
     iter = attr(.data, "iter")
     if (!is_null(.model_data)) attr(.data, "data") = .model_data
-    data = append(attr(.data, "draws"), map(attr(.data, "data"), broadcast))
+    data = append(attr(.data, "draws"), lapply(attr(.data, "data"), broadcast))
 
     n_args = length(args)
     for (i in seq_along(args)) {
@@ -118,23 +118,24 @@ summarise.adjustr_weighted = function(.data, ..., .resampling=FALSE, .model_data
         }
 
         expr = expr_deparse(call_args(call)[[1]])
-        expr = stringr::str_replace_all(expr, "\\[(\\d)", "[,\\1")
-        expr = stringr::str_replace_all(expr, "(?<![a-zA-Z0-9._])mean\\(", "rowMeans(")
-        expr = stringr::str_replace_all(expr, "(?<![a-zA-Z0-9._])sum\\(", "rowSums(")
+        expr = gsub("\\[(\\d)", "[,\\1", expr)
+        expr = gsub("(?<![a-zA-Z0-9._])mean\\(", "rowMeans(", expr, perl=TRUE)
+        expr = gsub("(?<![a-zA-Z0-9._])sum\\(", "rowSums(", expr, perl=TRUE)
         computed = as.array(eval_tidy(parse_expr(expr), data))
         if (length(dim(computed)) == 1) dim(computed) = c(dim(computed), 1)
 
+        other_args = lapply(call_args(call)[-1], eval_tidy)
         if (!.resampling) {
-            new_col = map(.data$.weights, function(w) {
-                exec(fun, computed, w, !!!map(call_args(call)[-1], eval_tidy))
+            new_col = lapply(.data$.weights, function(w) {
+                exec(fun, computed, w, !!!other_args)
             })
         } else {
             n_idx = max(min(5*iter, 20e3), iter)
-            idxs = map(.data$.weights, ~ sample.int(iter, n_idx, replace=TRUE, prob=.))
-            new_col = map(idxs, function(idx) {
+            idxs = lapply(.data$.weights, function(w) sample.int(iter, n_idx, replace=TRUE, prob=w))
+            new_col = lapply(idxs, function(idx) {
                 comp = as.array(computed[idx,])
                 if (length(dim(comp)) == 1) dim(comp) = c(dim(comp), 1)
-                exec(fun, comp, !!!map(call_args(call)[-1], eval_tidy))
+                exec(fun, comp, !!!other_args)
             })
         }
         if (length(new_col[[1]]) == 1 && is.numeric(new_col[[1]]))
@@ -157,16 +158,17 @@ weighted.ecdf = function(samp, wgt=rep(1, length(samp))) {
     attr(f, "call") = sys.call()
     f
 }
+#' @exportS3Method stats::quantile
 quantile.weighted.ecdf = function(f, q) {
     x = environment(f)$x
     y = environment(f)$y
-    purrr::map_dbl(q, function(q) {
+    vapply(q, function(q) {
         if (q == 0) return(x[1])
         if (q == 1) return(utils::tail(x, 1))
         idx = which(y > q)[1]
         if (idx == 1) return(x[1])
         stats::approx(y[idx-0:1], x[idx-0:1], q)$y
-    })
+    }, numeric(1))
 }
 
 weighted.wasserstein = function(samp, wgt, p=1, spacing=0.005) {

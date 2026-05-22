@@ -98,7 +98,7 @@ test_that("Weights extracted correctly", {
 
     expect_is(pulled, "list")
     expect_length(pulled, 2)
-    expect_equal(purrr::map_int(pulled, length), c(20, 20))
+    expect_equal(vapply(pulled, length, 0L), c(20L, 20L))
 })
 
 test_that("Sampling statements printed correctly", {

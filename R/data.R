@@ -6,6 +6,7 @@
 #' (500 warmup) for a compact object size.
 #'
 #' @format A \code{\link[rstan]{stanfit}} object.
+#' @keywords internal
 #' @examples
 #' extract_samp_stmts(eightschools_m)
 "eightschools_m"

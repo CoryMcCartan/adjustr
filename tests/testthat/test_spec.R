@@ -20,19 +20,19 @@ test_that("Empty specifications generate warnigns", {
 
 test_that("Specifications can be created with named vectors", {
     spec = make_spec(y ~ std_normal(), df=1:5)
-    expect_equal(spec$params, purrr::transpose(list(df=1:5)))
+    expect_equal(spec$params, list(list(df=1), list(df=2), list(df=3), list(df=4), list(df=5)))
     expect_error(make_spec(y ~ std_normal(), 1:5), "named vector")
 })
 
 test_that("Specifications can be created with data frames", {
     dat = tibble(df=1:5)
     spec = make_spec(y ~ std_normal(), dat)
-    expect_equal(spec$params, purrr::transpose(as.list(dat)))
+    expect_equal(spec$params, list(list(df=1), list(df=2), list(df=3), list(df=4), list(df=5)))
 })
 
 test_that("Specifications can be created with lists", {
     dat = tibble(df=1:5)
-    ldat = purrr::transpose(as.list(dat))
+    ldat = list(list(df=1), list(df=2), list(df=3), list(df=4), list(df=5))
     expect_equal(make_spec(y ~ std_normal(), ldat)$params, ldat)
     expect_equal(make_spec(y ~ std_normal(), as.list(dat))$params, ldat)
 

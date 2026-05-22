@@ -70,8 +70,8 @@ adjust_weights(spec, eightschools_m, keep_bad=TRUE)
 \references{
 Vehtari, A., Simpson, D., Gelman, A., Yao, Y., & Gabry, J. (2024).
 Pareto smoothed importance sampling.
-\emph{Journal of Machine Learning Research}, 25(72), 1-58.
-\url{https://jmlr.org/papers/v25/19-556.html}
+\emph{Journal of Machine Learning Research}, 25(72), 1--58.
+\doi{10.48550/arXiv.1507.02646}
 }
 \seealso{
 \code{\link{make_spec}}, \code{\link{summarize.adjustr_weighted}}, \code{\link{spec_plot}}

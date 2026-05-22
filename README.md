@@ -5,8 +5,6 @@
 
 <!-- badges: start -->
 
-[![CRAN
-status](https://www.r-pkg.org/badges/version/adjustr)](https://CRAN.R-project.org/package=adjustr)
 [![R-CMD-check](https://github.com/CoryMcCartan/adjustr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/CoryMcCartan/adjustr/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/CoryMcCartan/adjustr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/CoryMcCartan/adjustr?branch=main)
@@ -103,4 +101,4 @@ examples are also included in the package
 
 Vehtari, A., Simpson, D., Gelman, A., Yao, Y., & Gabry, J. (2024).
 Pareto smoothed importance sampling. *Journal of Machine Learning
-Research*, 25(72), 1-58. <https://jmlr.org/papers/v25/19-556.html>
+Research*, 25(72), 1–58. <https://doi.org/10.48550/arXiv.1507.02646>

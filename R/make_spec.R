@@ -1,3 +1,15 @@
+# Transpose a named list of equal-length vectors into a list of named lists.
+# E.g., list(a=1:3, b=4:6) -> list(list(a=1,b=4), list(a=2,b=5), list(a=3,b=6))
+list_transpose = function(x) {
+    nms = names(x)
+    n = length(x[[1]])
+    lapply(seq_len(n), function(i) {
+        out = lapply(x, `[[`, i)
+        names(out) = nms
+        out
+    })
+}
+
 #' Set Up Model Adjustment Specifications
 #'
 #' Takes a set of new sampling statements, which can be parametrized by other
@@ -42,6 +54,8 @@
 #' \code{\link[dplyr]{rename}}, and \code{\link[dplyr]{slice}}) are
 #' supported and operate on the underlying table of specification parameters.
 #'
+#' @param x An \code{adjustr_spec} object (for \code{print} and \code{length} methods).
+#'
 #' @seealso \code{\link{adjust_weights}}, \code{\link{summarize.adjustr_weighted}}, \code{\link{spec_plot}}
 #'
 #' @examples
@@ -58,9 +72,10 @@
 make_spec = function(...) {
     args = dots_list(..., .check_assign=TRUE)
 
-    spec_samp = purrr::keep(args, is_formula)
+    spec_samp = Filter(is_formula, args)
     if (length(spec_samp) == 0) warning("No sampling statements provided.")
-    spec_params = purrr::imap(args, function(value, name) {
+    nms = names(args)
+    spec_params = Map(function(value, name) {
         if (!is.numeric(name) && name != "") { # named arguments are preserved as is
             list2(!!name := value)
         } else if (is.data.frame(value)) {
@@ -85,10 +100,10 @@ make_spec = function(...) {
             stop("Arguments must be formulas, named vectors, data frames, ",
                 "or lists. Use ?make_spec to see documentations.")
         }
-    }) %>%
-        purrr::compact() %>% # remove NULLS
-        purrr::flatten() %>%
-        as_tibble
+    }, args, nms)
+    spec_params = Filter(Negate(is.null), spec_params) # remove NULLs
+    spec_params = do.call(c, unname(spec_params)) # flatten one level without name mangling
+    spec_params = as_tibble(spec_params)
 
     if (any(is.na(spec_params)))
         stop("NAs found. Check input parameters and format.")
@@ -96,7 +111,7 @@ make_spec = function(...) {
     spec_obj = structure(list(
         samp = spec_samp,
         params = if (nrow(spec_params) > 0)
-                purrr::transpose(as.list(spec_params))
+                list_transpose(as.list(spec_params))
             else
                 list(list())
     ),  class="adjustr_spec")
@@ -105,14 +120,11 @@ make_spec = function(...) {
 
 # GENERIC FUNCTIONS for `adjustr_spec`
 is.adjustr_spec = function(x) inherits(x, "adjustr_spec")
-#' @param x An \code{adjustr_spec} object.
-#' @param ... Ignored.
-#' @return Invisibly returns \code{x}.
 #' @rdname make_spec
 #' @export
 print.adjustr_spec = function(x, ...) {
     cat("Sampling specifications:\n")
-    purrr::walk(x$samp, print)
+    for (s in x$samp) print(s)
     if (length(x$params[[1]]) > 0) {
         cat("\nSpecification parameters:\n")
         df = as.data.frame(do.call(rbind, x$params))
@@ -120,8 +132,6 @@ print.adjustr_spec = function(x, ...) {
     }
     invisible(x)
 }
-#' @param x An \code{adjustr_spec} object.
-#' @return The number of specifications.
 #' @rdname make_spec
 #' @export
 length.adjustr_spec = function(x) length(x$params)
@@ -192,11 +202,11 @@ dplyr_handler = function(dplyr_func, x, ...) {
         as_tibble %>%
         dplyr_func(...) %>%
         as.list %>%
-        purrr::transpose()
+        list_transpose()
     x
 }
 
-# no @export because R CMD CHECK didn't like it
+#' @exportS3Method dplyr::filter
 #' @rdname dplyr.adjustr_spec
 filter.adjustr_spec = function(.data, ..., .preserve=FALSE) {
     dplyr_handler(dplyr::filter, .data, ..., .preserve=.preserve)

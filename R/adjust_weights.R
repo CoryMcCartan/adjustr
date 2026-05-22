@@ -49,8 +49,8 @@
 #' @references
 #' Vehtari, A., Simpson, D., Gelman, A., Yao, Y., & Gabry, J. (2024).
 #' Pareto smoothed importance sampling.
-#' \emph{Journal of Machine Learning Research}, 25(72), 1-58.
-#' \url{https://jmlr.org/papers/v25/19-556.html}
+#' \emph{Journal of Machine Learning Research}, 25(72), 1--58.
+#' \doi{10.48550/arXiv.1507.02646}
 #'
 #' @seealso \code{\link{make_spec}}, \code{\link{summarize.adjustr_weighted}}, \code{\link{spec_plot}}
 #'
@@ -71,8 +71,7 @@ adjust_weights = function(spec, object, data=NULL, keep_bad=FALSE, incl_orig=TRU
 
     # if no model data provided, we can only resample distributions of parameters
     if (is.null(data)) {
-        samp_vars = map(parsed$samp, ~ deparse(f_lhs(.))) %>%
-            purrr::as_vector()
+        samp_vars = vapply(parsed$samp, function(s) deparse(f_lhs(s)), "")
         prior_vars = parsed$vars[samp_vars] != "data"
         parsed$samp = parsed$samp[prior_vars]
         data = list()
@@ -83,7 +82,7 @@ adjust_weights = function(spec, object, data=NULL, keep_bad=FALSE, incl_orig=TRU
     specs_lp = calc_specs_lp(object, spec$samp, parsed$vars, data, spec$params)
 
     # compute weights
-    wgts = map(specs_lp, function(spec_lp) {
+    wgts = lapply(specs_lp, function(spec_lp) {
         lratio = spec_lp - original_lp
         dim(lratio) = c(dim(lratio), 1)
         r_eff = loo::relative_eff(as.array(exp(-lratio)))
@@ -102,8 +101,8 @@ adjust_weights = function(spec, object, data=NULL, keep_bad=FALSE, incl_orig=TRU
 
     adjust_obj = as_tibble(spec)
     class(adjust_obj) = c("adjustr_weighted", class(adjust_obj))
-    adjust_obj$.weights = map(wgts, ~ as.numeric(.$weights))
-    adjust_obj$.pareto_k = purrr::map_dbl(wgts, ~ .$pareto_k)
+    adjust_obj$.weights = lapply(wgts, function(w) as.numeric(w$weights))
+    adjust_obj$.pareto_k = vapply(wgts, function(w) w$pareto_k, numeric(1))
     if (!keep_bad)
         adjust_obj$.weights[adjust_obj$.pareto_k > 0.7] = list(NA_real_)
     attr(adjust_obj, "draws") = rstan::extract(object)
@@ -113,7 +112,7 @@ adjust_weights = function(spec, object, data=NULL, keep_bad=FALSE, incl_orig=TRU
         adjust_obj = bind_rows(adjust_obj, tibble(
             .weights=list(rep(1, attr(adjust_obj, "iter"))),
             .pareto_k = -Inf))
-        samp_cols = stringr::str_detect(names(adjust_obj), "\\.samp")
+        samp_cols = grepl("\\.samp", names(adjust_obj))
         adjust_obj[nrow(adjust_obj), samp_cols] = "<original model>"
     }
 
@@ -170,15 +169,17 @@ extract_samp_stmts = function(object) {
 
     parsed = parse_model(object@stanmodel@model_code)
 
-    samp_vars = map_chr(parsed$samp, ~ rlang::expr_text(f_lhs(.)))
-    samp_var_names = stringr::str_replace(samp_vars, "\\[.+\\]", "")
-    type = map_chr(samp_var_names, function(var) {
-        if (stringr::str_ends(parsed$vars[var], "data")) "data" else "parameter"
-    })
+    samp_vars = vapply(parsed$samp, function(s) rlang::expr_text(f_lhs(s)), "")
+    samp_var_names = sub("\\[.+\\]", "", samp_vars)
+    type = vapply(samp_var_names, function(var) {
+        if (endsWith(parsed$vars[var], "data")) "data" else "parameter"
+    }, "")
     print_order = order(type, samp_vars, decreasing=c(TRUE, FALSE), method="radix")
 
     cat(paste0("Sampling statements for model ", object@model_name, ":\n"))
-    purrr::walk(print_order, ~ cat(sprintf("  %-9s   %s\n", type[.], as.character(parsed$samp[.]))))
+    for (idx in print_order) {
+        cat(sprintf("  %-9s   %s\n", type[idx], as.character(parsed$samp[idx])))
+    }
     invisible(parsed$samp)
 }
 
