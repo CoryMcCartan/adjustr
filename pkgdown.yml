@@ -1,10 +1,9 @@
-pandoc: '2.18'
-pkgdown: 2.0.3
+pandoc: 3.8.3
+pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   adjustr: adjustr.html
-last_built: 2022-06-21T22:42Z
+last_built: 2026-05-22T18:38Z
 urls:
   reference: https://corymccartan.github.io/adjustr/reference
   article: https://corymccartan.github.io/adjustr/articles
-
