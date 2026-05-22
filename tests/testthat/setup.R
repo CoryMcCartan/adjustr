@@ -1,1 +1,1 @@
-load("../test_model.rda")
+data(eightschools_m, package = "adjustr")
