@@ -11,7 +11,7 @@ Description: Assess the sensitivity of a Bayesian model (fitted using 'Stan'
     the package uses Pareto-smoothed importance sampling (PSIS) to estimate
     posterior quantities of interest under each specification, without needing
     to refit the model. Methods are based on Vehtari, Simpson, Gelman, Yao,
-    and Gabry (2024) <arXiv:1507.02646>.
+    and Gabry (2024) <doi:10.48550/arXiv.1507.02646>.
 License: MIT + file LICENSE
 Depends: R (>= 3.6.0),
     dplyr (>= 1.0.0)
@@ -23,6 +23,7 @@ Imports:
     rstan,
     loo
 Suggests:
+    cmdstanr,
     ggplot2,
     extraDistr,
     tidyr,
@@ -30,6 +31,7 @@ Suggests:
     covr,
     knitr,
     rmarkdown
+Additional_repositories: https://stan-dev.r-universe.dev
 URL: https://corymccartan.com/adjustr/
 BugReports: https://github.com/CoryMcCartan/adjustr/issues
 LazyData: true
