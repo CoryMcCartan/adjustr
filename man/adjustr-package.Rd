@@ -19,11 +19,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Cory McCartan \email{cmccartan@g.harvard.edu} [copyright holder]
+\strong{Maintainer}: Cory McCartan \email{mccartan@psu.edu} [copyright holder]
 
 Authors:
 \itemize{
-  \item Cory McCartan \email{cmccartan@g.harvard.edu} [copyright holder]
+  \item Cory McCartan \email{mccartan@psu.edu} [copyright holder]
 }
 
 }

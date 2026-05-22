@@ -44,14 +44,11 @@ Uses weights computed in \code{\link{adjust_weights}} to plot posterior
 quantities of interest versus specification parameters
 }
 \examples{
-\dontrun{
-spec = make_spec(eta ~ student_t(df, 0, scale),
-                 df=1:10, scale=seq(2, 1, -1/9))
-adjusted = adjust_weights(spec, eightschools_m)
+\donttest{
+spec = make_spec(eta ~ student_t(df, 0, 1), df=4:10)
+adjusted = adjust_weights(spec, eightschools_m, keep_bad=TRUE)
 
-spec_plot(adjusted, df, theta[1])
 spec_plot(adjusted, df, mu, only_mean=TRUE)
-spec_plot(adjusted, scale, tau)
 }
 
 }

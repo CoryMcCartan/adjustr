@@ -17,12 +17,12 @@
 #' containing the sampled indices. If any weights are \code{NA}, the indices
 #' will also be \code{NA}.
 #'
-#' @examples \dontrun{
-#' spec = make_spec(eta ~ student_t(df, 0, 1), df=1:10)
-#' adjusted = adjust_weights(spec, eightschools_m)
+#' @examples \donttest{
+#' spec = make_spec(eta ~ student_t(df, 0, 1), df=4:10)
+#' adjusted = adjust_weights(spec, eightschools_m, keep_bad=TRUE)
 #'
 #' get_resampling_idxs(adjusted)
-#' get_resampling_idxs(adjusted, frac=0.1, replace=FALSE)
+#' get_resampling_idxs(adjusted, frac=0.5, replace=FALSE)
 #' }
 #'
 #' @export
@@ -77,20 +77,11 @@ get_resampling_idxs = function(x, frac=1, replace=TRUE) {
 #'
 #' @seealso \code{\link{adjust_weights}}, \code{\link{spec_plot}}
 #'
-#' @examples \dontrun{
-#' model_data = list(
-#'     J = 8,
-#'     y = c(28, 8, -3, 7, -1, 1, 18, 12),
-#'     sigma = c(15, 10, 16, 11, 9, 11, 10, 18)
-#' )
-#'
-#' spec = make_spec(eta ~ student_t(df, 0, 1), df=1:10)
-#' adjusted = adjust_weights(spec, eightschools_m)
+#' @examples \donttest{
+#' spec = make_spec(eta ~ student_t(df, 0, 1), df=4:10)
+#' adjusted = adjust_weights(spec, eightschools_m, keep_bad=TRUE)
 #'
 #' summarize(adjusted, mean(mu), var(mu))
-#' summarize(adjusted, wasserstein(mu, p=2))
-#' summarize(adjusted, diff_1 = mean(y[1] - theta[1]), .model_data=model_data)
-#' summarize(adjusted, quantile(tau, probs=c(0.05, 0.5, 0.95)))
 #' }
 #'
 #' @rdname summarize.adjustr_weighted
@@ -122,7 +113,7 @@ summarise.adjustr_weighted = function(.data, ..., .resampling=FALSE, .model_data
         if (!.resampling && exists(call_name(call), funs_env)) {
             fun = funs_env[[call_name(call)]]
         } else {
-            fun = function(x, ...) apply(x, 2, call_fn(call), ...)
+            fun = function(x, ...) apply(x, 2, match.fun(call_name(call)), ...)
             .resampling = T
         }
 
@@ -231,14 +222,11 @@ funs_env = new_environment(list(
 #'
 #' @seealso \code{\link{adjust_weights}}, \code{\link{summarize.adjustr_weighted}}
 #'
-#' @examples \dontrun{
-#' spec = make_spec(eta ~ student_t(df, 0, scale),
-#'                  df=1:10, scale=seq(2, 1, -1/9))
-#' adjusted = adjust_weights(spec, eightschools_m)
+#' @examples \donttest{
+#' spec = make_spec(eta ~ student_t(df, 0, 1), df=4:10)
+#' adjusted = adjust_weights(spec, eightschools_m, keep_bad=TRUE)
 #'
-#' spec_plot(adjusted, df, theta[1])
 #' spec_plot(adjusted, df, mu, only_mean=TRUE)
-#' spec_plot(adjusted, scale, tau)
 #' }
 #'
 #' @export

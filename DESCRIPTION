@@ -23,7 +23,6 @@ Imports:
     rstan,
     loo
 Suggests:
-    cmdstanr,
     ggplot2,
     extraDistr,
     tidyr,
@@ -31,7 +30,6 @@ Suggests:
     covr,
     knitr,
     rmarkdown
-Additional_repositories: https://stan-dev.r-universe.dev
 URL: https://corymccartan.com/adjustr/
 BugReports: https://github.com/CoryMcCartan/adjustr/issues
 LazyData: true

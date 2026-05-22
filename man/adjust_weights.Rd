@@ -16,8 +16,8 @@ if any, by which these sampling statements are parametrized.}
 \item{object}{A model object, either of type \code{\link[rstan]{stanfit}},
 \code{\link[rstanarm:stanreg-objects]{stanreg}}, \code{\link[brms]{brmsfit}},
 or a list with two elements: \code{model} containing a
-\code{\link[cmdstanr]{CmdStanModel}}, and \code{fit} containing a
-\code{\link[cmdstanr]{CmdStanMCMC}} object.}
+\code{CmdStanModel}, and \code{fit} containing a
+\code{CmdStanMCMC} object (both from the \pkg{cmdstanr} package).}
 
 \item{data}{The data that was used to fit the model in \code{object}.
 Required only if one of the new sampling specifications involves Stan data
@@ -61,21 +61,9 @@ of the work is performed in R, without recompiling or refitting the Stan
 model.
 }
 \examples{
-\dontrun{
-model_data = list(
-    J = 8,
-    y = c(28, 8, -3, 7, -1, 1, 18, 12),
-    sigma = c(15, 10, 16, 11, 9, 11, 10, 18)
-)
-
-spec = make_spec(eta ~ student_t(df, 0, 1), df=1:10)
-adjust_weights(spec, eightschools_m)
+\donttest{
+spec = make_spec(eta ~ student_t(df, 0, 1), df=4:10)
 adjust_weights(spec, eightschools_m, keep_bad=TRUE)
-
-spec = make_spec(y ~ student_t(df, theta, sigma), df=1:10)
-adjust_weights(spec, eightschools_m, data=model_data)
-# will throw an error because `y` and `sigma` aren't provided
-adjust_weights(spec, eightschools_m)
 }
 
 }

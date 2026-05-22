@@ -46,20 +46,11 @@ values to quantify the sensitivity of the model to aspects of its
 specification.
 }
 \examples{
-\dontrun{
-model_data = list(
-    J = 8,
-    y = c(28, 8, -3, 7, -1, 1, 18, 12),
-    sigma = c(15, 10, 16, 11, 9, 11, 10, 18)
-)
-
-spec = make_spec(eta ~ student_t(df, 0, 1), df=1:10)
-adjusted = adjust_weights(spec, eightschools_m)
+\donttest{
+spec = make_spec(eta ~ student_t(df, 0, 1), df=4:10)
+adjusted = adjust_weights(spec, eightschools_m, keep_bad=TRUE)
 
 summarize(adjusted, mean(mu), var(mu))
-summarize(adjusted, wasserstein(mu, p=2))
-summarize(adjusted, diff_1 = mean(y[1] - theta[1]), .model_data=model_data)
-summarize(adjusted, quantile(tau, probs=c(0.05, 0.5, 0.95)))
 }
 
 }

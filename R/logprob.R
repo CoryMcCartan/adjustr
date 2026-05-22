@@ -15,9 +15,12 @@ make_dens = function(f) {
 # MCMC draw of the parameter of interest
 calc_lp = function(samp, vars_data) {
     # plug in RHS sampling distribution
-    distr = tryCatch(call_fn(f_rhs(samp), distr_env),
+    fn_name = as.character(f_rhs(samp)[[1]])
+    distr = tryCatch(distr_env[[fn_name]],
                 error=function(e)
                     stop("Distribution ", as.character(samp)[3], " not supported."))
+    if (is.null(distr))
+        stop("Distribution ", as.character(samp)[3], " not supported.")
     # plug in LHS, then RHS values. eval_tidy will throw error if no matches found
     distr = distr(eval_tidy(f_lhs(samp), vars_data))
     params = map(call_args(f_rhs(samp)), eval_tidy, vars_data)
@@ -106,6 +109,8 @@ calc_specs_lp = function(object, samps, parsed_vars, data, specs) {
     beta_proportion = function(x, mu, k, ...) dbeta(x, mu*k, (1-mu)*k, ...),
     uniform = dunif
 )
+# Will be populated by distrs_onload() during .onLoad
+distr_env = NULL
 # Grab even more distributions from `extraDistr` if available (called from .onLoad())
 distrs_onload = function() {
     if (requireNamespace("extraDistr", quietly=TRUE)) {
