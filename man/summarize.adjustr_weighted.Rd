@@ -46,12 +46,10 @@ values to quantify the sensitivity of the model to aspects of its
 specification.
 }
 \examples{
-\donttest{
 spec = make_spec(eta ~ student_t(df, 0, 1), df=4:10)
 adjusted = adjust_weights(spec, eightschools_m, keep_bad=TRUE)
 
 summarize(adjusted, mean(mu), var(mu))
-}
 
 }
 \seealso{

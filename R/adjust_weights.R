@@ -54,10 +54,9 @@
 #'
 #' @seealso \code{\link{make_spec}}, \code{\link{summarize.adjustr_weighted}}, \code{\link{spec_plot}}
 #'
-#' @examples \donttest{
+#' @examples
 #' spec = make_spec(eta ~ student_t(df, 0, 1), df=4:10)
 #' adjust_weights(spec, eightschools_m, keep_bad=TRUE)
-#' }
 #'
 #' @export
 adjust_weights = function(spec, object, data=NULL, keep_bad=FALSE, incl_orig=TRUE) {
@@ -157,12 +156,12 @@ pull.adjustr_weighted = function(.data, var=".weights", name=NULL, ...) {
 #'
 #' @return Invisibly returns a list of sampling formulas.
 #'
-#' @examples \donttest{
+#' @examples
 #' extract_samp_stmts(eightschools_m)
 #' #> Sampling statements for model 2c8d1d8a30137533422c438f23b83428:
 #' #>   parameter   eta ~ std_normal()
 #' #>   data        y ~ normal(theta, sigma)
-#' }
+#'
 #' @export
 extract_samp_stmts = function(object) {
     object = get_fit_obj(object)

@@ -17,13 +17,12 @@
 #' containing the sampled indices. If any weights are \code{NA}, the indices
 #' will also be \code{NA}.
 #'
-#' @examples \donttest{
+#' @examples
 #' spec = make_spec(eta ~ student_t(df, 0, 1), df=4:10)
 #' adjusted = adjust_weights(spec, eightschools_m, keep_bad=TRUE)
 #'
 #' get_resampling_idxs(adjusted)
 #' get_resampling_idxs(adjusted, frac=0.5, replace=FALSE)
-#' }
 #'
 #' @export
 get_resampling_idxs = function(x, frac=1, replace=TRUE) {
@@ -77,12 +76,11 @@ get_resampling_idxs = function(x, frac=1, replace=TRUE) {
 #'
 #' @seealso \code{\link{adjust_weights}}, \code{\link{spec_plot}}
 #'
-#' @examples \donttest{
+#' @examples
 #' spec = make_spec(eta ~ student_t(df, 0, 1), df=4:10)
 #' adjusted = adjust_weights(spec, eightschools_m, keep_bad=TRUE)
 #'
 #' summarize(adjusted, mean(mu), var(mu))
-#' }
 #'
 #' @rdname summarize.adjustr_weighted
 #' @export
@@ -224,12 +222,11 @@ funs_env = new_environment(list(
 #'
 #' @seealso \code{\link{adjust_weights}}, \code{\link{summarize.adjustr_weighted}}
 #'
-#' @examples \donttest{
+#' @examples
 #' spec = make_spec(eta ~ student_t(df, 0, 1), df=4:10)
 #' adjusted = adjust_weights(spec, eightschools_m, keep_bad=TRUE)
 #'
 #' spec_plot(adjusted, df, mu, only_mean=TRUE)
-#' }
 #'
 #' @export
 spec_plot = function(x, by, post, only_mean=FALSE, ci_level=0.8,

@@ -61,10 +61,8 @@ of the work is performed in R, without recompiling or refitting the Stan
 model.
 }
 \examples{
-\donttest{
 spec = make_spec(eta ~ student_t(df, 0, 1), df=4:10)
 adjust_weights(spec, eightschools_m, keep_bad=TRUE)
-}
 
 }
 \references{

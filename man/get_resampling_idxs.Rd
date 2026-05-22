@@ -29,12 +29,10 @@ Takes a vector of weights, or data frame or list containing sets of weights,
 and resamples indices for use in later computation.
 }
 \examples{
-\donttest{
 spec = make_spec(eta ~ student_t(df, 0, 1), df=4:10)
 adjusted = adjust_weights(spec, eightschools_m, keep_bad=TRUE)
 
 get_resampling_idxs(adjusted)
 get_resampling_idxs(adjusted, frac=0.5, replace=FALSE)
-}
 
 }

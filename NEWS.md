@@ -11,8 +11,6 @@
   calculations, specification creation, weight computation, and summary
   functions.
 
-* Updated GitHub Actions CI workflows to use current `r-lib/actions` v2.
-
 # adjustr 0.1.2
 
 * Add support for `cmdstanr` objects by passing a list containing the fit and the model object.

@@ -44,12 +44,10 @@ Uses weights computed in \code{\link{adjust_weights}} to plot posterior
 quantities of interest versus specification parameters
 }
 \examples{
-\donttest{
 spec = make_spec(eta ~ student_t(df, 0, 1), df=4:10)
 adjusted = adjust_weights(spec, eightschools_m, keep_bad=TRUE)
 
 spec_plot(adjusted, df, mu, only_mean=TRUE)
-}
 
 }
 \seealso{
