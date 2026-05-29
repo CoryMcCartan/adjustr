@@ -2,6 +2,8 @@
 
 ## adjustr 0.2.0
 
+CRAN release: 2026-05-29
+
 - First CRAN submission.
 
 - Replaced fragile regex-based Stan model parser with a robust

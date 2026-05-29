@@ -40,11 +40,11 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/CoryMcCartan/adjustr/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/CoryMcCartan/adjustr/blob/v0.2.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.2.0" id="adjustr-020">adjustr 0.2.0<a class="anchor" aria-label="anchor" href="#adjustr-020"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.2.0" id="adjustr-020">adjustr 0.2.0<a class="anchor" aria-label="anchor" href="#adjustr-020"></a></h2><p class="text-muted">CRAN release: 2026-05-29</p>
 <ul><li><p>First CRAN submission.</p></li>
 <li><p>Replaced fragile regex-based Stan model parser with a robust token-based parser. Supports modern Stan syntax including the <code>array[]</code> declaration style, new constrained types (<code>sum_to_zero_vector</code>, etc.), and <code>target +=</code> statements with <code>_lupdf</code>/<code>_lupmf</code> suffixes.</p></li>
 <li><p>Expanded test suite from 108 to 197 tests, covering parsing, log probability calculations, specification creation, weight computation, and summary functions.</p></li>

@@ -8,7 +8,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/CoryMcCartan/adjustr/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/CoryMcCartan/adjustr/blob/v0.2.0/DESCRIPTION)
 
 McCartan C (2026). *adjustr: Stan Model Adjustments and Sensitivity
 Analyses using Importance Sampling*. R package version 0.2.0,

@@ -44,7 +44,7 @@ suitable for use in adjust_weights."><meta property="og:image" content="https://
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Set Up Model Adjustment Specifications</h1>
-      <small class="dont-index">Source: <a href="https://github.com/CoryMcCartan/adjustr/blob/main/R/make_spec.R" class="external-link"><code>R/make_spec.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/CoryMcCartan/adjustr/blob/v0.2.0/R/make_spec.R" class="external-link"><code>R/make_spec.R</code></a></small>
       <div class="d-none name"><code>make_spec.Rd</code></div>
     </div>
 
@@ -121,12 +121,12 @@ supported and operate on the underlying table of specification parameters.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">make_spec</span><span class="op">(</span><span class="va">eta</span> <span class="op">~</span> <span class="fu">cauchy</span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Sampling specifications:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> eta ~ cauchy(0, 1)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55ebb1b51c80&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x561f924973a0&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">make_spec</span><span class="op">(</span><span class="va">eta</span> <span class="op">~</span> <span class="fu">student_t</span><span class="op">(</span><span class="va">df</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, df<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Sampling specifications:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> eta ~ student_t(df, 0, 1)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55ebb1b51c80&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x561f924973a0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Specification parameters:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  df</span>
@@ -147,9 +147,9 @@ supported and operate on the underlying table of specification parameters.</p>
 <span class="r-in"><span>          <span class="va">params</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Sampling specifications:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> eta ~ student_t(df, 0, 1)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55ebb1b51c80&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x561f924973a0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> y ~ normal(theta, infl * sigma)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55ebb1b51c80&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x561f924973a0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Specification parameters:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  df infl</span>
