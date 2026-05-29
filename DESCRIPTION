@@ -1,7 +1,7 @@
 Package: adjustr
 Encoding: UTF-8
 Type: Package
-Title: Stan Model Adjustments and Sensitivity Analyses using Importance Sampling
+Title: 'Stan' Model Adjustments and Sensitivity Analyses using Importance Sampling
 Version: 0.2.0
 Authors@R: person("Cory", "McCartan", email = "mccartan@psu.edu",
   role = c("aut", "cre", "cph"))

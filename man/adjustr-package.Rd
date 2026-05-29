@@ -4,7 +4,7 @@
 \name{adjustr-package}
 \alias{adjustr}
 \alias{adjustr-package}
-\title{adjustr: Stan Model Adjustments and Sensitivity Analyses using Importance Sampling}
+\title{adjustr: 'Stan' Model Adjustments and Sensitivity Analyses using Importance Sampling}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 

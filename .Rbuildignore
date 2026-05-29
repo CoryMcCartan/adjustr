@@ -16,3 +16,4 @@
 ^\.claude$
 ^CLAUDE\.md$
 ^MEMORY\.md$
+^CRAN-SUBMISSION$
