@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/CoryMcCartan/adjustr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/CoryMcCartan/adjustr/actions/workflows/R-CMD-check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/CoryMcCartan/adjustr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/CoryMcCartan/adjustr?branch=main)
+[![CRAN status](https://www.r-pkg.org/badges/version/adjustr)](https://CRAN.R-project.org/package=adjustr)
 <!-- badges: end -->
 
 Sensitivity analysis is a critical component of a good modeling workflow. Yet
