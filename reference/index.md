@@ -51,5 +51,5 @@ specifications.
 
 - [`adjustr`](https://corymccartan.github.io/adjustr/reference/adjustr-package.md)
   [`adjustr-package`](https://corymccartan.github.io/adjustr/reference/adjustr-package.md)
-  : adjustr: Stan Model Adjustments and Sensitivity Analyses using
+  : adjustr: 'Stan' Model Adjustments and Sensitivity Analyses using
   Importance Sampling

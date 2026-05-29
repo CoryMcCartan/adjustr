@@ -3,7 +3,7 @@ pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   adjustr: adjustr.html
-last_built: 2026-05-29T18:07Z
+last_built: 2026-05-29T18:13Z
 urls:
   reference: https://corymccartan.github.io/adjustr/reference
   article: https://corymccartan.github.io/adjustr/articles

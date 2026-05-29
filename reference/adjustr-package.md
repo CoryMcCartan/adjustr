@@ -1,4 +1,4 @@
-# adjustr: Stan Model Adjustments and Sensitivity Analyses using Importance Sampling
+# adjustr: 'Stan' Model Adjustments and Sensitivity Analyses using Importance Sampling
 
 Assess the sensitivity of a Bayesian model (fitted using 'Stan' via
 'rstan', 'brms', or 'cmdstanr') to the specification of its likelihood

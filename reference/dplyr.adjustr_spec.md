@@ -56,7 +56,7 @@ spec = make_spec(eta ~ student_t(df, 0, 1), df=1:10)
 arrange(spec, desc(df))
 #> Sampling specifications:
 #> eta ~ student_t(df, 0, 1)
-#> <environment: 0x561f94669ca8>
+#> <environment: 0x56537e0e0af8>
 #> 
 #> Specification parameters:
 #>  df
@@ -73,7 +73,7 @@ arrange(spec, desc(df))
 slice(spec, 4:7)
 #> Sampling specifications:
 #> eta ~ student_t(df, 0, 1)
-#> <environment: 0x561f94669ca8>
+#> <environment: 0x56537e0e0af8>
 #> 
 #> Specification parameters:
 #>  df
